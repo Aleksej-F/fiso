@@ -10,49 +10,57 @@
 </head>
 <body>
     
-    <section class="section">
+    <section class="section" onclick="clicSection(event)">
         <div class="wrap">
-            <div class="ramka ramka_hedar">
-                <div class="header"> 
-                	<div class="burder" >
-                        <div class="header_burder" onclick="burg()">
-                            <span></span>
-                        </div>
-                        <nav class="header_menu">
-                            <ul class="header_list">
-                                <li>
-                                    <p  class="header_link" onclick="windHidervNastr()">Настройки</p>
-                                </li>
-                                <li>
-                                    <p class="header_link">Сохранить</p>
-                                </li>
-                                <li>
-                                    <p class="header_link" onclick="windHiderv()">Выбор упражнений</p>
-                                </li>
-                               
-                            </ul>
-                        </nav>
+            <div class="ramka ramka_hedar ramka_hedar_v">
+                <div class="ramka_hedar">
+                    <div class="header"> 
+                        
+                            <div class="header_burder" onclick="burg(event)">
+                                <span></span>
+                            </div>
+                            <nav class="header_menu">
+                                <ul class="header_list">
+                                    <li>
+                                        <p  class="header_link" onclick="windHidervNastr(event)">Настройки</p>
+                                    </li>
+                                    <li>
+                                        <p class="header_link">Сохранить</p>
+                                    </li>
+                                    <li>
+                                        <p class="header_link" onclick="windHiderv(event)">Выбор упражнений</p>
+                                    </li>
+                                
+                                </ul>
+                            </nav>
+                        
                     </div>
+                    <div class="headerH">	
+                        <h1>Посчитай баллы по ФИЗО</h1>
+                    </div>
+                    <div  class="header">  </div>
+                    
                 </div>
-                <div class="headerH">	
-                	<h1>Посчитай баллы по ФИЗО</h1>
-                </div>
-                <div  class="header">  </div>
+                <nav class="header_menu_web">
+                    <ul class="header_list_web">
+                        <li>
+                            <p  class="header_link_web" onclick="windHidervNastr()">Настройки</p>
+                            <div class="header_link_web_underline"></div>
+                        </li>
+                        <li>
+                            <p class="header_link_web">Сохранить</p>
+                            <div class="header_link_web_underline"></div>
+                        </li>
+                        <li>
+                            <p class="header_link_web" onclick="windHiderv()">Выбор упражнений</p>
+                            <div class="header_link_web_underline"></div>
+                        </li>
+                       
+                    </ul>
+                </nav>
+               
             </div> 
-            <nav class="header_menu_web">
-                            <ul class="header_list_web">
-                                <li>
-                                    <p  class="header_link" onclick="windHidervNastr()">Настройки</p>
-                                </li>
-                                <li>
-                                    <p class="header_link">Сохранить</p>
-                                </li>
-                                <li>
-                                    <p class="header_link" onclick="windHiderv()">Выбор упражнений</p>
-                                </li>
-                               
-                            </ul>
-            </nav>
+            
             <div class=blok>
                 <div class="window ">   
                     <div class="ramka3"></div>  

@@ -14,6 +14,7 @@ return {
 kategor:-1,
 vid:-1,
 uprag:-1,
+upragM:-1,
 schetchik:0,
 rezult:0,
 ball:0
@@ -185,7 +186,9 @@ const navigationUprag = document.getElementById('navigation_uprag')
 const blokBal = document.querySelector('.block_bal')
 let burgActive = false
 //клик по меню
-const burg =  function() {
+const burg =  function(event) {
+    console.dir(event.target)
+    event.stopPropagation()
 if (burgActive) { 
     burgCloze()
     return}
@@ -199,7 +202,13 @@ hBurger.classList.remove('active')
 mBurger.classList.remove('active')
 burgActive = false
 }
-
+//клик по экрану
+const clicSection =  function(event) {
+   
+    if (burgActive) {
+        burgCloze()
+    }
+}
 
 //клик в меню по настройка
 const windHidervNastr = function() {
@@ -343,37 +352,37 @@ uprash.onchange = function() {
 //blokVkladok
 //клик по  вкладкам
 function creatClickVkladki(e) {
-const vkladi =  document.querySelectorAll('.vkladi');
+    const vkladi =  document.querySelectorAll('.vkladi');
+   
+    vkladi[uprag.vkladka].classList.toggle("acti")
+    uprag.vkladka =  +(e.target.attributes.date.value)
+    console.log('вкладка- ',uprag.vkladka,'  выбор вида упр  -',	uprag.vibor[uprag.vkladka])
+    vkladi[uprag.vkladka].classList.toggle("acti")
 
-vkladi[uprag.vkladka].classList.toggle("acti")
-uprag.vkladka =  +(e.target.attributes.date.value)
+    //формируем импут выбора физической подготовки
+    createSelect(kategorUprashSelect, uprag.kategor)
+    kategorUprashSelect.value = (uprag.vibor[uprag.vkladka].kategor === -1) ? '0' : String(uprag.vibor[uprag.vkladka].kategor)
 
-vkladi[uprag.vkladka].classList.toggle("acti")
+    //формируем импут выбора упражнений
+    const param = (uprag.vibor[uprag.vkladka].kategor === -1) ? [] : uprag.vid[uprag.vibor[uprag.vkladka].kategor]
+    createSelect(vidUprashSelect, param)
+    vidUprashSelect.value = (uprag.vibor[uprag.vkladka].vid === -1) ? '0' : String(uprag.vibor[uprag.vkladka].vid)
+        
+    //формируем импут выбора упражнений
+    const rr = ((uprag.vibor[uprag.vkladka].kategor === -1) || (uprag.vibor[uprag.vkladka].vid === -1)) ? [] :
+        uprag.uprag[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid]
+    createSelect(uprashViborSelect,rr)
+    uprashViborSelect.value = (uprag.vibor[uprag.vkladka].upragM === -1) ? '0' : String(uprag.vibor[uprag.vkladka].upragM)
 
-//формируем импут выбора физической подготовки
-createSelect(kategorUprashSelect, uprag.kategor)
-kategorUprashSelect.value = (uprag.vibor[uprag.vkladka].kategor === -1) ? '0' : String(uprag.vibor[uprag.vkladka].kategor)
-
-//формируем импут выбора упражнений
-const param = (uprag.vibor[uprag.vkladka].kategor === -1) ? [] : uprag.vid[uprag.vibor[uprag.vkladka].kategor]
-createSelect(vidUprashSelect, param)
-vidUprashSelect.value = (uprag.vibor[uprag.vkladka].vid === -1) ? '0' : String(uprag.vibor[uprag.vkladka].vid)
-    
-//формируем импут выбора упражнений
-const rr = ((uprag.vibor[uprag.vkladka].kategor === -1) || (uprag.vibor[uprag.vkladka].vid === -1)) ? [] :
-     uprag.uprag[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid]
-createSelect(uprashViborSelect,rr)
-uprashViborSelect.value = (uprag.vibor[uprag.vkladka].uprag === -1) ? '0' : String(uprag.vibor[uprag.vkladka].uprag)
-
-//формируем окно выбора результата
-if (uprag.vibor[uprag.vkladka].uprag === -1) {
-    
-    console.log(blokBal)
-    blokBal.innerHTML = ""
-} else {
-    setBlockBalli()
-    setSchetBall(0)
-}
+    //формируем окно выбора результата
+    if (uprag.vibor[uprag.vkladka].uprag === -1) {
+        
+        console.log(blokBal)
+        blokBal.innerHTML = ""
+    } else {
+        setBlockBalli()
+        setSchetBall(0)
+    }
 }
 
 //функция наполнения для input
@@ -406,10 +415,12 @@ kategorUprashSelect.onchange = function() {
     uprashViborSelect.innerHTML=''
     blokBal.innerHTML=''
     uprag.vibor[uprag.vkladka].uprag = -1
+    uprag.vibor[uprag.vkladka].upragM = -1
     uprag.vibor[uprag.vkladka].schetchik = 0
     uprag.vibor[uprag.vkladka].rezult = 0
     uprag.vibor[uprag.vkladka].ball = 0
     console.log('вкладка- ',uprag.vkladka,'  выбор ФП  -',	uprag.vibor[uprag.vkladka])
+    setRezultatSumm()
 };
 /*
 kategor:-1,
@@ -433,7 +444,7 @@ vidUprashSelect.onchange = function() {
     console.log('вкладка- ',uprag.vkladka,'  выбор вида упр  -',	uprag.vibor[uprag.vkladka])
 }
 
-// выбор упражнения
+// клик по выбор упражнения
 uprashViborSelect.onclick = function() {
     
     if (uprag.vibor[uprag.vkladka].vid === -1) {
@@ -442,65 +453,76 @@ uprashViborSelect.onclick = function() {
         //uprag.vibor[uprag.vkladka].uprag = +uprashViborSelect.value;
     }
    }
+// выбор упражнения
 uprashViborSelect.onchange = function() {
     console.dir(uprashViborSelect.value)
     //uprag.vibor[uprag.vkladka].uprag = uprashViborSelect
     const rrr = +uprag.uprag[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid][+uprashViborSelect.value].substr(2,2)
     console.log(upragBalli[rrr])
     uprag.vibor[uprag.vkladka].uprag = rrr
+    uprag.vibor[uprag.vkladka].upragM = uprashViborSelect.value
     console.log('вкладка- ',uprag.vkladka,'  выбор упраж  -',	uprag.vibor[uprag.vkladka])
+    
+    uprag.vibor[uprag.vkladka].schetchik = Math.round(upragBalli[rrr][0].length/2)
     setBlockBalli()
-    uprag.vibor[uprag.vkladka].schetchik=1
 }
 let schetchik = 0
 
 //создание блока установки результата
 const setBlockBalli = function() {
-     blokBal.innerHTML = ""
+    blokBal.innerHTML = ""
     let balli = calsBalli(uprag.vibor[uprag.vkladka].schetchik) 
     console.log(balli)
     const blockw =`
         <div class="block_balli">
             <div  class="block_balli_col" >
-                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> вв </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> &#9650 </div>
                     <div  class="block_balli_col_blok" >
                         <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
-                        <div class="block_balli_col_text" date="1"> ${balli[1][0]} </div>
+                        <div class="block_balli_col_text block_balli_col_text_osn " date="1"> ${balli[1][0]} </div>
                         <div class="block_balli_col_text" date="2"> ${balli[2][0]} </div>
                     </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(1)"> нн </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(1)"> &#9660 </div>
             </div>
             <div  class="block_balli_col" >
-                           
-                <div  class="block_balli_col_blok" >
-                    <div class="block_balli_col_text" date="3"> ${balli[0][1]} </div>
-                    <div class="block_balli_col_text" date="4"> ${balli[1][1]} </div>
-                    <div class="block_balli_col_text" date="5"> ${balli[2][1]} </div>
-                </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> &#9650 </div>           
+                    <div  class="block_balli_col_blok" >
+                        <div class="block_balli_col_text" date="3"> ${balli[0][1]} </div>
+                        <div class="block_balli_col_text block_balli_col_text_osn" date="4"> ${balli[1][1]} </div>
+                        <div class="block_balli_col_text" date="5"> ${balli[2][1]} </div>
+                    </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(1)"> &#9660 </div>
             </div>
         </div>
     `
     blokBal.insertAdjacentHTML("beforeend", blockw);
+    setRezultatSumm()
 }
 
 const calsBalli = function(a) {
      console.log(uprag.vibor[uprag.vkladka].uprag)
      console.log(upragBalli[uprag.vibor[uprag.vkladka].uprag][0])
     const r = []
-    for (let i = 0; i < 3; i++){
-        r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a+i][0],
-             upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a+i][1]])
-    }
+    let schetR = ((a-1)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1 : a-1
+
+    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][0],
+             upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][1]])
+    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a][0],
+                upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a][1]])
+
+    schetR = ((a+1)>upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1) ? 0:  a+1  
+    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][0],
+        upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][1]])     
+    
+    uprag.vibor[uprag.vkladka].rezult = +upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a][1]
+    
     return r
 }
 
 const setSchetBall = function(a) {
-    uprag.vibor[uprag.vkladka].schetchik = (
-        (uprag.vibor[uprag.vkladka].schetchik < upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-3) & 
-        (uprag.vibor[uprag.vkladka].schetchik >= 0 )) ? uprag.vibor[uprag.vkladka].schetchik + a :
-         uprag.vibor[uprag.vkladka].schetchik
-
-    uprag.vibor[uprag.vkladka].schetchik = (uprag.vibor[uprag.vkladka].schetchik < 0) ? 0 : uprag.vibor[uprag.vkladka].schetchik
+    uprag.vibor[uprag.vkladka].schetchik = 
+        (uprag.vibor[uprag.vkladka].schetchik + a > upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1) ? 0 :
+         ( (uprag.vibor[uprag.vkladka].schetchik + a < 0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1 : (uprag.vibor[uprag.vkladka].schetchik + a))
     console.log(uprag.vibor[uprag.vkladka].schetchik)
     let balli = calsBalli(uprag.vibor[uprag.vkladka].schetchik) 
     const ballText = document.querySelectorAll('.block_balli_col_text')
@@ -508,13 +530,17 @@ const setSchetBall = function(a) {
         ballText[i].innerHTML = balli[i][0]
         ballText[i+3].innerHTML = balli[i][1]
     }
-    uprag.vibor[uprag.vkladka].rezult = +balli[1][1]
+    
 
+    setRezultatSumm()
+
+}
+
+const setRezultatSumm = function () {
     let rezultatSumm = 0
     for (let i = 0; i < uprag.vibor.length ; i++) {
         rezultatSumm = rezultatSumm + uprag.vibor[i].rezult
     }
-    navigationRezult.innerHTML = rezultatSumm
-
+    navigationRezult.innerHTML = (rezultatSumm === 0) ? '' : rezultatSumm
 }
 //navigationRezult

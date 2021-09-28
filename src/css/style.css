@@ -47,6 +47,14 @@ h1 {
   width: 100%;
 }
 
+.ramka_hedar_v {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 10px 0 10px 0;
+}
+
 .navig {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -116,10 +124,15 @@ h1 {
           flex: 3;
 }
 
+.burder {
+  width: 100%;
+}
+
 .header_burder {
   display: none;
   background: #afdff4;
   position: relative;
+  width: 50px;
   height: 30px;
   z-index: 3;
   cursor: pointer;
@@ -189,23 +202,69 @@ h1 {
 }
 
 .header_menu_web {
-  top: 38px;
-  width: 205px;
-  height: 115px;
-  /* overflow: auto; */
-  /* background-color: #18b5a4;*/
+  padding-top: 10px;
 }
 
 .header_list_web {
-  padding: 0px 0px 0px 10px;
+  padding: 0;
+  margin: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 .header_list_web li {
   list-style: none;
-  margin: 0px 0px 11px 0px;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header_link_web {
+  color: #161414;
+  margin: 0;
+  font-size: 17px;
+  text-decoration: none;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+.header_link_web_underline {
+  height: 3px;
+  width: 100%;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  background-color: #9879c9;
+}
+
+.header_link_web:hover {
+  cursor: pointer;
+  color: #9879c9;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.header_link_web:hover ~ .header_link_web_underline {
+  width: 100%;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
 }
 
 .header_menu.active {
@@ -375,11 +434,11 @@ h1 {
   text-align: center;
 }
 
+.block_balli_col_text_osn {
+  background-color: #8e86f2;
+}
+
 @media (max-width: 900px) {
-  .ramka {
-    /*основные поля */
-    font-size: 110%;
-  }
   .ramka1 {
     /*поле вывода оценки результата */
     width: 100%;
@@ -403,6 +462,9 @@ h1 {
   }
   .header_burder {
     display: block;
+  }
+  .header_menu_web {
+    display: none;
   }
   #VoprText {
     background: #8e86f2;
