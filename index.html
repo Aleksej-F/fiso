@@ -4,11 +4,146 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="sc.js"></script>
+    <title>ФИЗО 2021</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    
 </head>
 <body>
     
+    <section class="section">
+        <div class="wrap">
+            <div class="ramka ramka_hedar">
+                <div class="header"> 
+                	<div class="burder" >
+                        <div class="header_burder" onclick="burg()">
+                            <span></span>
+                        </div>
+                        <nav class="header_menu">
+                            <ul class="header_list">
+                                <li>
+                                    <p  class="header_link" onclick="windHidervNastr()">Настройки</p>
+                                </li>
+                                <li>
+                                    <p class="header_link">Сохранить</p>
+                                </li>
+                                <li>
+                                    <p class="header_link" onclick="windHiderv()">Выбор упражнений</p>
+                                </li>
+                               
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="headerH">	
+                	<h1>Посчитай баллы по ФИЗО</h1>
+                </div>
+                <div  class="header">  </div>
+            </div> 
+            <nav class="header_menu_web">
+                            <ul class="header_list_web">
+                                <li>
+                                    <p  class="header_link" onclick="windHidervNastr()">Настройки</p>
+                                </li>
+                                <li>
+                                    <p class="header_link">Сохранить</p>
+                                </li>
+                                <li>
+                                    <p class="header_link" onclick="windHiderv()">Выбор упражнений</p>
+                                </li>
+                               
+                            </ul>
+            </nav>
+            <div class=blok>
+                <div class="window ">   
+                    <div class="ramka3"></div>  
+                    <FORM class="ramka" id="kategor" >
+                        Категория:
+                        <SELECT name="kategorSelect" id="kategorSelect" >
+                            <OPTION VALUE="0">  </OPTION>
+                            <OPTION VALUE="1"> 1 </OPTION>
+                            <OPTION VALUE="2"> 2 </OPTION>
+                            <OPTION VALUE="3"> 3 </OPTION>
+                        </SELECT>
+                    </FORM>
+                    <div class="ramka3">   </div> 
+                    <FORM class="ramka" id="pol" >
+                        Пол:
+                        <SELECT name="polSelect" id="polSelect" >
+                            <OPTION VALUE="0">  </OPTION>
+                            <OPTION VALUE="men"> Мужчина </OPTION>
+                            <OPTION VALUE="woman"> Женщина </OPTION>
+                            
+                        </SELECT>
+                    </FORM>
+                    
+                    <div class="ramka3">   </div> 
+                    <FORM class="ramka" id="ves" >
+                        Вес:
+                        <SELECT name="vesSelect" id="vesSelect" >
+                           
+                        </SELECT>
+                    </FORM>
+
+                    <div class="ramka3">   </div> 
+                    <FORM class="ramka" id="vozrast" >
+                        Возростная группа:
+                        <SELECT name="vozrastSelect" id="vozrastSelect" >
+                           
+                        </SELECT>
+                    </FORM>
+
+                    <div class="ramka3">   </div> 
+                    <FORM class="ramka " id="uprash" >
+                        Количество упражнений:
+                        <SELECT name="uprashSelect" id="uprashSelect" >
+                           
+                        </SELECT>
+                    </FORM>
+
+    <!---
+                   
+    --->
+                    <div class="ramka3">   </div> 
+                    <div class="ramka navig" id="navigation" >  </div>
+                </div>
+                <div class="window hiden">
+                    <div class="ramka3">   </div> 
+                    <div class="blok_vkladok">   
+
+                    </div>
+                    <div class="blok_vkladok_uprag " id="navigation_uprag" > 
+                        <div class="ramka4">   </div> 
+                        <FORM class="ramka "  >
+                            <div>Вид физической подготовки:</div>
+                            <SELECT name="kategorUprashSelect" id="kategorUprashSelect" >
+                            </SELECT>
+                        </FORM>
+                        <div class="ramka4">   </div> 
+                        <FORM class="ramka "  >
+                            <div> Вид упражнений:  </div>
+                            <SELECT name="vidUprashSelect" id="vidUprashSelect" >
+                            </SELECT>
+                        </FORM>
+                        <div class="ramka4">   </div> 
+                        <FORM class="ramka "  >
+                            <div>  Упражнения: </div>
+                            <SELECT name="uprashViborSelect" id="uprashViborSelect" >
+                            </SELECT>
+                        </FORM>
+                        <div class="block_bal"></div>
+                    </div>
+                    <div class="blok_vkladok_rezult" >  
+                        <div class="blok_vkladok_rezult_schet" id="navigation_rezult">  </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>   
+    </section>
+
+    <script src="./js/data.js"></script>
+
+    <script src="./js/sc.js"></script>
 </body>
 </html>
