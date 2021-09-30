@@ -1,4 +1,9 @@
 @charset "UTF-8";
+body {
+  margin: 0;
+  padding: 0;
+}
+
 h1 {
   margin: 0;
   text-align: center;
@@ -69,13 +74,19 @@ h1 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  left: -59%;
+  -webkit-transform-origin: top;
+          transform-origin: top;
+  -webkit-transform: scale(1, 0);
+          transform: scale(1, 0);
 }
 
 .navig_str_0 {
-  left: 5%;
-  -webkit-transition: left 1s ease 0s;
-  transition: left 1s ease 0s;
+  -webkit-transform: scaleY(1);
+          transform: scaleY(1);
+  -webkit-transition: -webkit-transform  0.5s ease 0s;
+  transition: -webkit-transform  0.5s ease 0s;
+  transition: transform  0.5s ease 0s;
+  transition: transform  0.5s ease 0s, -webkit-transform  0.5s ease 0s;
 }
 
 .answer {
@@ -312,7 +323,7 @@ h1 {
 }
 
 .blok_vkladok {
-  height: 40px;
+  height: 76px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -361,6 +372,8 @@ h1 {
 }
 
 .info_window_wrap {
+  max-width: 500px;
+  margin: 0 auto auto auto;
   position: absolute;
   top: 0;
   width: 100%;
@@ -399,6 +412,8 @@ h1 {
 }
 
 #info_window_ok:hover {
+  max-width: 500px;
+  margin: 0 auto auto auto;
   background-color: #257ca5;
   cursor: pointer;
 }
@@ -434,6 +449,10 @@ h1 {
   border-style: ridge;
   border-radius: 8px;
   text-align: center;
+}
+
+.block_balli_col_but div {
+  padding-top: 3px;
 }
 
 .block_balli_col_but:hover {

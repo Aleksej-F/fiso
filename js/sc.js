@@ -15,6 +15,7 @@ kategor:-1,
 vid:-1,
 uprag:-1,
 upragM:-1,
+upragNumArray:0,
 schetchik:0,
 rezult:0,
 ball:0
@@ -25,9 +26,12 @@ const uprag = {
 vkladka:0,
 vibor:[],
 kategor:[
-    '',
+    ['',
     'Общая физическая подготовка',
-    'Специальная физическая подготовка',
+    'Специальная физическая подготовка'],
+    ['',
+    'ОФП',
+    'СФП']
 ],
 vid:[
     [],
@@ -221,6 +225,17 @@ const windHidervNastr = function() {
 //клик в меню по выбор упражнений
 const windHiderv = function() {
     burgCloze()
+    console.log(windowi[1].classList.contains('hiden'))
+    if (!windowi[1].classList.contains('hiden')) return
+   /*
+    if (
+       n.kategor === 0 || n.pol === 0 || n.ves === 0 || n.vozrast === 0 || n.kolUprash === 0
+    ) {
+        console.log(n)
+        infoWindow('Заполните все поля!')
+        return
+    }
+    */
     windowi[0].classList.add('hiden')
     windowi[1].classList.remove('hiden')
     console.log('Вперед')
@@ -230,37 +245,35 @@ const windHiderv = function() {
     windHider()
 }
 
-// создание и отрисовка окна упражнений
+// создание и отрисовка окна выбора упражнений
 const windHider = function() {
     
     blokVkladok.innerHTML=''
-    console.dir(windowi[0])
-    //if (uprag.vibor.length === 0) {
-        uprag.vibor = Array.from({length:n.kolUprash}).map(()=>danVkladka()) 
-   // }
+    navigationRezult.innerHTML = '' 
+    blokBal.innerHTML = '' 
     
+    uprag.vibor = Array.from({length:n.kolUprash}).map(()=>danVkladka()) 
+   
     for (let i = 0; i < n.kolUprash; i++) {
         let m = (i===0) ? "vkladi acti" : "vkladi"
-        console.log(m)
+        
         let opti = `
-            <div date= ${i} class="${m}" >
-                
+            <div date= ${i} class="${m}">
+            
             </div>
         `;
         blokVkladok.insertAdjacentHTML("beforeend", opti);
-
     }
-       blokVkladok.addEventListener("click", creatClickVkladki)
-       createSelect(kategorUprashSelect, uprag.kategor)
-    /*navigation2.innerHTML=`
-        Перейти к выбору упражнений. <div class=button onclick="windHider()">ДА </div>
-    `*/
+    blokVkladok.addEventListener("click", creatClickVkladki)
+       
+    setClickVkladki()
+     
 }
 
 // окно сообщений
   const infoWindow = function(text) {
           const blockw =`
-            <div class="wrap info_window_wrap">
+            <div class="info_window_wrap">
                 <div  class="info_window" >
                     <div class="info_window_text"> ${text} </div>
                     <div id='info_window_ok' onclick="clozeInfoWindow()"> Ok </div>
@@ -276,7 +289,12 @@ const windHider = function() {
 
 // выбор категории
 kategor.onchange = function() {
-    n.kategor = kategor.value;
+    n.kategor = +kategor.value;
+    polSelect.innerHTML =`
+            <OPTION VALUE="0">  </OPTION>
+            <OPTION VALUE="men"> Мужчина </OPTION>
+            <OPTION VALUE="woman"> Женщина </OPTION>
+    `
 };
 
 // выборать пол
@@ -297,9 +315,9 @@ pol.onchange = function() {
     if (n.pol==='0') {return}
     // формируем импут выбора весовой категории
     if (n.pol==="men") {
-            ves.innerHTML = '<OPTION VALUE="1">до 70кг</OPTION><OPTION VALUE="2"> до 80кг </OPTION><OPTION VALUE="3">свыше 80кг  </OPTION>'
+            ves.innerHTML = '<OPTION VALUE="0"></OPTION><OPTION VALUE="1">до 70кг</OPTION><OPTION VALUE="2"> до 80кг </OPTION><OPTION VALUE="3">свыше 80кг  </OPTION>'
     } else {
-            ves.innerHTML = '<OPTION VALUE="1">до 60кг  </OPTION><OPTION VALUE="2">до 70кг</OPTION><OPTION VALUE="3">свыше 70кг  </OPTION>'
+            ves.innerHTML = '<OPTION VALUE="0"><OPTION VALUE="1">до 60кг  </OPTION><OPTION VALUE="2">до 70кг</OPTION><OPTION VALUE="3">свыше 70кг  </OPTION>'
     }
     // формируем импут выбора возрастной группы
         for ( i = 0; i < kategores[n.pol].length; i++) {
@@ -314,12 +332,11 @@ pol.onchange = function() {
 
 // выбрать вес
 ves.onchange = function() {
-    n.ves = ves.value;
+    n.ves = +ves.value;
 };
 ves.onclick = function() {
     if (n.pol === 0) {
         infoWindow('Выберите пол!')
-
     } 
 }
 
@@ -332,8 +349,8 @@ vozrast.onchange = function() {
     if (n.vozrast === 0) {navigation.innerHTML=''}
 };
 vozrast.onclick = function() {
-    if (n.pol === 0) {
-        infoWindow('Выберите пол!')
+    if (n.ves === 0) {
+        infoWindow('Укажите вес!')
     } 
 }
 
@@ -346,10 +363,11 @@ uprash.onclick = function() {
 uprash.onchange = function() {
     n.kolUprash = +kategores[n.pol][n.vozrast].kolUpr[uprash.value];
     console.log (kategores[n.pol][n.vozrast].kolUpr[uprash.value])
-    if (n.kolUprash===0) {
+    if (n.kolUprash === 0) {
         navigation.innerHTML=''
         return
     }
+    if (navigation.innerHTML!=='') {return}
     navigation.innerHTML=`
        <div class="navig_str"> Перейти к выбору упражнений. 
         <div class="button" onclick="windHiderv()"> Да </div> 
@@ -359,9 +377,7 @@ uprash.onchange = function() {
     const butt =  document.querySelector('.button');
     const navigStr =  document.querySelector('.navig_str');
     setTimeout(() => navigStr.classList.toggle("navig_str_0"), 50);
-    
-    
-   // butt.addEventListener(click, windHider);
+    // butt.addEventListener(click, windHider);
 }
 
 //страница упражнений
@@ -369,14 +385,20 @@ uprash.onchange = function() {
 //клик по  вкладкам
 function creatClickVkladki(e) {
     const vkladi =  document.querySelectorAll('.vkladi');
-   
+    console.log(e.target)
     vkladi[uprag.vkladka].classList.toggle("acti")
+    
     uprag.vkladka =  +(e.target.attributes.date.value)
     console.log('вкладка- ',uprag.vkladka,'  выбор вида упр  -',	uprag.vibor[uprag.vkladka])
     vkladi[uprag.vkladka].classList.toggle("acti")
+    setClickVkladki()
 
+}
+
+function setClickVkladki() {
+    
     //формируем импут выбора физической подготовки
-    createSelect(kategorUprashSelect, uprag.kategor)
+    createSelect(kategorUprashSelect, uprag.kategor[0])
     kategorUprashSelect.value = (uprag.vibor[uprag.vkladka].kategor === -1) ? '0' : String(uprag.vibor[uprag.vkladka].kategor)
 
     //формируем импут выбора упражнений
@@ -401,7 +423,8 @@ function creatClickVkladki(e) {
     }
 }
 
-//функция наполнения для input
+
+//функция для наполнения  input
 const createSelect = function(elem, obiect) {
    //console.log(elem)
     elem.innerHTML=''
@@ -424,9 +447,14 @@ kategorUprashSelect.onchange = function() {
         //формируем импут выбора категории упражнений
         createSelect(vidUprashSelect,uprag.vid[uprag.vibor[uprag.vkladka].kategor])
         uprag.vibor[uprag.vkladka].vid = -1
+        const vkladi =  document.querySelectorAll('.vkladi');
+        vkladi[uprag.vkladka].innerHTML=`
+            <div date= ${uprag.vkladka}>${uprag.kategor[1][uprag.vibor[uprag.vkladka].kategor]} </div>
+        `
     } else {
         vidUprashSelect.innerHTML=''
         uprag.vibor[uprag.vkladka].kategor = -1
+        blokVkladok[uprag.vkladka].innerHTML=''
     }
     uprashViborSelect.innerHTML=''
     blokBal.innerHTML=''
@@ -450,12 +478,17 @@ vidUprashSelect.onchange = function() {
     //формируем импут выбора упражнений
     createSelect(uprashViborSelect,uprag.uprag[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid])
     blokBal.innerHTML=''
+    const vkladi =  document.querySelectorAll('.vkladi');
+        vkladi[uprag.vkladka].innerHTML=`
+            <div date= ${uprag.vkladka}>${uprag.kategor[1][uprag.vibor[uprag.vkladka].kategor]} </div>
+            <div date= ${uprag.vkladka}>${uprag.vid[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid]} </div>
+        `
+    
     console.log('вкладка- ',uprag.vkladka,'  выбор вида упр  -',	uprag.vibor[uprag.vkladka])
 }
 
 // клик по выбор упражнения
 uprashViborSelect.onclick = function() {
-    
     if (uprag.vibor[uprag.vkladka].vid === -1) {
         infoWindow('Выберите вид уражнений!')
     } else {
@@ -473,8 +506,47 @@ uprashViborSelect.onchange = function() {
     console.log('вкладка- ',uprag.vkladka,'  выбор упраж  -',	uprag.vibor[uprag.vkladka])
     
     uprag.vibor[uprag.vkladka].schetchik = Math.round(upragBalli[rrr][0].length/2)
+    uprag.vibor[uprag.vkladka].upragNumArray = 0
+    switch (rrr) {
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+            console.log( 'упражнения по весу' );
+            uprag.vibor[uprag.vkladka].upragNumArray = +n.ves-1
+           
+            break;
+        case 16:
+        case 17:
+        case 18:
+        case 23:
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+        case 28:
+        case 29:
+        case 30:
+        case 31:
+        case 52:
+            console.log( 'возраст' );
+            if (n.pol ==='men') {
+                uprag.vibor[uprag.vkladka].upragNumArray = (n.vozrast < 9) ? 0 : 1
+            } else { uprag.vibor[uprag.vkladka].upragNumArray = (n.vozrast < 8) ? 0 : 1}
+            break;
+        case 72:
+        case 72:
+            console.log( 'Перебор' );
+          break;
+        default:
+         
+    }
+    console.log(  uprag.vibor[uprag.vkladka].upragNumArray );
     setBlockBalli()
 }
+
 let schetchik = 0
 
 //создание блока установки результата
@@ -485,22 +557,22 @@ const setBlockBalli = function() {
     const blockw =`
         <div class="block_balli">
             <div  class="block_balli_col" >
-                <div class="block_balli_col_but" onclick="setSchetBall(-1)"><p>&#9650</p>  </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(-1)"><div>&#9650</div>  </div>
                     <div  class="block_balli_col_blok" >
                         <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
                         <div class="block_balli_col_text block_balli_col_text_osn " date="1"> ${balli[1][0]} </div>
                         <div class="block_balli_col_text" date="2"> ${balli[2][0]} </div>
                     </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(1)"> <p>&#9660</p> </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
             </div>
             <div  class="block_balli_col" >
-                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <p>&#9650</p> </div>           
+                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <div>&#9650</div> </div>           
                     <div  class="block_balli_col_blok" >
                         <div class="block_balli_col_text" date="3"> ${balli[0][1]} </div>
                         <div class="block_balli_col_text block_balli_col_text_osn" date="4"> ${balli[1][1]} </div>
                         <div class="block_balli_col_text" date="5"> ${balli[2][1]} </div>
                     </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(1)"> <p>&#9660</p> </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
             </div>
         </div>
     `
@@ -509,19 +581,19 @@ const setBlockBalli = function() {
 }
 
 const calsBalli = function(a) {
-     console.log(uprag.vibor[uprag.vkladka].uprag)
-     console.log(upragBalli[uprag.vibor[uprag.vkladka].uprag][0])
+    // console.log(uprag.vibor[uprag.vkladka].uprag)
+     //console.log(upragBalli[uprag.vibor[uprag.vkladka].uprag][0])
     const r = []
-    let schetR = ((a-1)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1 : a-1
+    let schetR = ((a-1)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : a-1
 
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][0],
-             upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][1]])
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a][0],
-                upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a][1]])
+    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
+             upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
+    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][a][0],
+                upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][a][1]])
 
     schetR = ((a+1)>upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1) ? 0:  a+1  
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][0],
-        upragBalli[uprag.vibor[uprag.vkladka].uprag][0][schetR][1]])     
+    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
+        upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
     
     uprag.vibor[uprag.vkladka].rezult = +upragBalli[uprag.vibor[uprag.vkladka].uprag][0][a][1]
     

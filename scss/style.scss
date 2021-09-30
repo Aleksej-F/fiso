@@ -1,3 +1,7 @@
+body {
+    margin: 0; 
+    padding: 0;  
+}
 h1{
     margin: 0;
     text-align:center ;
@@ -55,10 +59,11 @@ h1{
     &_str{
         position: absolute;
         display: flex;
-        left: -59%;
+        transform-origin: top;
+        transform: scale(1,0);
     &_0{
-        left: 5%;
-        transition: left 1s ease 0s;
+        transform: scaleY(1);
+        transition: transform  0.5s ease 0s;
     }
     }
 }
@@ -234,7 +239,7 @@ h1{
     color: rgb(175, 223, 244);
 }
 .blok_vkladok {
-    height: 40px;
+    height: 76px;
    
     display: flex;
 }
@@ -271,6 +276,8 @@ h1{
     font-size: 20px;
 }
 .info_window_wrap{
+    max-width: 500px;
+    margin: 0 auto auto auto;
     position: absolute;
     top: 0;
        width: 100%;
@@ -305,6 +312,8 @@ h1{
     border-radius: 5px;
 }
 #info_window_ok:hover {
+    max-width: 500px;
+    margin: 0 auto auto auto;
     background-color: #257ca5;
     cursor: pointer;
 
@@ -331,6 +340,9 @@ h1{
     border-style: ridge;
     border-radius: 8px;
     text-align: center;
+    div{
+        padding-top: 3px;
+    }
 }
 .block_balli_col_but:hover{
     background-color: #399fcc;
