@@ -86,7 +86,7 @@ const upragBalli = {
     
     const kategores = {
         men:[
-            { kategor: '', porog:26 , kolUpr:["",3,4]},
+            { kategor: '', porog:26 , kolUpr:[]},
             { kategor: 'Кандидаты для поступления в вузы', porog:26 , kolUpr:["",3,4]},
             { kategor: 'Военнослужащие по призыву', porog:26 , kolUpr:["",3,4]},
             { kategor: 'Курсанты 1 курса', porog:30 , kolUpr:["",4]},
@@ -103,7 +103,7 @@ const upragBalli = {
             { kategor: '9 возрастной группы (60 лет и старше)', porog:8 , kolUpr:["",2]},
         ],
         woman:[
-            { kategor: '', porog:26 , kolUpr:["",3,4]},
+            { kategor: '', porog:26 , kolUpr:[]},
             { kategor: 'Кандидаты для поступления в вузы', porog: 8, kolUpr:["",3]},
             { kategor: 'Курсанты 1 курса', porog: 8, kolUpr:["",3]},
             { kategor: 'Курсанты 2 курса', porog: 9, kolUpr:["",3]},

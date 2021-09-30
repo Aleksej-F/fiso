@@ -7,6 +7,9 @@ h1 {
 .wrap {
   max-width: 500px;
   margin: 0 auto auto auto;
+  background-image: url(../../surs/29227_html_4c0fe915.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .header {
@@ -30,8 +33,8 @@ h1 {
   /*основные поля */
   padding: 5px 0 5px 5%;
   width: 95%;
-  background: #afdff4;
-  color: #2c2c2c;
+  background: #afdff482;
+  color: #161515;
   display: block;
 }
 
@@ -56,10 +59,23 @@ h1 {
 }
 
 .navig {
+  position: relative;
+  margin-right: 30px;
+  height: 28px;
+}
+
+.navig_str {
+  position: absolute;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-right: 30px;
+  left: -59%;
+}
+
+.navig_str_0 {
+  left: 5%;
+  -webkit-transition: left 1s ease 0s;
+  transition: left 1s ease 0s;
 }
 
 .answer {
@@ -86,13 +102,14 @@ h1 {
   /*меж строчки*/
   width: 100%;
   height: 20px;
-  background: #f3f9fc;
+  /*background: #99cfea; */
 }
 
 .ramka4 {
   /*меж строчки*/
   width: 100%;
   height: 20px;
+  background: #72c7ec;
 }
 
 .button {
@@ -130,7 +147,6 @@ h1 {
 
 .header_burder {
   display: none;
-  background: #afdff4;
   position: relative;
   width: 50px;
   height: 30px;
@@ -192,7 +208,7 @@ h1 {
   width: 205px;
   height: 115px;
   /* overflow: auto; */
-  background-color: #18b5a4;
+  background-color: #53c6eadb;
   -webkit-transform-origin: 50% top;
           transform-origin: 50% top;
   -webkit-transform: scaleY(0);
@@ -247,12 +263,12 @@ h1 {
   width: 100%;
   -webkit-transform: scale(0);
           transform: scale(0);
-  background-color: #9879c9;
+  background-color: #1b1299;
 }
 
 .header_link_web:hover {
   cursor: pointer;
-  color: #9879c9;
+  color: #1b1299;
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
 }
@@ -297,7 +313,6 @@ h1 {
 
 .blok_vkladok {
   height: 40px;
-  background-color: #afdff4;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -320,7 +335,7 @@ h1 {
 }
 
 .blok_vkladok_uprag {
-  background-color: #72c7ec;
+  background-color: #72c7ecba;
 }
 
 .vkladi.acti {
@@ -391,6 +406,7 @@ h1 {
 .block_bal {
   height: 150px;
   padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .block_balli {
@@ -411,11 +427,12 @@ h1 {
 }
 
 .block_balli_col_but {
+  height: 25px;
   background-color: #2e8fbd;
   border-width: 1px;
   border-color: #1a2023;
   border-style: ridge;
-  border-radius: 4px;
+  border-radius: 8px;
   text-align: center;
 }
 
@@ -430,7 +447,7 @@ h1 {
 
 .block_balli_col_text {
   padding: 6px;
-  width: 30px;
+  width: 60px;
   text-align: center;
 }
 

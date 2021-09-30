@@ -5,6 +5,9 @@ h1{
 .wrap{
     max-width: 500px;
     margin: 0 auto auto auto;
+    background-image: url(../../surs/29227_html_4c0fe915.jpg);
+    background-repeat:no-repeat;
+    background-size:cover ;
 }
 .header{
     position: relative;
@@ -25,9 +28,10 @@ h1{
 .ramka { /*основные поля */
     padding: 5px 0 5px 5% ;
     width: 95%;
-    background: #afdff4; 
-    color: #2c2c2c;
+    background: #afdff482; 
+    color: #161515;
     display: block;
+    
 }
 .ramka select { 
    
@@ -45,8 +49,18 @@ h1{
     }
 }
 .navig{
-    display: flex;
+    position: relative;
     margin-right: 30px;
+    height: 28px;
+    &_str{
+        position: absolute;
+        display: flex;
+        left: -59%;
+    &_0{
+        left: 5%;
+        transition: left 1s ease 0s;
+    }
+    }
 }
 .answer{
     min-height: 30px;
@@ -66,12 +80,12 @@ h1{
 .ramka3 { /*меж строчки*/
     width: 100%;
     height: 20px;        
-    background: #f3f9fc; 
+    /*background: #99cfea; */
 }
 .ramka4 { /*меж строчки*/
     width: 100%;
     height: 20px;        
-    
+    background:#72c7ec;
 }
 .button {
     text-align: center;
@@ -99,7 +113,7 @@ h1{
 .header_burder {
     
     display: none;
-    background:  #afdff4; 
+   
     position: relative;
     width: 50px;
     height: 30px;
@@ -149,7 +163,7 @@ h1{
     width: 205px;
     height: 115px;
     /* overflow: auto; */
-    background-color: #18b5a4;
+    background-color: #53c6eadb;
     transform-origin: 50% top;
     transform: scaleY(0);
     transition: all 0.3s ease 0s;
@@ -184,11 +198,11 @@ h1{
     height: 3px;
     width: 100%;
     transform: scale(0);
-    background-color: rgb(152, 121, 201);
+    background-color: rgb(27, 18, 153);
 }
 .header_link_web:hover {
     cursor: pointer;
-    color: rgb(152, 121, 201);
+    color: rgb(27, 18, 153);
     transform: scale(1.1);
     ~.header_link_web_underline{
         width: 100%;
@@ -221,7 +235,7 @@ h1{
 }
 .blok_vkladok {
     height: 40px;
-    background-color: rgb(175, 223, 244);
+   
     display: flex;
 }
 .vkladi{
@@ -238,7 +252,7 @@ h1{
 }
 .blok_vkladok_uprag{
     
-    background-color: rgb(114, 199, 236);
+    background-color: #72c7ecba;
 }
 .vkladi.acti{
     
@@ -298,6 +312,7 @@ h1{
 .block_bal{
     height: 150px;
     padding-top: 20px;
+    padding-bottom: 20px ;
 }
 .block_balli{
     margin: 0 auto 0 auto;
@@ -309,11 +324,12 @@ h1{
     margin: 0 15px
 }
 .block_balli_col_but{
+    height: 25px;
     background-color: #2e8fbd;
     border-width: 1px;
     border-color: #1a2023;
     border-style: ridge;
-    border-radius: 4px;
+    border-radius: 8px;
     text-align: center;
 }
 .block_balli_col_but:hover{
@@ -326,7 +342,7 @@ h1{
 }
 .block_balli_col_text{
     padding: 6px;
-    width: 30px;
+    width: 60px;
     text-align: center;
     &_osn{
         background-color: #8e86f2;
