@@ -38,7 +38,7 @@ h1 {
   /*основные поля */
   padding: 5px 0 5px 5%;
   width: 95%;
-  background: #afdff482;
+  background: #afdff4d4;
   color: #161515;
   display: block;
 }
@@ -124,6 +124,7 @@ h1 {
 }
 
 .button {
+  margin: 0 16px;
   text-align: center;
   width: 60px;
   height: 80%;
@@ -215,9 +216,9 @@ h1 {
 
 .header_menu {
   position: absolute;
-  top: 38px;
-  width: 205px;
-  height: 115px;
+  top: 30px;
+  width: 217px;
+  height: 105px;
   /* overflow: auto; */
   background-color: #53c6eadb;
   -webkit-transform-origin: 50% top;
@@ -323,7 +324,7 @@ h1 {
 }
 
 .blok_vkladok {
-  height: 76px;
+  min-height: 70px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -335,9 +336,14 @@ h1 {
       -ms-flex: 1;
           flex: 1;
   background-color: #5796b1;
-  margin-left: 4px;
+  margin-left: 2px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+}
+
+.vkladi_vidupr {
+  margin-bottom: 3px;
+  font-size: 14px;
 }
 
 .vkladi:hover {
@@ -474,7 +480,11 @@ h1 {
   background-color: #8e86f2;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  .ramka {
+    font-size: 13px;
+    font-weight: bold;
+  }
   .ramka1 {
     /*поле вывода оценки результата */
     width: 100%;
@@ -489,6 +499,10 @@ h1 {
     width: 100%;
     height: 35px;
   }
+  .ramka4 {
+    /*меж строчки */
+    height: 5px;
+  }
   .cont_button {
     display: -ms-grid;
     display: grid;
@@ -502,9 +516,27 @@ h1 {
   .header_menu_web {
     display: none;
   }
+  .headerH h1 {
+    font-size: 15px;
+  }
   #VoprText {
     background: #8e86f2;
   }
   /*блок вопроса*/
+  .ramka_hedar_v {
+    padding: 0;
+  }
+  .blok_vkladok {
+    min-height: 54px;
+  }
+  .headerH {
+    padding-top: 5px;
+  }
+  .headerH h1 {
+    font-size: 1.08em;
+  }
+  .vkladi_vidupr {
+    font-size: 10px;
+  }
 }
 /*# sourceMappingURL=style.css.map */

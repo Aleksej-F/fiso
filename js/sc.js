@@ -475,14 +475,15 @@ vidUprashSelect.onclick = function() {
 }
 vidUprashSelect.onchange = function() {
     uprag.vibor[uprag.vkladka].vid = (vidUprashSelect.value>0) ? +vidUprashSelect.value : -1;
+    
     //формируем импут выбора упражнений
-    createSelect(uprashViborSelect,uprag.uprag[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid])
+    createSelect(uprashViborSelect,uprag.uprag[uprag.vibor[uprag.vkladka].kategor][+vidUprashSelect.value])
     blokBal.innerHTML=''
     const vkladi =  document.querySelectorAll('.vkladi');
-        vkladi[uprag.vkladka].innerHTML=`
-            <div date= ${uprag.vkladka}>${uprag.kategor[1][uprag.vibor[uprag.vkladka].kategor]} </div>
-            <div date= ${uprag.vkladka}>${uprag.vid[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid]} </div>
-        `
+    vkladi[uprag.vkladka].innerHTML=`
+        <div date= ${uprag.vkladka}>${uprag.kategor[1][uprag.vibor[uprag.vkladka].kategor]} </div>
+        <div class="vkladi_vidupr" date= ${uprag.vkladka}>${uprag.vid[uprag.vibor[uprag.vkladka].kategor][+vidUprashSelect.value]} </div>
+    `
     
     console.log('вкладка- ',uprag.vkladka,'  выбор вида упр  -',	uprag.vibor[uprag.vkladka])
 }
