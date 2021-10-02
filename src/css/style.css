@@ -506,6 +506,10 @@ h1 {
     /*меж строчки */
     height: 5px;
   }
+  .ramka5 {
+    /*основные поля добавка для 2 страницы */
+    padding: 1px 0 5px 5%;
+  }
   .cont_button {
     display: -ms-grid;
     display: grid;
