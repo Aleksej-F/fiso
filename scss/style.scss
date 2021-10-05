@@ -272,10 +272,12 @@ h1{
         font-size: 14px;
     }
 }
+
 .vkladi:hover {
    cursor: pointer;
     background-color: rgb(39, 154, 204);
 }
+
 .blok_vkladok_uprag{
     
     background-color: #72c7ecba;
@@ -284,7 +286,9 @@ h1{
     
     background-color: rgb(114, 199, 236);
 }
-
+.vkladiPorog{
+    background-color: #eb6b79;  
+}
 .blok_vkladok_rezult{
     height: 150px;
     background-color: rgb(119, 192, 224);

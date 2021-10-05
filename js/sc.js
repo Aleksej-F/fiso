@@ -649,24 +649,34 @@ const setSchetBall = function(a) {
 }
 // вычисление и вывод суммарного результа по всем упражнениям
 const setRezultatSumm = function () {
+    const vkladi =  document.querySelectorAll('.vkladi');
     let rezultatSumm = 0
     let thresholdLevel = false
     for (let i = 0; i < uprag.vibor.length ; i++) {
-        if (uprag.vibor[i].rezult < kategores[n.pol][n.vozrast].porog) thresholdLevel = true
+        if ((uprag.vibor[i].rezult < kategores[n.pol][n.vozrast].porog)&(uprag.vibor[i].rezult>0)) {
+            thresholdLevel = true
+            vkladi[uprag.vkladka].classList.add("vkladiPorog") 
+            console.dir(vkladi[uprag.vkladka].classList)
+            console.log('ниже порога ')
+        } else {
+            console.log('выше порога')
+            vkladi[uprag.vkladka].classList.remove("vkladi_porog") 
+           
+        }
         rezultatSumm = rezultatSumm + uprag.vibor[i].rezult
     }
-    console.log(n)
+   // console.log(n)
     console.log(kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)])
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
     // console.log(kategores[n.pol].estimation[n.kategor][(n.kolUprash-1)])
     // kategores[n.pol].estimation[n.kategor][n.kolUprash-1]
-    const rezultatEstimation = (rezultatSumm < estimation[0]) ? 'неудовлетворительно' :
+    let rezultatEstimation = (rezultatSumm < estimation[0]) ? 'неудовлетворительно' :
         (rezultatSumm < estimation[1]) ? 'удовлетворительно' :
         (rezultatSumm < estimation[2]) ? 'хорошо' :
         (rezultatSumm < estimation[3]) ? 'отлично (3 уровень)' :
         (rezultatSumm < estimation[4]) ? 'отлично (2 уровень' :
-        (rezultatSumm < estimation[5]) ? 'отлично (1 уровень)' :
-         'отлично (высший уровень)' 
+        (rezultatSumm < estimation[5]) ? 'отлично (1 уровень)' : 'отлично (высший уровень)' 
+    if (thresholdLevel) {rezultatEstimation = 'неудовлетворительно'}
     navigationRezult.innerHTML = (rezultatSumm === 0) ? '' : rezultatSumm
     navigationEstimation.innerHTML = (rezultatSumm === 0) ? '' : rezultatEstimation
 }
