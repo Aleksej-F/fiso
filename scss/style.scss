@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'Play';
+    src: url('../../fonts/play/play-regular.ttf');
+}
+
+html {
+	font-family: 'Play';
+	font-size: var(--app-font-size);
+}
+
 body {
     margin: 0; 
     padding: 0;  
@@ -38,9 +48,9 @@ h1{
     
 }
 .ramka select { 
-    height: 24px;
+    height: 36px;
     width: 95%;
-    
+    font-size:16px;
 }
 .ramka_hedar{
     display: flex;
@@ -151,7 +161,7 @@ h1{
     top: 7px;
 }
 .header_burder:after{
-    bottom: 5px;
+    bottom: 4px;
 }
 .header_burder.active span{
     transform: scale(0);
@@ -167,14 +177,17 @@ h1{
 .header_menu {
     position: absolute;
     top: 47px;
-    width: 217px;
-    height: 115px;
+    width: 229px;
+    height: 133px;
     /* overflow: auto; */
-    background-color: #53c6eadb;
+    background-color: #53c6eaf5;
     transform-origin: 50% top;
     transform: scaleY(0);
     transition: all 0.3s ease 0s;
     
+}
+.header_menu.active {
+    transform: scaleY(1);
 }
 .header_menu_web{
   padding-top: 10px;
@@ -200,14 +213,15 @@ h1{
     margin:  0;
     font-size: 17px; 
     text-decoration: none; 
-    transform: scale(1)
-}
-.header_link_web_underline{
+    transform: scale(1);
+    &_underline{
     height: 3px;
     width: 100%;
     transform: scale(0);
     background-color: rgb(27, 18, 153);
 }
+}
+
 .header_link_web:hover {
     cursor: pointer;
     color: rgb(27, 18, 153);
@@ -219,9 +233,8 @@ h1{
     }
     
 }
-.header_menu.active {
-    transform: scaleY(1);
-}
+
+
 .header_list {
     padding: 0px 0px 0px 10px;
     display: block;
@@ -233,14 +246,15 @@ h1{
 .header_link {
     color: rgb(22, 20, 20);
     margin:  0;
-    text-transform: uppercase;
-    font-size: 17px; 
+    font-weight:lighter;
+    font-size: 23px; 
     text-decoration: none; 
-}
-.header_link:hover {
+    &:hover {
     cursor: pointer;
-    color: rgb(175, 223, 244);
+    color: #e2eef3;
 }
+}
+
 .blok_vkladok {
     min-height: 70px;
    
@@ -373,8 +387,8 @@ h1{
 @media (max-width:768px) {
     
     .ramka { 
-        font-size: 17px; 
-        font-weight: bold;
+        font-size: 20px; 
+        
     }
     .ramka1 { /*поле вывода оценки результата */
         width: 100%; 
@@ -391,7 +405,7 @@ h1{
         height: 5px;         
     }
     .ramka5 { /*основные поля добавка для 2 страницы */
-        padding: 1px 0 5px 5%;
+        padding: 5px 0 8px 5%;
     }
     
     .cont_button{
@@ -405,9 +419,7 @@ h1{
     .header_menu_web{
         display: none;
     }
-    .headerH h1 {
-        font-size: 15px;
-    }
+   
     #VoprText{background: #8e86f2;}/*блок вопроса*/
 
     .ramka_hedar_v{
@@ -426,7 +438,19 @@ h1{
         }
     }
     .vkladi_vidupr{
-        font-size: 10px;
+        font-size: 2vw;
+    }
+
+}
+@media (max-width:560px) {
+    .vkladi_vidupr{
+        font-size: 2.5vw;
+    }
+
+}
+@media (max-width:360px) {
+    .headerH h1 {
+        font-size: 15px;
     }
 
 }

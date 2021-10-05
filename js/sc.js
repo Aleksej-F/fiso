@@ -240,6 +240,9 @@ const windHiderv = function() {
     n.kolUprash = (n.kolUprash === 0) ? 3 : n.kolUprash
     uprag.vkladka = 0
     windHider()
+    //const vkladiVidUpr = document.querySelectorAll('.vkladi')
+    //console.dir(vkladiVidUpr[0].style.fontSize)
+    //vkladiVidUpr[0].style.font
 }
 
 // создание и отрисовка окна выбора упражнений
@@ -253,7 +256,7 @@ const windHider = function() {
     uprag.vibor = Array.from({length:n.kolUprash}).map(()=>danVkladka()) 
    
     for (let i = 0; i < n.kolUprash; i++) {
-        let m = (i===0) ? "vkladi acti" : "vkladi"
+        let m = (i===uprag.vkladka) ? "vkladi acti" : "vkladi"
         
         let opti = `
             <div date= ${i} class="${m}">
