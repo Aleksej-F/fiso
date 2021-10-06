@@ -21,7 +21,7 @@ ball:0
 
 const uprag = {
 vkladka:0,
-vibor:[],
+vibor:Array.from({length:5}).map(()=>danVkladka()),
 kategor:[
     ['',
     'Общая физическая подготовка',
@@ -188,6 +188,9 @@ const navigationEstimation = document.getElementById('navigation_estimation')
 const blokBal = document.querySelector('.block_bal')
 let burgActive = false
 
+
+
+
 //клик по меню
 const burg =  function(event) {
     event.stopPropagation()
@@ -225,24 +228,37 @@ const windHiderv = function() {
     console.log(windowi[1].classList.contains('hiden'))
     if (!windowi[1].classList.contains('hiden')) return
   
-    if (
-       n.kategor === 0 || n.pol === 0 || n.ves === 0 || n.vozrast === 0 || n.kolUprash === 0
-    ) {
-        console.log(n)
-        infoWindow('Заполните все поля!')
+    if ( n.pol === 0 ) {
+        infoWindow('Выберите пол!')
+        return
+    }
+    if ( n.ves === 0 ) {
+        infoWindow('Выберите вес!')
+        return
+    }
+    if ( n.vozrast === 0 ) {
+        infoWindow('Выберите возрастную группу!')
+        return
+    }
+    if ( n.kategor === 0) {
+        infoWindow('Выберите категорию войск!')
+        return
+    }
+    if (n.kolUprash === 0) {
+        infoWindow('Выберите количество упражнений!')
         return
     }
     
     windowi[0].classList.add('hiden')
     windowi[1].classList.remove('hiden')
     console.log('Вперед')
-    //if ((uprag.vibor.length !== 0) & (uprag.vibor.length === n.kolUprash)) {return}
+    
     n.kolUprash = (n.kolUprash === 0) ? 3 : n.kolUprash
-    uprag.vkladka = 0
+   
     windHider()
-    //const vkladiVidUpr = document.querySelectorAll('.vkladi')
-    //console.dir(vkladiVidUpr[0].style.fontSize)
-    //vkladiVidUpr[0].style.font
+    
+    console.log(uprag.vibor)
+   
 }
 
 // создание и отрисовка окна выбора упражнений
@@ -253,7 +269,7 @@ const windHider = function() {
     navigationEstimation.innerHTML = ''
     blokBal.innerHTML = '' 
     
-    uprag.vibor = Array.from({length:n.kolUprash}).map(()=>danVkladka()) 
+    //uprag.vibor = Array.from({length:n.kolUprash}).map(()=>danVkladka()) 
    
     for (let i = 0; i < n.kolUprash; i++) {
         let m = (i===uprag.vkladka) ? "vkladi acti" : "vkladi"
@@ -264,6 +280,7 @@ const windHider = function() {
             </div>
         `;
         blokVkladok.insertAdjacentHTML("beforeend", opti);
+        createVkladiHeader(i)
     }
     blokVkladok.addEventListener("click", creatClickVkladki)
        
@@ -296,7 +313,7 @@ pol.onchange = function() {
     n.vozrast = 0
     n.kategor = 0
     n.kolUprash = 0
-    console.log(n.pol)
+    
     ves.innerHTML=''
     vozrast.innerHTML=''
     kategor.innerHTML=''
@@ -314,7 +331,6 @@ pol.onchange = function() {
     }
 
     // формируем импут выбора возрастной группы
-    console.log(kategores[n.pol])
     for ( i = 0; i < kategores[n.pol].length; i++) {
         let opti = `
             <OPTION VALUE="${i}">
@@ -327,21 +343,24 @@ pol.onchange = function() {
     
     
 };
-
 // выбрать вес
 ves.onchange = function() {
     n.ves = +ves.value;
-    
 };
 ves.onclick = function() {
     if (n.pol === 0) {
         infoWindow('Выберите пол!')
     } 
 }
-
 // выбрать возрастную группу       //vozrast
 vozrast.onchange = function() {
     n.vozrast = +vozrast.value;
+    n.kategor = 0
+    n.kolUprash = 0
+    kategor.innerHTML=''
+    uprash.innerHTML=''
+    navigation.innerHTML=''
+    
     const rr = kategores[n.pol][n.vozrast].kategoris
     // формируем импут выбора категории
     createSelect(kategor, rr)
@@ -353,7 +372,6 @@ vozrast.onclick = function() {
         infoWindow('Выберите пол!')
     } 
 }
-
 //клик по категории
 kategor.onclick = function() {
     // если возраст не выбран
@@ -361,21 +379,16 @@ kategor.onclick = function() {
         infoWindow('Выберите возрастную группу!')
     } 
 }
-
-  // выбор категории
+// выбор категории
 kategor.onchange = function() {
     n.kategor = +kategor.value;
-    console.log(n.kategor)
-    
-    
+    n.kolUprash = 0
     const rr = kategores[n.pol][n.vozrast].kolUpr[n.kategor]
     // формируем импут выбора количества упражнений
-    console.log(rr)
     createSelect(uprash, rr)
 
 
 };
-
 // выбрать количество упражнений
 uprash.onclick = function() {
     if (n.kategor === 0) {
@@ -402,7 +415,6 @@ uprash.onchange = function() {
     setTimeout(() => navigStr.classList.toggle("navig_str_0"), 50);
     // butt.addEventListener(click, windHider);
 }
-
 //страница упражнений
 //blokVkladok
 //клик по  вкладкам
@@ -417,7 +429,6 @@ function creatClickVkladki(e) {
     setClickVkladki()
 
 }
-
 // отрисовка вкладки при клике
 function setClickVkladki() {
     
@@ -438,16 +449,12 @@ function setClickVkladki() {
 
     //формируем окно выбора результата
     if (uprag.vibor[uprag.vkladka].uprag === -1) {
-        
-        console.log(blokBal)
         blokBal.innerHTML = ""
     } else {
         setBlockBalli()
         setSchetBall(0)
     }
 }
-
-
 //функция для наполнения  input
 const createSelect = function(elem, obiect) {
    //console.log(elem)
@@ -462,7 +469,6 @@ const createSelect = function(elem, obiect) {
         elem.insertAdjacentHTML("beforeend", opti);
     }
 };
-
 // выбор физической подготовки
 kategorUprashSelect.onchange = function() {
    const vkladi =  document.querySelectorAll('.vkladi');
@@ -485,7 +491,6 @@ kategorUprashSelect.onchange = function() {
     blokBal.innerHTML=''
     calcParamNull()
 };
-
 //выбор вида упражнения
 vidUprashSelect.onclick = function() {
     if (uprag.vibor[uprag.vkladka].kategor === -1) {
@@ -497,16 +502,23 @@ vidUprashSelect.onchange = function() {
     
     //формируем импут выбора упражнений
     createSelect(uprashViborSelect,uprag.uprag[uprag.vibor[uprag.vkladka].kategor][+vidUprashSelect.value])
-    
-    const vkladi =  document.querySelectorAll('.vkladi');
-    vkladi[uprag.vkladka].innerHTML=`
-        <div date= ${uprag.vkladka}>${uprag.kategor[1][uprag.vibor[uprag.vkladka].kategor]} </div>
-        <div class="vkladi_vidupr" date= ${uprag.vkladka}>${uprag.vid[uprag.vibor[uprag.vkladka].kategor][+vidUprashSelect.value]} </div>
-    `
+    //подписываем вкладки
+    createVkladiHeader(uprag.vkladka)
+    //обсчет результата
     calcParamNull()
 }
-
-
+//отрисовка заголовка вкладки
+const createVkladiHeader = function(vkladka) {
+    console.log(vkladka)
+    const vkladi =  document.querySelectorAll('.vkladi');
+    const r1 = (uprag.vibor[vkladka].kategor > 0 ? uprag.kategor[1][uprag.vibor[vkladka].kategor] : '')
+    const r2 = ((uprag.vibor[uprag.vkladka].vid < 0) || (uprag.vibor[vkladka].kategor < 0)) ? '' :
+        uprag.vid[uprag.vibor[vkladka].kategor][uprag.vibor[vkladka].vid]
+    vkladi[vkladka].innerHTML=`
+        <div date= ${vkladka}>${r1} </div>
+        <div class="vkladi_vidupr" date= ${vkladka}>${r2} </div>
+    `
+}
 // клик по выбор упражнения
 uprashViborSelect.onclick = function() {
     if (uprag.vibor[uprag.vkladka].vid === -1) {
@@ -514,7 +526,7 @@ uprashViborSelect.onclick = function() {
     } else {
         //uprag.vibor[uprag.vkladka].uprag = +uprashViborSelect.value;
     }
-   }
+}
 // выбор упражнения
 uprashViborSelect.onchange = function() {
     console.dir(uprashViborSelect.value)
@@ -566,9 +578,7 @@ uprashViborSelect.onchange = function() {
     console.log(  uprag.vibor[uprag.vkladka].upragNumArray );
     setBlockBalli() //создание блока установки результата
 }
-
 let schetchik = 0
-
 //обнуление состояния вкладки
 const calcParamNull = function() {
     blokBal.innerHTML=''
@@ -612,7 +622,6 @@ const setBlockBalli = function() {
     
     setRezultatSumm()
 }
-
 //вычисление массива для отрисовки блока установки результата
 const calsBalli = function(a) {
     const r = []

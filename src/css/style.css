@@ -504,6 +504,15 @@ h1 {
   background-color: #8e86f2;
 }
 
+.slick {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 @media (max-width: 768px) {
   .ramka {
     font-size: 20px;
