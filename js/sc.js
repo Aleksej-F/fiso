@@ -627,8 +627,11 @@ const setBlockBalli = function() {
     const blockBballi = document.querySelectorAll('.block_balli_col_blok')
     blockBballi.forEach(element => {
         element.addEventListener("mousedown", blockBballiDown);
+        element.addEventListener("touchstart", blockBballiDown);
         element.addEventListener("mouseup", blockBballiUp);
+        element.addEventListener("touchend", blockBballiUp);
         element.addEventListener("mousemove", blockBballiMove);
+        element.addEventListener("touchmove", blockBballiMove);
     })
     
     //addEventListener("click", handler);
