@@ -17,6 +17,7 @@ h1{
     text-align:center ;
 }
 .wrap{
+    height: 100vh;
     max-width: 500px;
     margin: 0 auto auto auto;
     background-image: url(../../surs/29227_html_4c0fe915.jpg);
@@ -30,9 +31,13 @@ h1{
 .blok {
     /*display: flex;*/
     width: 100%;
+    height: 90%;
 }
 .window {
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     
 }
 .hiden{
@@ -40,12 +45,14 @@ h1{
 
 }
 .ramka { /*основные поля */
+   
     padding: 10px 0 10px 5%;
     width: 95%;
     background: #afdff4d4; 
     color: #161515;
     display: block;
-    
+    height: 100;
+    flex: 9;
 }
 .ramka select { 
     height: 36px;
@@ -64,12 +71,12 @@ h1{
     }
 }
 .navig{
-    position: relative;
-    margin-right: 30px;
-    height: 28px;
+    display: flex;
+    justify-content:center;
     &_str{
         position: absolute;
         display: flex;
+        justify-content:center;
         transform-origin: top;
         transform: scale(1,0);
     &_0{
@@ -95,8 +102,8 @@ h1{
 }
 .ramka3 { /*меж строчки*/
     width: 100%;
-    height: 20px;        
-    /*background: #99cfea; */
+    flex: 0.5;
+  
 }
 .ramka4 { /*меж строчки*/
     width: 100%;
@@ -104,15 +111,18 @@ h1{
     background:#72c7ec;
 }
 .button {
+    border-radius: 10px;
+    border: 3px inset #609cc6;
     margin: 0 16px;
     text-align: center;
-    width: 60px;
+    width: 80%;
     height: 80%;
-    background: #9f9ae8; 
+    background: #69b3e8; 
+    padding: 5px;
 }
 .button:hover {
     cursor: pointer;
-    background: #5145e8;
+    background: #685fec;
 }
 #selected{
     height: 30px;
@@ -260,6 +270,7 @@ h1{
    
     display: flex;
 }
+
 .vkladi{
     text-align: center;
     flex: 1;
@@ -286,8 +297,17 @@ h1{
     
     background-color: rgb(114, 199, 236);
 }
+
 .vkladiPorog{
-    background-color: #eb6b79;  
+    background-color: #d11a2f;  
+}
+.vkladi.vkladiPorog:hover {
+    
+    background-color: #eb6b7a;
+ }
+ .vkladi.acti.vkladiPorog{
+    
+    background-color: #f52626fb;
 }
 .blok_vkladok_rezult{
     height: 150px;
@@ -364,13 +384,16 @@ h1{
     height: 25px;
     background-color: #2e8fbd;
     border-width: 1px;
-    border-color: #1a2023;
+    border-color: #2589c6;
     border-style: ridge;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     text-align: center;
     div{
         padding-top: 3px;
     }
+}
+.block_balli_col_but.but{
+    border-radius: 0 0 8px 8px ;
 }
 .block_balli_col_but:hover{
     background-color: #399fcc;
@@ -385,7 +408,7 @@ h1{
     width: 60px;
     text-align: center;
     &_osn{
-        background-color: #8e86f2;
+        background-color: #558ef8;
     }
 }
 .slick {
@@ -393,7 +416,10 @@ h1{
     justify-content: center;
 }
 @media (max-width:768px) {
-    
+    .blok {
+       
+        height: 92%;
+    }
     .ramka { 
         font-size: 20px; 
         
@@ -401,9 +427,7 @@ h1{
     .ramka1 { /*поле вывода оценки результата */
         width: 100%; 
     }
-    .ramka3 { /*меж строчки*/
-        height: 10px;  
-    }  
+   
     .ramka2 { /*кнопки */
         background: #a9e89a; 
         width: 100%;
@@ -458,7 +482,7 @@ h1{
 }
 @media (max-width:360px) {
     .headerH h1 {
-        font-size: 15px;
+        font-size: 5vw;
     }
 
 }

@@ -3,19 +3,23 @@ const n = {
     ves: 0,
     vozrast: 0,
     kategor: 0,
-    kolUprash: 0
+    kolUprash: 0,
+    xdown:0,
+    downRpizn: false
+
 };
 
 const danVkladka = function() { 
 return {
-kategor:-1, //вид физической подготовки
-vid:-1,     //вид упраждений
-uprag:-1,   //номер выбранного упражнения для выбора из upragBalli
-upragM:-1,  //упражнение в окне выбора
-upragNumArray:0,  //номер массива результатов для упражнений с несколькими вариантами
-schetchik:0, // счетчик для вычисления блока резултатов
-rezult:0,
-ball:0
+kategor: -1, // вид физической подготовки
+vid: -1,     // вид упраждений
+uprag: -1,   // номер выбранного упражнения для выбора из upragBalli
+upragM: -1,  // упражнение в окне выбора
+upragNumArray: 0,  // номер массива результатов для упражнений с несколькими вариантами
+schetchik: 0, // счетчик для вычисления блока резултатов
+rezult: 0,
+ball: 0,
+parog: false,
 }
 }
 
@@ -405,8 +409,8 @@ uprash.onchange = function() {
     }
     if (navigation.innerHTML!=='') {return}
     navigation.innerHTML=`
-       <div class="navig_str"> Перейти к выбору упражнений. 
-        <div class="button" onclick="windHiderv()"> Да </div> 
+       <div class="navig_str">  
+        <div class="button" onclick="windHiderv()"> Перейти к выбору упражнений </div> 
        </div>
     `
     console.log (n.kolUprash)
@@ -605,7 +609,7 @@ const setBlockBalli = function() {
                         <div class="block_balli_col_text block_balli_col_text_osn " date="1"> ${balli[1][0]} </div>
                         <div class="block_balli_col_text" date="2"> ${balli[2][0]} </div>
                     </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
+                <div class="block_balli_col_but but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
             </div>
             <div  class="block_balli_col" >
                 <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <div>&#9650</div> </div>           
@@ -614,13 +618,40 @@ const setBlockBalli = function() {
                         <div class="block_balli_col_text block_balli_col_text_osn" date="4"> ${balli[1][1]} </div>
                         <div class="block_balli_col_text" date="5"> ${balli[2][1]} </div>
                     </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
+                <div class="block_balli_col_but but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
             </div>
         </div>
     `
     blokBal.insertAdjacentHTML("beforeend", blockw);
+    // добавляю обработчик по нажатию мыши 
+    const blockBballi = document.querySelectorAll('.block_balli_col_blok')
+    blockBballi.forEach(element => {
+        element.addEventListener("mousedown", blockBballiDown);
+        element.addEventListener("mouseup", blockBballiUp);
+        element.addEventListener("mousemove", blockBballiMove);
+    })
     
+    //addEventListener("click", handler);
     setRezultatSumm()
+}
+function blockBballiDown(e) {
+    console.log('нажал кнопку мыши')
+    n.downRpizn = true
+    n.xdown=e.offsetY
+    console.log(n.xdown)
+}
+function blockBballiUp() {
+    console.log('отпустил кнопку мыши')
+    n.downRpizn = false
+}
+function blockBballiMove(e) {
+    console.log('движение мышью')
+    if (n.downRpizn) {
+        console.log(n.xdown - e.offsetY)
+        if ((n.xdown - e.offsetY)>0) {
+            setSchetBall(1)
+        } else { setSchetBall(-1)}
+    }
 }
 //вычисление массива для отрисовки блока установки результата
 const calsBalli = function(a) {
@@ -661,17 +692,20 @@ const setRezultatSumm = function () {
     const vkladi =  document.querySelectorAll('.vkladi');
     let rezultatSumm = 0
     let thresholdLevel = false
-    for (let i = 0; i < uprag.vibor.length ; i++) {
+    for (let i = 0; i < n.kolUprash  ; i++) {
+        console.log(kategores[n.pol][n.vozrast].porog)
+        console.log(uprag.vibor[i].rezult)
         if ((uprag.vibor[i].rezult < kategores[n.pol][n.vozrast].porog)&(uprag.vibor[i].rezult>0)) {
             thresholdLevel = true
-            vkladi[uprag.vkladka].classList.add("vkladiPorog") 
-            console.dir(vkladi[uprag.vkladka].classList)
+            vkladi[i].classList.add("vkladiPorog") 
+           
             console.log('ниже порога ')
+            
         } else {
             console.log('выше порога')
-            vkladi[uprag.vkladka].classList.remove("vkladi_porog") 
-           
-        }
+            if (vkladi[i].classList.contains('vkladiPorog')) {vkladi[i].classList.remove('vkladiPorog')} 
+        } 
+       
         rezultatSumm = rezultatSumm + uprag.vibor[i].rezult
     }
    // console.log(n)
@@ -685,7 +719,7 @@ const setRezultatSumm = function () {
         (rezultatSumm < estimation[3]) ? 'отлично (3 уровень)' :
         (rezultatSumm < estimation[4]) ? 'отлично (2 уровень' :
         (rezultatSumm < estimation[5]) ? 'отлично (1 уровень)' : 'отлично (высший уровень)' 
-    if (thresholdLevel) {rezultatEstimation = 'неудовлетворительно'}
+    if (thresholdLevel) {rezultatEstimation = 'неудовлетворительно <br> (пороговый минимум)'}
     navigationRezult.innerHTML = (rezultatSumm === 0) ? '' : rezultatSumm
     navigationEstimation.innerHTML = (rezultatSumm === 0) ? '' : rezultatEstimation
 }
