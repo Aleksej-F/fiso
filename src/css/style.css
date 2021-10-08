@@ -171,7 +171,7 @@ h1 {
 
 .button:hover {
   cursor: pointer;
-  background: #685fec;
+  background: #2e93c4;
 }
 
 #selected {
@@ -554,7 +554,11 @@ h1 {
     height: 92%;
   }
   .ramka {
-    font-size: 20px;
+    font-size: 18px;
+  }
+  .ramka select {
+    height: 25px;
+    font-size: 15px;
   }
   .ramka1 {
     /*поле вывода оценки результата */
@@ -573,6 +577,11 @@ h1 {
   .ramka5 {
     /*основные поля добавка для 2 страницы */
     padding: 5px 0 8px 5%;
+  }
+  .block_bal {
+    height: 150px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .cont_button {
     display: -ms-grid;

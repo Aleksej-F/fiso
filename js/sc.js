@@ -651,9 +651,12 @@ function blockBballiMove(e) {
     console.log('движение мышью')
     if (n.downRpizn) {
         console.log(n.xdown - e.offsetY)
-        if ((n.xdown - e.offsetY)>0) {
-            setSchetBall(1)
-        } else { setSchetBall(-1)}
+        if (((n.xdown - e.offsetY) % 3) === 0 ) {    
+            if ((n.xdown - e.offsetY)>0 ) {
+                setSchetBall(1)
+            } else { setSchetBall(-1)}
+            n.xdown = e.offsetY
+        }
     }
 }
 //вычисление массива для отрисовки блока установки результата
