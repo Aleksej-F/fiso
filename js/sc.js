@@ -603,6 +603,7 @@ const setBlockBalli = function() {
     const blockw =`
         <div class="block_balli">
             <div  class="block_balli_col" >
+                <div class="block_balli_col_titl"> Результат </div>
                 <div class="block_balli_col_but" onclick="setSchetBall(-1)"><div>&#9650</div>  </div>
                     <div  class="block_balli_col_blok" >
                         <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
@@ -612,6 +613,7 @@ const setBlockBalli = function() {
                 <div class="block_balli_col_but but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
             </div>
             <div  class="block_balli_col" >
+                <div class="block_balli_col_titl"> Баллы </div>
                 <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <div>&#9650</div> </div>           
                     <div  class="block_balli_col_blok" >
                         <div class="block_balli_col_text" date="3"> ${balli[0][1]} </div>
@@ -627,11 +629,11 @@ const setBlockBalli = function() {
     const blockBballi = document.querySelectorAll('.block_balli_col_blok')
     blockBballi.forEach(element => {
         element.addEventListener("mousedown", blockBballiDown);
-        element.addEventListener("touchstart", blockBballiDown);
+        element.addEventListener("touchstart", blockBballiDowntouch);
         element.addEventListener("mouseup", blockBballiUp);
-        element.addEventListener("touchend", blockBballiUp);
+        element.addEventListener("touchend", blockBballiUptouch);
         element.addEventListener("mousemove", blockBballiMove);
-        element.addEventListener("touchmove", blockBballiMove);
+        element.addEventListener("touchmove", blockBballiMovetouch);
     })
     
     //addEventListener("click", handler);
@@ -659,6 +661,32 @@ function blockBballiMove(e) {
         }
     }
 }
+function blockBballiDowntouch(e) {
+    console.log('коснулся пальцем')
+    n.downRpizn = true
+    e.preventDefault();
+    n.xdown=e.targetTouches[0].clientY
+    console.log(n.xdown)
+}
+function blockBballiUptouch() {
+    console.log('отпустил палец')
+    n.downRpizn = false
+}
+function blockBballiMovetouch(e) {
+    console.log('движение пальцем')
+    e.preventDefault();
+    const y = e.targetTouches[0].clientY
+    if (n.downRpizn) {
+        console.log(n.xdown - y)
+        if (((n.xdown - y) % 3) === 0 ) {    
+            if ((n.xdown - y)>0 ) {
+                setSchetBall(1)
+            } else { setSchetBall(-1)}
+            n.xdown = y
+        }
+    }
+}
+
 //вычисление массива для отрисовки блока установки результата
 const calsBalli = function(a) {
     const r = []
