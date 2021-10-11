@@ -384,6 +384,7 @@ h1{
     width: 100%;
     text-align: center;
     margin-bottom: 4px;
+    
 }
 .block_balli_col_but{
     height: 25px;
@@ -410,7 +411,7 @@ h1{
 }
 .block_balli_col_text{
     padding: 6px;
-    width: 60px;
+    width: 77px;
     text-align: center;
     &_osn{
         background-color: #558ef8;
@@ -449,9 +450,9 @@ h1{
         padding: 5px 0 8px 5%;
     }
     .block_bal {
-        height: 175px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        height: 166px;
+        padding-top: 6px;
+        padding-bottom: 20px;
     }
     .cont_button{
         display:grid;
@@ -497,5 +498,6 @@ h1{
     .headerH h1 {
         font-size: 5vw;
     }
+   
 
 }

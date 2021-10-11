@@ -538,7 +538,7 @@ h1 {
 
 .block_balli_col_text {
   padding: 6px;
-  width: 60px;
+  width: 77px;
   text-align: center;
 }
 
@@ -585,9 +585,9 @@ h1 {
     padding: 5px 0 8px 5%;
   }
   .block_bal {
-    height: 175px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    height: 166px;
+    padding-top: 6px;
+    padding-bottom: 20px;
   }
   .cont_button {
     display: -ms-grid;
