@@ -628,12 +628,12 @@ const setBlockBalli = function() {
     // добавляю обработчик по нажатию мыши 
     const blockBballi = document.querySelectorAll('.block_balli_col_blok')
     blockBballi.forEach(element => {
-        element.addEventListener("mousedown", blockBballiDown);
-        element.addEventListener("touchstart", blockBballiDowntouch);
-        element.addEventListener("mouseup", blockBballiUp);
-        element.addEventListener("touchend", blockBballiUptouch);
-        element.addEventListener("mousemove", blockBballiMove);
-        element.addEventListener("touchmove", blockBballiMovetouch);
+       // element.addEventListener("mousedown", blockBballiDown);
+        element.addEventListener("touchstart", blockBballiDowntouch, false);
+     //   element.addEventListener("mouseup", blockBballiUp);
+     //   element.addEventListener("touchend", blockBballiUptouch);
+     //   element.addEventListener("mousemove", blockBballiMove);
+        element.addEventListener("touchmove", blockBballiMovetouch, false);
     })
     
     //addEventListener("click", handler);
@@ -651,20 +651,21 @@ function blockBballiUp() {
 }
 function blockBballiMove(e) {
     console.log('движение мышью')
-    if (n.downRpizn) {
+   // if (n.downRpizn) {
         console.log(n.xdown - e.offsetY)
-        if (((n.xdown - e.offsetY) % 3) === 0 ) {    
+        if (Math.abs(n.xdown - e.offsetY)  > 1 ) {    
             if ((n.xdown - e.offsetY)>0 ) {
                 setSchetBall(1)
             } else { setSchetBall(-1)}
             n.xdown = e.offsetY
         }
-    }
+   // }
 }
 function blockBballiDowntouch(e) {
+    e.preventDefault();
     console.log('коснулся пальцем')
     n.downRpizn = true
-    e.preventDefault();
+    
     n.xdown=e.targetTouches[0].clientY
     console.log(n.xdown)
 }
@@ -678,7 +679,7 @@ function blockBballiMovetouch(e) {
     const y = e.targetTouches[0].clientY
     if (n.downRpizn) {
         console.log(n.xdown - y)
-        if (((n.xdown - y) % 3) === 0 ) {    
+        if (Math.abs(n.xdown - y) >1)  {    
             if ((n.xdown - y)>0 ) {
                 setSchetBall(1)
             } else { setSchetBall(-1)}
@@ -690,14 +691,18 @@ function blockBballiMovetouch(e) {
 //вычисление массива для отрисовки блока установки результата
 const calsBalli = function(a) {
     const r = []
+    
+
     let schetR = ((a-1)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : a-1
+    console.log(schetR)
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
              upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
-    
+    console.log(a)
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][a][0],
                 upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][a][1]])
 
-    schetR = ((a+1)>upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1) ? 0:  a+1  
+    schetR = ((a+1)>upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 0:  a+1  
+    console.log(schetR)
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
         upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
     
@@ -709,8 +714,8 @@ const calsBalli = function(a) {
 const setSchetBall = function(a) {
     //изменяем состояние счетчика вкладки
     uprag.vibor[uprag.vkladka].schetchik = 
-        (uprag.vibor[uprag.vkladka].schetchik + a > upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1) ? 0 :
-         ( (uprag.vibor[uprag.vkladka].schetchik + a < 0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][0].length-1 : 
+        (uprag.vibor[uprag.vkladka].schetchik + a > upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 0 :
+         ( (uprag.vibor[uprag.vkladka].schetchik + a < 0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : 
          (uprag.vibor[uprag.vkladka].schetchik + a))
     // пересчитываем массив для отрисовки и обновляем блок выбора результатов
     let balli = calsBalli(uprag.vibor[uprag.vkladka].schetchik) 
