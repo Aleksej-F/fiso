@@ -20,9 +20,10 @@ h1{
     height: 90vh;
     max-width: 500px;
     margin: 0 auto auto auto;
-    background-image: url(../../surs/29227_html_4c0fe915.jpg);
+    /*background-image: url(../../surs/29227_html_4c0fe915.jpg);
     background-repeat:no-repeat;
-    background-size:cover ;
+    background-size:cover ;*/
+    background-color: #afdff4d4;
 }
 .header{
     position: relative;
@@ -58,6 +59,7 @@ h1{
     height: 36px;
     width: 95%;
     font-size:16px;
+    margin-top: 5px;
 }
 .ramka_hedar{
     display: flex;
@@ -110,6 +112,26 @@ h1{
     height: 20px;        
     background:#72c7ec;
 }
+.ramka5_title{
+    width: 94%;
+    display: flex;
+    justify-content: space-between;
+    &_help{
+        background-color: #e3eef3;
+        padding: 0 5px;
+        border-radius: 5px;
+        border: 1px inset #262829;
+        font-size: 15px;
+        &:hover{
+            background-color: #879ba5;
+        }
+        
+    }
+}
+.ramka5_title_help.vizible{
+            display: none;
+        }
+
 .button {
     border-radius: 10px;
     border: 3px inset #609cc6;
@@ -319,7 +341,7 @@ h1{
 
 }
 .blok_vkladok_rezult_schet{
-    font-size: 20px;
+    font-size: 18px;
 }
 .info_window_wrap{
     max-width: 500px;
@@ -367,9 +389,9 @@ h1{
 
 }
 .block_bal{
-    height: 150px;
-    padding-top: 20px;
-    padding-bottom: 20px ;
+    height: 182px;
+    padding-top: 7px;
+    
 }
 .block_balli{
     margin: 0 auto 0 auto;
@@ -407,14 +429,40 @@ h1{
 }
 .block_balli_col_blok{
     background-color: #45acdc;
-
+    position: relative;
+    width: 89px;
+    height: 93px;
+    overflow:hidden;
 }
 .block_balli_col_text{
+    z-index: 1;
+    position: absolute;
     padding: 6px;
     width: 77px;
     text-align: center;
+    
     &_osn{
+        z-index: 0;
+        position: absolute;
+        top: 32px;
+        height: 31px;
+        width: 89px;
         background-color: #558ef8;
+    }
+    &:nth-child(1){
+        top: -31px;
+    }
+    &:nth-child(2){
+        top: 0px;
+    }
+    &:nth-child(3){
+        top: 32px;
+    }
+    &:nth-child(4){
+        top: 63px;
+    }
+    &:nth-child(5){
+        top: 94px;
     }
 }
 .slick {
@@ -427,7 +475,7 @@ h1{
         height: 92%;
     }
     .ramka { 
-        font-size: 18px; 
+        font-size: 15px; 
         
     }
     .ramka select { 
@@ -498,6 +546,8 @@ h1{
     .headerH h1 {
         font-size: 5vw;
     }
-   
+    .blok_vkladok {
+        min-height: 70px;
+    }
 
 }

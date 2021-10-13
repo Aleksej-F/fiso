@@ -190,10 +190,9 @@ const navigationRezult = document.getElementById('navigation_rezult')
 const navigationUprag = document.getElementById('navigation_uprag')
 const navigationEstimation = document.getElementById('navigation_estimation')
 const blokBal = document.querySelector('.block_bal')
+const headerHTitle = document.getElementById("headerHTitle");
+
 let burgActive = false
-
-
-
 
 //клик по меню
 const burg =  function(event) {
@@ -224,11 +223,13 @@ const windHidervNastr = function() {
     burgCloze()
     windowi[0].classList.remove('hiden')
     windowi[1].classList.add('hiden')
+    headerHTitle.innerHTML="Настройка"
 }
 
 //клик в меню по выбор упражнений
 const windHiderv = function() {
     burgCloze()
+   
     console.log(windowi[1].classList.contains('hiden'))
     if (!windowi[1].classList.contains('hiden')) return
   
@@ -253,12 +254,25 @@ const windHiderv = function() {
         return
     }
     
+
+    /*
+        n.pol= 'men'
+        n.ves= 3
+        n.vozrast= 5
+        n.kategor= 2
+        n.kolUprash= 3
+       */
+    
+    
+
     windowi[0].classList.add('hiden')
     windowi[1].classList.remove('hiden')
+    headerHTitle.innerHTML="Расчет баллов"
     console.log('Вперед')
     
     n.kolUprash = (n.kolUprash === 0) ? 3 : n.kolUprash
-   
+    //если активная вкладка больше количества упражнений вкладка = 0
+    if (uprag.vkladka > n.kolUprash) {uprag.vkladka = 0}
     windHider()
     
     console.log(uprag.vibor)
@@ -273,8 +287,6 @@ const windHider = function() {
     navigationEstimation.innerHTML = ''
     blokBal.innerHTML = '' 
     
-    //uprag.vibor = Array.from({length:n.kolUprash}).map(()=>danVkladka()) 
-   
     for (let i = 0; i < n.kolUprash; i++) {
         let m = (i===uprag.vkladka) ? "vkladi acti" : "vkladi"
         
@@ -284,16 +296,17 @@ const windHider = function() {
             </div>
         `;
         blokVkladok.insertAdjacentHTML("beforeend", opti);
+        //отрисовка заголовка вкладки
         createVkladiHeader(i)
     }
+
     blokVkladok.addEventListener("click", creatClickVkladki)
        
     setClickVkladki()
-     
 }
 
 // окно сообщений
-  const infoWindow = function(text) {
+const infoWindow = function(text) {
           const blockw =`
             <div class="info_window_wrap">
                 <div  class="info_window" >
@@ -303,12 +316,11 @@ const windHider = function() {
             </div>
         `
         wrap.insertAdjacentHTML("beforeend", blockw);
-  }
+}
 // удаление окна сообщений
-  const clozeInfoWindow = function() {
-          document.querySelector('.info_window_wrap').remove()
-  }
-
+const clozeInfoWindow = function() {
+    document.querySelector('.info_window_wrap').remove()
+}
 
 // выбрать пол
 pol.onchange = function() {
@@ -346,17 +358,17 @@ pol.onchange = function() {
     }
     
     
-};
+}
 // выбрать вес
 ves.onchange = function() {
     n.ves = +ves.value;
-};
+}
 ves.onclick = function() {
     if (n.pol === 0) {
         infoWindow('Выберите пол!')
     } 
 }
-// выбрать возрастную группу       //vozrast
+// выбрать возрастную группу 
 vozrast.onchange = function() {
     n.vozrast = +vozrast.value;
     n.kategor = 0
@@ -370,7 +382,7 @@ vozrast.onchange = function() {
     createSelect(kategor, rr)
     
     if (n.vozrast === 0) {navigation.innerHTML=''}
-};
+}
 vozrast.onclick = function() {
     if (n.pol === 0) {
         infoWindow('Выберите пол!')
@@ -392,7 +404,7 @@ kategor.onchange = function() {
     createSelect(uprash, rr)
 
 
-};
+}
 // выбрать количество упражнений
 uprash.onclick = function() {
     if (n.kategor === 0) {
@@ -417,7 +429,7 @@ uprash.onchange = function() {
     const butt =  document.querySelector('.button');
     const navigStr =  document.querySelector('.navig_str');
     setTimeout(() => navigStr.classList.toggle("navig_str_0"), 50);
-    // butt.addEventListener(click, windHider);
+    
 }
 //страница упражнений
 //blokVkladok
@@ -430,6 +442,7 @@ function creatClickVkladki(e) {
     uprag.vkladka =  +(e.target.attributes.date.value)
     console.log('вкладка- ',uprag.vkladka,'  выбор вида упр  -',	uprag.vibor[uprag.vkladka])
     vkladi[uprag.vkladka].classList.toggle("acti")
+    // отрисовка вкладки
     setClickVkladki()
 
 }
@@ -495,6 +508,7 @@ kategorUprashSelect.onchange = function() {
     uprashViborSelect.innerHTML=''
     blokBal.innerHTML=''
     calcParamNull()
+    addHelppToggle()
 };
 //выбор вида упражнения
 vidUprashSelect.onclick = function() {
@@ -511,6 +525,7 @@ vidUprashSelect.onchange = function() {
     createVkladiHeader(uprag.vkladka)
     //обсчет результата
     calcParamNull()
+    addHelppToggle()
 }
 //отрисовка заголовка вкладки
 const createVkladiHeader = function(vkladka) {
@@ -519,11 +534,19 @@ const createVkladiHeader = function(vkladka) {
     const r1 = (uprag.vibor[vkladka].kategor > 0 ? uprag.kategor[1][uprag.vibor[vkladka].kategor] : '')
     const r2 = ((uprag.vibor[uprag.vkladka].vid < 0) || (uprag.vibor[vkladka].kategor < 0)) ? '' :
         uprag.vid[uprag.vibor[vkladka].kategor][uprag.vibor[vkladka].vid]
+    let r3=''
+        if (document.body.clientWidth < 400) {
+        r3 = (n.kolUprash === 3) ? 'style="font-size:4vw"' : (n.kolUprash === 4) ? 'style="font-size:3.5vw"':
+         (n.kolUprash === 2) ? 'style="font-size:4vw"': 'style="font-size:2.5vw"'
+    } 
+        
     vkladi[vkladka].innerHTML=`
         <div date= ${vkladka}>${r1} </div>
-        <div class="vkladi_vidupr" date= ${vkladka}>${r2} </div>
+        <div class="vkladi_vidupr" ${r3}   date= ${vkladka}>${r2} </div>
     `
 }
+
+console.dir(document.body.clientWidth)
 // клик по выбор упражнения
 uprashViborSelect.onclick = function() {
     if (uprag.vibor[uprag.vkladka].vid === -1) {
@@ -536,20 +559,54 @@ uprashViborSelect.onclick = function() {
 uprashViborSelect.onchange = function() {
     console.dir(uprashViborSelect.value)
     //uprag.vibor[uprag.vkladka].uprag = uprashViborSelect
+    if (uprashViborSelect.value === '0') {
+        blokBal.innerHTML = ""
+        uprag.vibor[uprag.vkladka].rezult = 0
+        uprag.vibor[uprag.vkladka].upragM = 0
+        setRezultatSumm()
+        addHelppToggle()
+        return
+    }
+    
+    
+
     const rrr = +uprag.uprag[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid][+uprashViborSelect.value].substr(2,2)
     console.log(upragBalli[rrr])
     uprag.vibor[uprag.vkladka].uprag = rrr
     uprag.vibor[uprag.vkladka].upragM = uprashViborSelect.value
     console.log('вкладка- ',uprag.vkladka,'  выбор упраж  -',	uprag.vibor[uprag.vkladka])
-    
+    //определение номера массива для отображения результа и баллов
     calsUpragNumArray(rrr)
     
     console.log(  uprag.vibor[uprag.vkladka].upragNumArray );
     setBlockBalli() //создание блока установки результата
+    addHelppToggle()
 }
 
+//спрятать показать help
+const addHelppToggle = function() {
+    const help = document.querySelector('.ramka5_title_help')
+   /*/
+    if ((uprag.vibor[uprag.vkladka].upragM > 0) ) {
+        help.classList.remove('vizible')
+        
+    } else {
+       help.classList.add('vizible')
+        
+    }*/
+        
+    
+    
+    
+     
+}
+
+//определение номера массива для отображения результа и баллов
 const calsUpragNumArray = function(rrr) {
-    uprag.vibor[uprag.vkladka].schetchik = Math.round(upragBalli[rrr][0].length/2)
+    if (uprag.vibor[uprag.vkladka].schetchik === 0) {
+        uprag.vibor[uprag.vkladka].schetchik = Math.round(upragBalli[rrr][0].length/2)
+    }
+    
     uprag.vibor[uprag.vkladka].upragNumArray = 0
     switch (rrr) {
         case 10:
@@ -616,6 +673,8 @@ const calcParamNull = function() {
     console.log('вкладка- ',uprag.vkladka,'  выбор вида упр  -',	uprag.vibor[uprag.vkladka])
     setRezultatSumm()
 }
+
+
 //создание блока установки результата
 const setBlockBalli = function() {
     blokBal.innerHTML = ""
@@ -626,22 +685,28 @@ const setBlockBalli = function() {
         <div class="block_balli">
             <div  class="block_balli_col" >
                 <div class="block_balli_col_titl"> Результат </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(-1)"><div>&#9650</div>  </div>
-                    <div  class="block_balli_col_blok" >
-                        <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
-                        <div class="block_balli_col_text block_balli_col_text_osn " date="1"> ${balli[1][0]} </div>
-                        <div class="block_balli_col_text" date="2"> ${balli[2][0]} </div>
-                    </div>
+                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <div>&#9650</div> </div>
+                <div  class="block_balli_col_blok" >
+                    <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
+                    <div class="block_balli_col_text " date="1"> ${balli[1][0]} </div>
+                    <div class="block_balli_col_text" date="2"> ${balli[2][0]} </div>
+                    <div class="block_balli_col_text" date="3"> ${balli[3][0]} </div>
+                    <div class="block_balli_col_text" date="4"> ${balli[4][0]} </div>
+                    <div class="block_balli_col_text_osn " > </div>
+                </div>
                 <div class="block_balli_col_but but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
             </div>
             <div  class="block_balli_col" >
                 <div class="block_balli_col_titl"> Баллы </div>
                 <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <div>&#9650</div> </div>           
-                    <div  class="block_balli_col_blok" >
-                        <div class="block_balli_col_text" date="3"> ${balli[0][1]} </div>
-                        <div class="block_balli_col_text block_balli_col_text_osn" date="4"> ${balli[1][1]} </div>
-                        <div class="block_balli_col_text" date="5"> ${balli[2][1]} </div>
-                    </div>
+                <div  class="block_balli_col_blok" >
+                    <div class="block_balli_col_text" date="5"> ${balli[0][1]} </div>
+                    <div class="block_balli_col_text " date="6"> ${balli[1][1]} </div>
+                    <div class="block_balli_col_text" date="7"> ${balli[2][1]} </div>
+                    <div class="block_balli_col_text " date="8"> ${balli[3][1]} </div>
+                    <div class="block_balli_col_text" date="9"> ${balli[4][1]} </div>
+                    <div class="block_balli_col_text_osn " > </div>
+                </div>
                 <div class="block_balli_col_but but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
             </div>
         </div>
@@ -653,7 +718,7 @@ const setBlockBalli = function() {
        // element.addEventListener("mousedown", blockBballiDown);
         element.addEventListener("touchstart", blockBballiDowntouch, false);
      //   element.addEventListener("mouseup", blockBballiUp);
-     //   element.addEventListener("touchend", blockBballiUptouch);
+        element.addEventListener("touchend", blockBballiUptouch);
      //   element.addEventListener("mousemove", blockBballiMove);
         element.addEventListener("touchmove", blockBballiMovetouch, false);
     })
@@ -683,41 +748,148 @@ function blockBballiMove(e) {
         }
    // }
 }
-
+let textY = 0
+let textY0 = 0
 function blockBballiDowntouch(e) {
     e.preventDefault();
     console.log('коснулся пальцем')
     n.downRpizn = true
     n.xdown=e.targetTouches[0].clientY
+    textY = 0
+    textY0 = 0
     console.log(n.xdown)
 }
 
 function blockBballiUptouch() {
     console.log('отпустил палец')
     n.downRpizn = false
+    if (Math.abs(textY - textY0)<30) {
+        if ((textY - textY0)>0 ) {
+            
+            setCoordinatesBallScroll(31)
+            setTimeout(() => {
+                setSchetBall(-1)
+                textY = 0
+                
+                setCoordinatesBall(textY)
+            }, 1000)
+            
+        } else { 
+            
+            setCoordinatesBallScroll(-31)
+                
+            setTimeout(() => {
+                setSchetBall(1)
+                textY = 0
+                
+                setCoordinatesBall(textY)
+            }, 1000)
+        }
+        
+        textY0 = 0
+       
+        
+    }
 }
 
 function blockBballiMovetouch(e) {
     console.log('движение пальцем')
     e.preventDefault();
     const y = e.targetTouches[0].clientY
+    /*
+    //логика изменения значений результатов и баллов
     if (n.downRpizn) {
         console.log(n.xdown - y)
-        if (Math.abs(n.xdown - y) >2  )  {    
+        if (Math.abs(n.xdown - y) >1  )  {    
             if ((n.xdown - y)>0 ) {
                 setSchetBall(1)
-            } else { setSchetBall(-1)}
+            } else { 
+                setSchetBall(-1)
+            }
             n.xdown = y
         }
     }
+    */
+    if (n.downRpizn) {
+        console.log(n.xdown - y)
+        if (Math.abs(n.xdown - y) >1  )  {    
+           
+            if ((n.xdown - y)>0 ) {
+                textY -= Math.abs(n.xdown - y)
+                
+            } else { 
+                textY += Math.abs(n.xdown - y)
+                
+            }
+            setCoordinatesBall(textY)
+            
+            n.xdown = y
+        }
+        
+        console.log(textY - textY0)
+        if (Math.abs(textY - textY0)>30) {
+            if ((textY - textY0)>0 ) {
+                setSchetBall(-1)
+            } else { 
+                setSchetBall(1)
+            }
+            textY = 0
+            textY0 = 0
+            setCoordinatesBall(textY)
+        }
+
+    }
+
 }
+const setCoordinatesBallScroll = function (textY) {
+    const ballText = document.querySelectorAll('.block_balli_col_text')       
+    let n = -31
+    for (let i = 0; i < 5; i++)  {
+        ballText[i].style.transition = 'top 1s ease 0s'
+        ballText[i + 5].style.transition = 'top 1s ease 0s'
+        ballText[i].style.top = (textY + n) +'px'
+        ballText[i + 5].style.top = (textY + n) +'px'
+        
+        n += 31
+    }
+    
+}  
+
+const setCoordinatesBall = function (textY) {
+    const ballText = document.querySelectorAll('.block_balli_col_text')       
+    let n = -31
+    for (let i = 0; i < 5; i++)  {
+        ballText[i].style.top = (textY + n) +'px'
+        ballText[i + 5].style.top = (textY + n) +'px'
+        ballText[i].style.transition = ''
+        ballText[i + 5].style.transition = ''
+        n += 31
+    }
+    
+}   
+            
+/*
+ const ballText = document.querySelectorAll('.block_balli_col_text')
+
+ textY += (n.xdown - y)
+                ballText[0].style.top = textY+'px' 
+ textY -= (n.xdown - y)
+                ballText[0].style.top = textY+'px'
+                 if ((n.xdown - y)>2 ) { n.xdown = y}
+                */
+
+
 
 //вычисление массива для отрисовки блока установки результата
 const calsBalli = function(a) {
     const r = []
     
-
-    let schetR = ((a-1)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : a-1
+    let schetR = ((a-2)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : a-2
+    console.log(schetR)
+    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
+             upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
+    
+    schetR = ((a-1)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : a-1
     console.log(schetR)
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
              upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
@@ -730,7 +902,12 @@ const calsBalli = function(a) {
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
         upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
     
-    uprag.vibor[uprag.vkladka].rezult = +r[1][1]
+    schetR = ((a+2)>upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 0:  a+2  
+    console.log(schetR)
+        r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
+            upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
+    
+    uprag.vibor[uprag.vkladka].rezult = +r[2][1]
     
     return r
 }
@@ -744,9 +921,9 @@ const setSchetBall = function(a) {
     // пересчитываем массив для отрисовки и обновляем блок выбора результатов
     let balli = calsBalli(uprag.vibor[uprag.vkladka].schetchik) 
     const ballText = document.querySelectorAll('.block_balli_col_text')
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
         ballText[i].innerHTML = balli[i][0]
-        ballText[i+3].innerHTML = balli[i][1]
+        ballText[i+5].innerHTML = balli[i][1]
     }
     setRezultatSumm()
 }
