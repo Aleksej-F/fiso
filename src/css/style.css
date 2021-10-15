@@ -613,6 +613,10 @@ h1 {
           justify-content: center;
 }
 
+.vkladi_vidupr {
+  font-size: 15px;
+}
+
 @media (max-width: 768px) {
   .blok {
     height: 92%;
