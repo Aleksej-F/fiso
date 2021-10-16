@@ -191,6 +191,7 @@ const navigationUprag = document.getElementById('navigation_uprag')
 const navigationEstimation = document.getElementById('navigation_estimation')
 const blokBal = document.querySelector('.block_bal')
 const headerHTitle = document.getElementById("headerHTitle");
+const navigationHistogram = document.getElementById('navigation_histogram')
 
 let burgActive = false
 
@@ -669,7 +670,7 @@ const setBlockBalli = function() {
         <div class="block_balli">
             <div  class="block_balli_col" >
                 <div class="block_balli_col_titl"> Результат </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <div>&#9650</div> </div>
+                <div class="block_balli_col_but" onclick="setAnimateBall(-31, 1)"> <div>&#9650</div> </div>
                 <div  class="block_balli_col_blok" >
                     <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
                     <div class="block_balli_col_text " date="1"> ${balli[1][0]} </div>
@@ -678,11 +679,11 @@ const setBlockBalli = function() {
                     <div class="block_balli_col_text" date="4"> ${balli[4][0]} </div>
                     <div class="block_balli_col_text_osn " > </div>
                 </div>
-                <div class="block_balli_col_but but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
+                <div class="block_balli_col_but but" onclick="setAnimateBall(31, -1)"> <div>&#9660</div> </div>
             </div>
             <div  class="block_balli_col" >
                 <div class="block_balli_col_titl"> Баллы </div>
-                <div class="block_balli_col_but" onclick="setSchetBall(-1)"> <div>&#9650</div> </div>           
+                <div class="block_balli_col_but" onclick="setAnimateBall(-31, 1)"> <div>&#9650</div> </div>           
                 <div  class="block_balli_col_blok" >
                     <div class="block_balli_col_text" date="5"> ${balli[0][1]} </div>
                     <div class="block_balli_col_text " date="6"> ${balli[1][1]} </div>
@@ -691,7 +692,7 @@ const setBlockBalli = function() {
                     <div class="block_balli_col_text" date="9"> ${balli[4][1]} </div>
                     <div class="block_balli_col_text_osn " > </div>
                 </div>
-                <div class="block_balli_col_but but" onclick="setSchetBall(1)"> <div>&#9660</div> </div>
+                <div class="block_balli_col_but but" onclick="setAnimateBall(31, -1)"> <div>&#9660</div> </div>
             </div>
         </div>
     `
@@ -749,24 +750,20 @@ function blockBballiUptouch() {
     console.log('отпустил палец')
     n.downRpizn = false
     if (Math.abs(textY - textY0)<30) {
-        if ((textY - textY0)>0 ) {
-            setCoordinatesBallScroll(31)
-            setTimeout(() => {
-                setSchetBall(-1)
-                textY = 0
-                setCoordinatesBall(textY)
-            }, 1000)
+       
+       if ((textY - textY0)>0 ) {
+            setAnimateBall(31, -1)
+            
         } else { 
-            setCoordinatesBallScroll(-31)
-            setTimeout(() => {
-                setSchetBall(1)
-                textY = 0
-                setCoordinatesBall(textY)
-            }, 1000)
+            setAnimateBall(-31, 1)
+
         }
+        textY = 0 
         textY0 = 0
     }
 }
+
+
 // движение пальцем
 function blockBballiMovetouch(e) {
     console.log('движение пальцем')
@@ -810,6 +807,14 @@ function blockBballiMovetouch(e) {
         }
     }
 
+}
+//установака и отмена анимации блока баллов
+const setAnimateBall = function (xx, yy) {
+    setCoordinatesBallScroll(xx)
+    setTimeout(() => {
+        setSchetBall(yy)
+        setCoordinatesBall(0)
+    }, 1000)
 }
 // анимация прокрутки блока баллов
 const setCoordinatesBallScroll = function (textY) {
@@ -912,6 +917,9 @@ const setRezultatSumm = function () {
         (rezultatSumm < estimation[4]) ? 'отлично (2 уровень)' :
         (rezultatSumm < estimation[5]) ? 'отлично (1 уровень)' : 'отлично (высший уровень)' 
     if (thresholdLevel) {rezultatEstimation = 'неудовлетворительно <br> (пороговый минимум)'}
+    
+    navigationHistogram.innerHTML = ''
     navigationRezult.innerHTML = (rezultatSumm === 0) ? '' : rezultatSumm
     navigationEstimation.innerHTML = (rezultatSumm === 0) ? '' : rezultatEstimation
+    
 }
