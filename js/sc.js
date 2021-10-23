@@ -972,7 +972,7 @@ const setRezultatSumm = function () {
     
 }
 
-//      //  сохраняем состояние настроек и вкладок
+//сохраняем состояние настроек и вкладок
 const saveCondition = function () {
     // сериализуем  объект
     const serialObj = JSON.stringify({

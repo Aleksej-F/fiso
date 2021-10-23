@@ -334,7 +334,7 @@ h1{
     height: 150px;
     background-color: rgb(119, 192, 224);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
 
@@ -404,11 +404,12 @@ h1{
 .block_histogram{
     height: 30px;
     width: 95%;
-    margin: 10px auto 10px auto;
+    margin: 10px auto 30px auto;
    // padding: 10px 0 10px 0;
     background-color: #bd7a2e;
+    position: relative;
     &_blocks{
-        height: 15px;
+        height: 33px;
     }
     &_signature{
         display: flex;
@@ -417,6 +418,18 @@ h1{
             font-size: 10px;
         }
     }
+    &_markup{
+        margin-top: -45px;
+        display: flex;
+        width: 100%;
+        &_blocks{
+            height: 30px;
+            flex: 1;
+            border: 1px solid #5b5656; /* Параметры границы */
+            margin-left: -1px;
+        }
+    }
+
 }
 .block_balli_col{
     margin: 0 15px
@@ -514,7 +527,7 @@ h1{
         height: 35px;         
     }
     .ramka4 { /*меж строчки */
-        height: 5px;         
+        height: 4px;         
     }
     .ramka5 { /*основные поля добавка для 2 страницы */
         padding: 5px 0 8px 5%;

@@ -442,9 +442,9 @@ h1 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -530,12 +530,13 @@ h1 {
 .block_histogram {
   height: 30px;
   width: 95%;
-  margin: 10px auto 10px auto;
+  margin: 10px auto 30px auto;
   background-color: #bd7a2e;
+  position: relative;
 }
 
 .block_histogram_blocks {
-  height: 15px;
+  height: 33px;
 }
 
 .block_histogram_signature {
@@ -549,6 +550,24 @@ h1 {
 
 .block_histogram_signature_block {
   font-size: 10px;
+}
+
+.block_histogram_markup {
+  margin-top: -45px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.block_histogram_markup_blocks {
+  height: 30px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border: 1px solid #5b5656;
+  /* Параметры границы */
+  margin-left: -1px;
 }
 
 .block_balli_col {
@@ -665,7 +684,7 @@ h1 {
   }
   .ramka4 {
     /*меж строчки */
-    height: 5px;
+    height: 4px;
   }
   .ramka5 {
     /*основные поля добавка для 2 страницы */
