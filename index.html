@@ -30,7 +30,7 @@
                             <div class="header_link_web_underline"></div>
                         </li>
                         <li>
-                            <p class="header_link_web" onclick="infoWindow('В разработке')">Сохранить</p>
+                            <p class="header_link_web" onclick="saveCondition()">Сохранить</p>
                             <div class="header_link_web_underline"></div>
                         </li>
                         <li>
@@ -46,7 +46,7 @@
                                 <p  class="header_link" onclick="windHidervNastr(event)">Настройки</p>
                             </li>
                             <li>
-                                <p class="header_link" onclick="infoWindow('В разработке')">Сохранить</p>
+                                <p class="header_link" onclick="saveCondition()">Сохранить</p>
                             </li>
                             <li>
                                 <p class="header_link" onclick="windHiderv(event)">Выбор упражнений</p>
@@ -129,10 +129,23 @@
                             <SELECT name="uprashViborSelect" id="uprashViborSelect" >
                             </SELECT>
                         </FORM>
+                        
                         <div class="block_bal"></div>
                     </div>
                     <div class="blok_vkladok_rezult" >  
-                        <div class="blok_vkladok_rezult_schet" id="navigation_histogram">  </div>
+                        <div class="blok_vkladok_rezult_schet" id="navigation_histogram"> 
+                            <div class="block_histogram">
+                                <div class="block_histogram_blocks"></div>
+                                <div class="block_histogram_signature">
+                                    <div class="block_histogram_signature_block">0</div>
+                                    <div class="block_histogram_signature_block">0</div>
+                                    <div class="block_histogram_signature_block">0</div>
+                                    <div class="block_histogram_signature_block">0</div>
+                                    <div class="block_histogram_signature_block">0</div>
+                                    <div class="block_histogram_signature_block">120</div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="blok_vkladok_rezult_schet" id="navigation_rezult">  </div>
                         <div class="blok_vkladok_rezult_schet" id="navigation_estimation">  </div>
                     </div>

@@ -20,7 +20,6 @@ h1 {
 }
 
 .wrap {
-  height: 90vh;
   max-width: 500px;
   margin: 0 auto auto auto;
   /*background-image: url(../../surs/29227_html_4c0fe915.jpg);
@@ -457,6 +456,8 @@ h1 {
 
 .blok_vkladok_rezult_schet {
   font-size: 18px;
+  width: 80%;
+  text-align: center;
 }
 
 .info_window_wrap {
@@ -524,6 +525,30 @@ h1 {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.block_histogram {
+  height: 30px;
+  width: 95%;
+  margin: 10px auto 10px auto;
+  background-color: #bd7a2e;
+}
+
+.block_histogram_blocks {
+  height: 15px;
+}
+
+.block_histogram_signature {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.block_histogram_signature_block {
+  font-size: 10px;
 }
 
 .block_balli_col {
@@ -700,4 +725,3 @@ h1 {
     min-height: 70px;
   }
 }
-/*# sourceMappingURL=style.css.map */

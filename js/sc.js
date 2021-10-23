@@ -1,13 +1,15 @@
-const n = {
-    pol: 0,
+const n = (getConditions('n')=== true) ? {
+    pol: '0',
     ves: 0,
     vozrast: 0,
     kategor: 0,
     kolUprash: 0,
+    kolUprashValue: 0,
     xdown: 0,
     downRpizn: false
+} : getConditions('n')
 
-};
+console.log(n)
 
 const danVkladka = function() { 
     return {
@@ -24,8 +26,8 @@ const danVkladka = function() {
 }
 
 const uprag = {
-vkladka: 0,
-vibor:Array.from({length:5}).map(()=>danVkladka()),
+vkladka: (getConditions('activVkladka') === true) ? 0 : getConditions('activVkladka'),
+vibor: (getConditions('conditionTabs') === true) ? Array.from({length:5}).map(()=>danVkladka()) : getConditions('conditionTabs'),
 kategor:[
     ['',
     'Общая физическая подготовка',
@@ -227,6 +229,7 @@ const windHidervNastr = function() {
     headerHTitle.innerHTML="Настройка"
 }
 
+
 //клик в меню по выбор упражнений
 const windHiderv = function() {
     burgCloze()
@@ -234,7 +237,7 @@ const windHiderv = function() {
     console.log(windowi[1].classList.contains('hiden'))
     if (!windowi[1].classList.contains('hiden')) return
   
-    if ( n.pol === 0 ) {
+    if ( n.pol === '0' ) {
         infoWindow('Выберите пол!')
         return
     }
@@ -264,8 +267,6 @@ const windHiderv = function() {
         n.kolUprash= 3
        */
     
-    
-
     windowi[0].classList.add('hiden')
     windowi[1].classList.remove('hiden')
     headerHTitle.innerHTML="Расчет баллов"
@@ -323,6 +324,42 @@ const clozeInfoWindow = function() {
     document.querySelector('.info_window_wrap').remove()
 }
 
+//наполнение инпутов при старте приложения
+const createSettings = function () {
+    console.log(n)
+    if (n.pol === 'men') {
+        polSelect.selectedIndex = 1
+    } else if (n.pol === 'woman') {
+        polSelect.selectedIndex = 2
+    }
+    
+    console.dir(polSelect)
+    //формируем инпут вес и возрастная группа
+    createPol()
+    vesSelect.selectedIndex = n.ves
+    vozrastSelect.selectedIndex = n.vozrast
+    
+    // формируем импут выбора категории
+    if (n.pol !=='0') {
+        console.log( n.pol)
+        let rr = kategores[n.pol][n.vozrast].kategoris
+        createSelect(kategor, rr)
+        kategorSelect.selectedIndex = n.kategor
+    }
+    
+    
+    // формируем импут выбора количества упражнений
+    if (n.pol !=='0') {
+    rr = kategores[n.pol][n.vozrast].kolUpr[n.kategor]
+    createSelect(uprash, rr)
+    uprashSelect.selectedIndex = n.kolUprashValue
+    }
+
+    createSettingsButton()
+}
+
+createSettings()
+
 // выбрать пол
 pol.onchange = function() {
     n.pol = pol.value
@@ -330,15 +367,19 @@ pol.onchange = function() {
     n.vozrast = 0
     n.kategor = 0
     n.kolUprash = 0
-    
+    n.kolUprashValue = 0
+
     ves.innerHTML=''
     vozrast.innerHTML=''
     kategor.innerHTML=''
     uprash.innerHTML=''
     navigation.innerHTML=''
-    
-    if (n.pol==='0') {
-        n.pol = 0
+    createPol()
+}
+function createPol () {
+        
+    if (n.pol==='0' || n.pol===0) {
+        //n.pol = 0
         return }
     // формируем импут выбора весовой категории
     if (n.pol==="men") {
@@ -348,6 +389,7 @@ pol.onchange = function() {
     }
 
     // формируем импут выбора возрастной группы
+    console.log(kategores)
     for ( i = 0; i < kategores[n.pol].length; i++) {
         let opti = `
             <OPTION VALUE="${i}">
@@ -357,14 +399,19 @@ pol.onchange = function() {
 
         vozrast.insertAdjacentHTML("beforeend", opti)
     }
-    
-    
 }
 // выбрать вес
 ves.onchange = function() {
     n.ves = +ves.value;
 }
+//клик по выберите пол
 ves.onclick = function() {
+    if (n.pol === 0) {
+        infoWindow('Выберите пол!')
+    } 
+}
+//клик по возрастной группе
+vozrast.onclick = function() {
     if (n.pol === 0) {
         infoWindow('Выберите пол!')
     } 
@@ -381,14 +428,9 @@ vozrast.onchange = function() {
     const rr = kategores[n.pol][n.vozrast].kategoris
     // формируем импут выбора категории
     createSelect(kategor, rr)
-    
     if (n.vozrast === 0) {navigation.innerHTML=''}
 }
-vozrast.onclick = function() {
-    if (n.pol === 0) {
-        infoWindow('Выберите пол!')
-    } 
-}
+
 //клик по категории
 kategor.onclick = function() {
     // если возраст не выбран
@@ -403,23 +445,29 @@ kategor.onchange = function() {
     const rr = kategores[n.pol][n.vozrast].kolUpr[n.kategor]
     // формируем импут выбора количества упражнений
     createSelect(uprash, rr)
-
-
 }
-// выбрать количество упражнений
+// клик по  количество упражнений
 uprash.onclick = function() {
     if (n.kategor === 0) {
         infoWindow('Выберите категорию!')
     } 
 }
+// выбрать количество упражнений
 uprash.onchange = function() {
     console.log (uprash.value)
+    n.kolUprashValue = uprash.value
     n.kolUprash = +kategores[n.pol][n.vozrast].kolUpr[n.kategor][uprash.value];
     console.log (kategores[n.pol][n.vozrast].kolUpr[n.kategor][uprash.value])
     if (n.kolUprash === 0) {
         navigation.innerHTML=''
         return
     }
+    
+    createSettingsButton()
+    
+}
+// создание кнопки Перейти к выбору упражнений
+function createSettingsButton() {
     if (navigation.innerHTML!=='') {return}
     navigation.innerHTML=`
        <div class="navig_str">  
@@ -430,8 +478,8 @@ uprash.onchange = function() {
     const butt =  document.querySelector('.button');
     const navigStr =  document.querySelector('.navig_str');
     setTimeout(() => navigStr.classList.toggle("navig_str_0"), 50);
-    
 }
+
 //страница упражнений
 //blokVkladok
 //клик по  вкладкам
@@ -475,7 +523,7 @@ function setClickVkladki() {
     }
 }
 //функция для наполнения  input
-const createSelect = function(elem, obiect) {
+function createSelect(elem, obiect) {
     elem.innerHTML=''
 
     for (let i = 0; i < obiect.length; i++) {
@@ -668,32 +716,33 @@ const setBlockBalli = function() {
     let balli = calsBalli(uprag.vibor[uprag.vkladka].schetchik) 
     const blockw =`
         <div class="block_balli">
-            <div  class="block_balli_col" >
-                <div class="block_balli_col_titl"> Результат </div>
-                <div class="block_balli_col_but" onclick="setAnimateBall(-31, 1)"> <div>&#9650</div> </div>
-                <div  class="block_balli_col_blok" >
-                    <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
-                    <div class="block_balli_col_text " date="1"> ${balli[1][0]} </div>
-                    <div class="block_balli_col_text" date="2"> ${balli[2][0]} </div>
-                    <div class="block_balli_col_text" date="3"> ${balli[3][0]} </div>
-                    <div class="block_balli_col_text" date="4"> ${balli[4][0]} </div>
-                    <div class="block_balli_col_text_osn " > </div>
+                <div  class="block_balli_col">
+                    <div class="block_balli_col_titl"> Результат </div>
+                    <div class="block_balli_col_but" onclick="setAnimateBall(-31, 1)"> <div>&#9650</div> </div>
+                    <div  class="block_balli_col_blok" >
+                        <div class="block_balli_col_text" date="0"> ${balli[0][0]} </div>
+                        <div class="block_balli_col_text " date="1"> ${balli[1][0]} </div>
+                        <div class="block_balli_col_text" date="2"> ${balli[2][0]} </div>
+                        <div class="block_balli_col_text" date="3"> ${balli[3][0]} </div>
+                        <div class="block_balli_col_text" date="4"> ${balli[4][0]} </div>
+                        <div class="block_balli_col_text_osn " > </div>
+                    </div>
+                    <div class="block_balli_col_but but" onclick="setAnimateBall(31, -1)"> <div>&#9660</div> </div>
                 </div>
-                <div class="block_balli_col_but but" onclick="setAnimateBall(31, -1)"> <div>&#9660</div> </div>
-            </div>
-            <div  class="block_balli_col" >
-                <div class="block_balli_col_titl"> Баллы </div>
-                <div class="block_balli_col_but" onclick="setAnimateBall(-31, 1)"> <div>&#9650</div> </div>           
-                <div  class="block_balli_col_blok" >
-                    <div class="block_balli_col_text" date="5"> ${balli[0][1]} </div>
-                    <div class="block_balli_col_text " date="6"> ${balli[1][1]} </div>
-                    <div class="block_balli_col_text" date="7"> ${balli[2][1]} </div>
-                    <div class="block_balli_col_text " date="8"> ${balli[3][1]} </div>
-                    <div class="block_balli_col_text" date="9"> ${balli[4][1]} </div>
-                    <div class="block_balli_col_text_osn " > </div>
+                <div  class="block_balli_col" >
+                    <div class="block_balli_col_titl"> Баллы </div>
+                    <div class="block_balli_col_but" onclick="setAnimateBall(-31, 1)"> <div>&#9650</div> </div>           
+                    <div  class="block_balli_col_blok" >
+                        <div class="block_balli_col_text" date="5"> ${balli[0][1]} </div>
+                        <div class="block_balli_col_text " date="6"> ${balli[1][1]} </div>
+                        <div class="block_balli_col_text" date="7"> ${balli[2][1]} </div>
+                        <div class="block_balli_col_text " date="8"> ${balli[3][1]} </div>
+                        <div class="block_balli_col_text" date="9"> ${balli[4][1]} </div>
+                        <div class="block_balli_col_text_osn " > </div>
+                    </div>
+                    <div class="block_balli_col_but but" onclick="setAnimateBall(31, -1)"> <div>&#9660</div> </div>
                 </div>
-                <div class="block_balli_col_but but" onclick="setAnimateBall(31, -1)"> <div>&#9660</div> </div>
-            </div>
+            
         </div>
     `
     blokBal.insertAdjacentHTML("beforeend", blockw);
@@ -842,7 +891,6 @@ const setCoordinatesBall = function (textY) {
     }
     
 }   
- 
 
 // вычисление массива для отрисовки блока выбора результата
 const calsBalli = function(a) {
@@ -918,8 +966,60 @@ const setRezultatSumm = function () {
         (rezultatSumm < estimation[5]) ? 'отлично (1 уровень)' : 'отлично (высший уровень)' 
     if (thresholdLevel) {rezultatEstimation = 'неудовлетворительно <br> (пороговый минимум)'}
     
-    navigationHistogram.innerHTML = ''
+    //navigationHistogram.innerHTML = ''
     navigationRezult.innerHTML = (rezultatSumm === 0) ? '' : rezultatSumm
     navigationEstimation.innerHTML = (rezultatSumm === 0) ? '' : rezultatEstimation
     
+}
+
+//      //  сохраняем состояние настроек и вкладок
+const saveCondition = function () {
+    // сериализуем  объект
+    const serialObj = JSON.stringify({
+            n, // настройки
+            activVkladka: uprag.vkladka,
+            conditionTabs: uprag.vibor
+        });         
+                
+    try {	
+        // запишем его в хранилище по ключу "condition"
+        localStorage.setItem('condition', serialObj); 
+    }catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            infoWindow('Превышен лимит памяти!')
+            
+        }
+    }/*
+    try {	
+        // запишем его в хранилище по ключу "results"
+        localStorage.setItem(results, serialObj); 
+    }catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            infoWindow('Превышен лимит памяти!')
+        }
+    }*/
+}
+//получить состояние настроек и вкладок
+function getConditions(param) {
+    //спарсим в объект значение по ключу 'condition' 
+    const conditions = JSON.parse(localStorage.getItem('condition')); 
+    console.log(conditions)
+    if (conditions === null) {
+        return true
+    } else console.log('conditions')
+    
+    switch (param) {
+        case  'n':
+            console.log(conditions.n)
+            return conditions.n
+            break;
+        case 'activVkladka':
+            return conditions.activVkladka
+            break;
+        case 'conditionTabs':
+            return conditions.conditionTabs
+            break;
+        default:
+            break;
+     }
 }
