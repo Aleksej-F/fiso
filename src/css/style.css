@@ -20,6 +20,7 @@ h1 {
 }
 
 .wrap {
+  height: 100vh;
   max-width: 500px;
   margin: 0 auto auto auto;
   /*background-image: url(../../surs/29227_html_4c0fe915.jpg);
@@ -93,6 +94,7 @@ h1 {
 }
 
 .navig {
+  height: 400px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -437,7 +439,7 @@ h1 {
 }
 
 .blok_vkladok_rezult {
-  height: 150px;
+  height: 135px;
   background-color: #77c0e0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -455,7 +457,7 @@ h1 {
 }
 
 .blok_vkladok_rezult_schet {
-  font-size: 18px;
+  font-size: 15px;
   width: 80%;
   text-align: center;
 }
@@ -530,16 +532,46 @@ h1 {
 .block_histogram {
   height: 30px;
   width: 95%;
-  margin: 10px auto 30px auto;
-  background-color: #bd7a2e;
+  margin: 10px auto 25px auto;
+  background-color: #529be0;
   position: relative;
 }
 
 .block_histogram_blocks {
-  height: 33px;
+  height: 30px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.block_histogram_blocks_block {
+  height: 100%;
+}
+
+.block_histogram_blocks_block:nth-child(1) {
+  background-color: #3d92e2;
+}
+
+.block_histogram_blocks_block:nth-child(2) {
+  background-color: #1969d8;
+}
+
+.block_histogram_blocks_block:nth-child(3) {
+  background-color: #193cd8;
+}
+
+.block_histogram_blocks_block:nth-child(4) {
+  background-color: #3319d8;
+}
+
+.block_histogram_blocks_block:nth-child(5) {
+  background-color: #0e17bb;
 }
 
 .block_histogram_signature {
+  width: 100%;
+  margin-top: 3px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -553,7 +585,8 @@ h1 {
 }
 
 .block_histogram_markup {
-  margin-top: -45px;
+  height: 29px;
+  margin-top: -30px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -561,7 +594,7 @@ h1 {
 }
 
 .block_histogram_markup_blocks {
-  height: 30px;
+  height: 100%;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;

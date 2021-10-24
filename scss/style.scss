@@ -17,7 +17,7 @@ h1{
     text-align:center ;
 }
 .wrap{
-   // height: 90vh;
+    height: 100vh;
     max-width: 500px;
     margin: 0 auto auto auto;
     /*background-image: url(../../surs/29227_html_4c0fe915.jpg);
@@ -73,6 +73,7 @@ h1{
     }
 }
 .navig{
+    height: 400px;
     display: flex;
     justify-content:center;
     &_str{
@@ -331,7 +332,7 @@ h1{
     background-color: #f52626fb;
 }
 .blok_vkladok_rezult{
-    height: 150px;
+    height: 135px;
     background-color: rgb(119, 192, 224);
     display: flex;
     justify-content: flex-start;
@@ -340,7 +341,7 @@ h1{
 
 }
 .blok_vkladok_rezult_schet{
-    font-size: 18px;
+    font-size: 15px;
     width: 80%;
     text-align: center;
 }
@@ -404,26 +405,50 @@ h1{
 .block_histogram{
     height: 30px;
     width: 95%;
-    margin: 10px auto 30px auto;
+    margin: 10px auto 25px auto;
    // padding: 10px 0 10px 0;
-    background-color: #bd7a2e;
+    background-color: #529be0;
     position: relative;
     &_blocks{
-        height: 33px;
+        height: 30px;
+        width: 100%;
+        display: flex;
+        &_block{
+            height: 100%;
+            &:nth-child(1){
+                background-color: #3d92e2;
+            }
+            &:nth-child(2){
+                background-color: #1969d8;
+            }
+            &:nth-child(3){
+                background-color: #193cd8;
+            }
+            &:nth-child(4){
+                background-color: #3319d8;;
+            }
+            &:nth-child(5){
+                background-color: #0e17bb;
+            }
+        }
     }
     &_signature{
+        width: 100%;
+        margin-top: 3px;
         display: flex;
         justify-content: space-between;
         &_block{
+            
             font-size: 10px;
         }
     }
     &_markup{
-        margin-top: -45px;
+        height: 29px;
+        margin-top: -30px;
         display: flex;
         width: 100%;
         &_blocks{
-            height: 30px;
+            height: 100%;
             flex: 1;
             border: 1px solid #5b5656; /* Параметры границы */
             margin-left: -1px;
