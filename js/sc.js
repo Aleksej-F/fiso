@@ -1,13 +1,15 @@
-const n = (getConditions('n')=== true) ? {
+const nSave = getConditions('n')
+
+const n = (nSave === true) ? {
     pol: '0',
     ves: 0,
     vozrast: 0,
     kategor: 0,
     kolUprash: 0,
     kolUprashValue: 0,
-    xdown: 0,
+    ydown: 0,
     downRpizn: false
-} : getConditions('n')
+} : nSave
 
 console.log(n)
 
@@ -290,8 +292,11 @@ const windHider = function() {
     }
 
     blokVkladok.addEventListener("click", creatClickVkladki)
-       
+     // создание гистограммы
+    createBlockHistogram()   
+    
     setClickVkladki()
+   
 }
 
 // окно сообщений
@@ -320,7 +325,7 @@ const createSettings = function () {
         polSelect.selectedIndex = 2
     }
     
-    console.dir(polSelect)
+    
     //формируем инпут: вес и возрастная группа
     createPol()
     vesSelect.selectedIndex = n.ves
@@ -336,9 +341,9 @@ const createSettings = function () {
         
     // формируем импут выбора количества упражнений
     if (n.pol !=='0') {
-    rr = kategores[n.pol][n.vozrast].kolUpr[n.kategor]
-    createSelect(uprash, rr)
-    uprashSelect.selectedIndex = n.kolUprashValue
+        rr = kategores[n.pol][n.vozrast].kolUpr[n.kategor]
+        createSelect(uprash, rr)
+        uprashSelect.selectedIndex = n.kolUprashValue
     }
      
     navigation.innerHTML=''
@@ -367,7 +372,7 @@ pol.onchange = function() {
     navigation.innerHTML=''
     createPol()
 }
-// наполнение выбора пола
+// наполнение выбора вес и возрастная группа
 function createPol () {
     if (n.pol==='0' || n.pol===0) {
         //n.pol = 0
@@ -393,8 +398,7 @@ function createPol () {
 ves.onchange = function() {
     n.ves = +ves.value;
 }
-
-//клик по выберите пол
+//клик по выберите вес
 ves.onclick = function() {
     if (n.pol === 0) {
         infoWindow('Выберите пол!')
@@ -597,7 +601,7 @@ const createVkladiHeader = function(vkladka) {
         <div class="vkladi_vidupr" ${r3}   date= ${vkladka}>${r2} </div>
     `
 }
-
+// определить размер шрифта в зависимости от размера окна
 function calcFontSize() {
     let r3 = ''
     if (document.body.clientWidth < 400) {
@@ -770,8 +774,7 @@ const setBlockBalli = function() {
      //   element.addEventListener("mousemove", blockBballiMove);
         element.addEventListener("touchmove", blockBballiMovetouch, false);
     })
-    // создание гистограммы
-    createBlockHistogram()
+    
 
     //addEventListener("click", handler);
     setRezultatSumm()
@@ -783,7 +786,8 @@ function createBlockHistogram() {
     //отдрисовка подписи
     const histogramSignature = document.querySelector('.block_histogram_signature')
     histogramSignature.innerHTML=''
-    let blockw = `<div class="block_histogram_signature_block">0</div>`
+    let blockw = `<div class="block_histogram_signature_block"
+        style="width:30%; text-align:left">0</div>`
     histogramSignature.insertAdjacentHTML("beforeend", blockw);
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
     
@@ -791,14 +795,21 @@ function createBlockHistogram() {
         blockw = `<div class="block_histogram_signature_block">${estimation[i]}</div>`
         histogramSignature.insertAdjacentHTML("beforeend", blockw);
     }
-    blockw = `<div class="block_histogram_signature_block">${n.kolUprash*100}</div>`
+    blockw = `<div class="block_histogram_signature_block"
+        style="width:30%; text-align:right"
+        >${n.kolUprash*100}</div>`
     histogramSignature.insertAdjacentHTML("beforeend", blockw);
     //отрисовка гистограммы
     const histogramBlocks = document.querySelector('.block_histogram_blocks')
+    const histogramMarkup = document.querySelector('.block_histogram_markup')
     histogramBlocks.innerHTML=''
+    histogramMarkup.innerHTML=''
+        
     for (i = 0; i < n.kolUprash; i++) {
         blockw = `<div class="block_histogram_blocks_block"></div>`
         histogramBlocks.insertAdjacentHTML("beforeend", blockw);
+        blockw = `<div class="block_histogram_markup_blocks"></div>`
+        histogramMarkup.insertAdjacentHTML("beforeend", blockw);
     }
 
 }
@@ -832,10 +843,10 @@ function blockBballiDowntouch(e) {
     e.preventDefault();
     console.log('коснулся пальцем')
     n.downRpizn = true
-    n.xdown=e.targetTouches[0].clientY
+    n.ydown=e.targetTouches[0].clientY
     textY = 0
     textY0 = 0
-    console.log(n.xdown)
+    console.log(n.ydown)
 }
 // отпустил палец
 function blockBballiUptouch() {
@@ -874,15 +885,15 @@ function blockBballiMovetouch(e) {
     }
     */
     if (n.downRpizn) {
-        console.log(n.xdown - y)
-        if (Math.abs(n.xdown - y) > 1) {    
-            if ((n.xdown - y) > 0) {
-                textY -= Math.abs(n.xdown - y)
+        console.log(n.ydown - y)
+        if (Math.abs(n.ydown - y) > 1) {    
+            if ((n.ydown - y) > 0) {
+                textY -= Math.abs(n.ydown - y)
             } else { 
-                textY += Math.abs(n.xdown - y)
+                textY += Math.abs(n.ydown - y)
             }
             setCoordinatesBall(textY)
-            n.xdown = y
+            n.ydown = y
         }
         console.log(textY - textY0)
         if (Math.abs(textY - textY0) > 30) {
@@ -898,6 +909,7 @@ function blockBballiMovetouch(e) {
     }
 
 }
+
 //установака и отмена анимации блока баллов
 const setAnimateBall = function (xx, yy) {
     setCoordinatesBallScroll(xx)
@@ -906,6 +918,7 @@ const setAnimateBall = function (xx, yy) {
         setCoordinatesBall(0)
     }, 1000)
 }
+
 // анимация прокрутки блока баллов
 const setCoordinatesBallScroll = function (textY) {
     const ballText = document.querySelectorAll('.block_balli_col_text')       
@@ -983,19 +996,18 @@ const setSchetBall = function(a) {
 
 // вычисление и вывод суммарного результа по всем упражнениям
 const setRezultatSumm = function () {
-    
+    //доля ширины блока от общей ширины контейнера в зависимости от колличества упражнений
     const w = (100 / n.kolUprash)
+    //элементы гистограммы
     const histogramBlocksBlock = document.querySelectorAll('.block_histogram_blocks_block')
-    
-    
     
     const vkladi =  document.querySelectorAll('.vkladi');
     let rezultatSumm = 0
     let thresholdLevel = false
+    //цикл на колличество упражнений
     for (let i = 0; i < n.kolUprash  ; i++) {
         histogramBlocksBlock[i].style.width = `${w * uprag.vibor[i].rezult / 100 }%`
-        console.log(kategores[n.pol][n.vozrast].porog)
-        console.log(uprag.vibor[i].rezult)
+        
         if ((uprag.vibor[i].rezult < kategores[n.pol][n.vozrast].porog)&(uprag.vibor[i].rezult>0)) {
             thresholdLevel = true
             vkladi[i].classList.add("vkladiPorog") 
@@ -1004,15 +1016,18 @@ const setRezultatSumm = function () {
         } 
         rezultatSumm = rezultatSumm + uprag.vibor[i].rezult
     }
-   
+    //
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
-   
+    console.log(estimation[5])
     let rezultatEstimation = (rezultatSumm < estimation[0]) ? 'неудовлетворительно' :
         (rezultatSumm < estimation[1]) ? 'удовлетворительно' :
         (rezultatSumm < estimation[2]) ? 'хорошо' :
         (rezultatSumm < estimation[3]) ? 'отлично (3 уровень)' :
         (rezultatSumm < estimation[4]) ? 'отлично (2 уровень)' :
         (rezultatSumm < estimation[5]) ? 'отлично (1 уровень)' : 'отлично (высший уровень)' 
+    if ((rezultatSumm > estimation[2]-1) & (estimation.length===3)) {
+        rezultatEstimation = 'отлично'
+    }
     if (thresholdLevel) {rezultatEstimation = 'неудовлетворительно <br> (пороговый минимум)'}
     
     //navigationHistogram.innerHTML = ''
