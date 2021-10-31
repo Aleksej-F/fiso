@@ -913,10 +913,10 @@ function blockBballiMovetouch(e) {
 //установака и отмена анимации блока баллов
 const setAnimateBall = function (xx, yy) {
     setCoordinatesBallScroll(xx)
-    setTimeout(() => {
+    //setTimeout(() => {
         setSchetBall(yy)
         setCoordinatesBall(0)
-    }, 1000)
+   // }, 1000)
 }
 
 // анимация прокрутки блока баллов
