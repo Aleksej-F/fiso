@@ -956,7 +956,7 @@ const calsBalli = function(a) {
     console.log(a)
     const r = []
     
-    let schetR = ((a-2)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-2 : a-2
+    let schetR = ((a-2)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length + (a-2) : a-2
    
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
              upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
