@@ -280,7 +280,7 @@ const windHider = function() {
     blokBal.innerHTML = '' 
     
     for (let i = 0; i < n.kolUprash; i++) {
-        let m = (i===uprag.vkladka) ? "vkladi acti" : "vkladi"
+        let m = (i === uprag.vkladka) ? "vkladi acti" : "vkladi"
         let opti = `
             <div date= ${i} class="${m}">
             
@@ -627,6 +627,7 @@ uprashViborSelect.onchange = function() {
         blokBal.innerHTML = ""
         uprag.vibor[uprag.vkladka].rezult = 0
         uprag.vibor[uprag.vkladka].upragM = 0
+        
         setRezultatSumm()
         addHelppToggle()
         return
@@ -635,6 +636,7 @@ uprashViborSelect.onchange = function() {
     const rrr = +uprag.uprag[uprag.vibor[uprag.vkladka].kategor][uprag.vibor[uprag.vkladka].vid][+uprashViborSelect.value].substr(2,2)
     uprag.vibor[uprag.vkladka].uprag = rrr
     uprag.vibor[uprag.vkladka].upragM = uprashViborSelect.value
+    uprag.vibor[uprag.vkladka].schetchik = Math.round(upragBalli[rrr][0].length/2)
     //определение номера массива для отображения результа и баллов
     calsUpragNumArray(rrr)
     //создание блока установки результата
@@ -659,9 +661,10 @@ const addHelppToggle = function() {
 
 //определение номера массива для отображения результа и баллов
 const calsUpragNumArray = function(rrr) {
+    /*
     if (uprag.vibor[uprag.vkladka].schetchik === 0) {
         uprag.vibor[uprag.vkladka].schetchik = Math.round(upragBalli[rrr][0].length/2)
-    }
+    }*/
     
     uprag.vibor[uprag.vkladka].upragNumArray = 0
     switch (rrr) {
@@ -783,7 +786,7 @@ const setBlockBalli = function() {
 //создание блока гистограммы
 function createBlockHistogram() {
     console.log('гистограмма')
-    //отдрисовка подписи
+    //отрисовка шкалы
     const histogramSignature = document.querySelector('.block_histogram_signature')
     histogramSignature.innerHTML=''
     let blockw = `<div class="block_histogram_signature_block"
@@ -841,27 +844,29 @@ let textY0 = 0
 //коснулся пальцем
 function blockBballiDowntouch(e) {
     e.preventDefault();
-    console.log('коснулся пальцем')
+  //  console.log('коснулся пальцем')
     n.downRpizn = true
     n.ydown=e.targetTouches[0].clientY
     textY = 0
     textY0 = 0
-    console.log(n.ydown)
+   // console.log(n.ydown)
 }
 // отпустил палец
 function blockBballiUptouch() {
-    console.log('отпустил палец')
+   // console.log('отпустил палец')
     n.downRpizn = false
-    if (Math.abs(textY - textY0)<30) {
+    if (Math.abs(textY - textY0) < 30) {
        
-        if ((textY - textY0)>0 ) {
+        if ((textY - textY0) > 0 ) {
             setAnimateBall(31, -1)
-        } else { 
+        } else if ((textY - textY0)< 0 ){ 
             setAnimateBall(-31, 1)
         }
-        textY = 0 
-        textY0 = 0
+        
     }
+    /*
+    textY = 0 
+    textY0 = 0*/
 }
 
 
@@ -885,7 +890,7 @@ function blockBballiMovetouch(e) {
     }
     */
     if (n.downRpizn) {
-        console.log(n.ydown - y)
+       // console.log(n.ydown - y)
         if (Math.abs(n.ydown - y) > 1) {    
             if ((n.ydown - y) > 0) {
                 textY -= Math.abs(n.ydown - y)
@@ -895,7 +900,7 @@ function blockBballiMovetouch(e) {
             setCoordinatesBall(textY)
             n.ydown = y
         }
-        console.log(textY - textY0)
+        //console.log(textY - textY0)
         if (Math.abs(textY - textY0) > 30) {
             if ((textY - textY0) > 0) {
                 setSchetBall(-1)
@@ -913,10 +918,10 @@ function blockBballiMovetouch(e) {
 //установака и отмена анимации блока баллов
 const setAnimateBall = function (xx, yy) {
     setCoordinatesBallScroll(xx)
-    //setTimeout(() => {
+    setTimeout(() => {
         setSchetBall(yy)
         setCoordinatesBall(0)
-   // }, 1000)
+    }, 500)
 }
 
 // анимация прокрутки блока баллов
@@ -948,9 +953,10 @@ const setCoordinatesBall = function (textY) {
 
 // вычисление массива для отрисовки блока выбора результата
 const calsBalli = function(a) {
+    console.log(a)
     const r = []
     
-    let schetR = ((a-2)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : a-2
+    let schetR = ((a-2)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-2 : a-2
    
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
              upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
@@ -967,7 +973,7 @@ const calsBalli = function(a) {
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
         upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
     
-    schetR = ((a+2)>upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 0 :  a+2  
+    schetR = ((a+2)>upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 1 :  a+2  
     r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
             upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
     
@@ -978,6 +984,8 @@ const calsBalli = function(a) {
 
 // пересчет счетчика значения баллов для вкладки при прокрутке или клике по кнопкам вверх или вниз
 const setSchetBall = function(a) {
+   
+    console.log(uprag.vibor[uprag.vkladka].schetchik)
     // изменяем состояние счетчика вкладки
     uprag.vibor[uprag.vkladka].schetchik = 
         (uprag.vibor[uprag.vkladka].schetchik + a > upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 0 :
@@ -986,6 +994,7 @@ const setSchetBall = function(a) {
     
     // пересчитываем массив для отрисовки и обновляем блок выбора результатов
     let balli = calsBalli(uprag.vibor[uprag.vkladka].schetchik) 
+    console.log(balli)
     const ballText = document.querySelectorAll('.block_balli_col_text')
     for (let i = 0; i < 5; i++) {
         ballText[i].innerHTML = balli[i][0]
@@ -1018,7 +1027,7 @@ const setRezultatSumm = function () {
     }
     //
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
-    console.log(estimation[5])
+    //console.log(estimation[5])
     let rezultatEstimation = (rezultatSumm < estimation[0]) ? 'неудовлетворительно' :
         (rezultatSumm < estimation[1]) ? 'удовлетворительно' :
         (rezultatSumm < estimation[2]) ? 'хорошо' :
