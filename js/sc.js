@@ -29,7 +29,8 @@ const danVkladka = function() {
 
 const uprag = {
 vkladka: (getConditions('activVkladka') === true) ? 0 : getConditions('activVkladka'),
-vibor: (getConditions('conditionTabs') === true) ? Array.from({length:5}).map(()=>danVkladka()) : getConditions('conditionTabs'),
+vibor: (getConditions('conditionTabs') === true) ? Array.from({length:5}).map(()=>danVkladka()) : 
+    getConditions('conditionTabs'),
 kategor:[
     ['',
     'Общая физическая подготовка',
@@ -177,27 +178,35 @@ uprag:
 ]
 
 }
-
-const kategor = document.getElementById("kategorSelect");
-const pol = document.getElementById("polSelect");
-const ves = document.getElementById("vesSelect");
-const vozrast = document.getElementById("vozrastSelect");
-const uprash = document.getElementById("uprashSelect");
-const navigation = document.getElementById("navigation");
-const windowi =  document.querySelectorAll('.window');
-const blokVkladok =  document.querySelector('.blok_vkladok')
-const kategorUprashSelect = document.getElementById("kategorUprashSelect");
+//контейнер
 const wrap =  document.querySelector('.wrap')
+//заголовок
+const headerHTitle = document.getElementById("headerHTitle");
+//меню бургер
 const hBurger = document.querySelector('.header_burder')
 const mBurger = document.querySelector('.header_menu')
-const navigationRezult = document.getElementById('navigation_rezult')
-const navigationUprag = document.getElementById('navigation_uprag')
-const navigationEstimation = document.getElementById('navigation_estimation')
-const blokBal = document.querySelector('.block_bal')
-const headerHTitle = document.getElementById("headerHTitle");
-const navigationHistogram = document.getElementById('navigation_histogram')
-
 let burgActive = false
+//окна основных форм
+const windowi =  document.querySelectorAll('.window');
+
+//окно настроек
+    const pol = document.getElementById("polSelect");
+    const ves = document.getElementById("vesSelect");
+    const vozrast = document.getElementById("vozrastSelect");
+    const kategor = document.getElementById("kategorSelect");
+    const uprash = document.getElementById("uprashSelect");
+    //кнопка перехода к упражнениям
+    const navigation = document.getElementById("navigation");
+
+//окно расчета баллов
+const blokVkladok =  document.querySelector('.blok_vkladok')
+const navigationUprag = document.getElementById('navigation_uprag')
+    const kategorUprashSelect = document.getElementById("kategorUprashSelect");
+    const blokBal = document.querySelector('.block_bal')
+
+const navigationHistogram = document.getElementById('navigation_histogram')
+const navigationRezult = document.getElementById('navigation_rezult')
+const navigationEstimation = document.getElementById('navigation_estimation')
 
 //клик по меню
 const burg =  function(event) {
@@ -230,7 +239,6 @@ const windHidervNastr = function() {
     windowi[1].classList.add('hiden')
     headerHTitle.innerHTML="Настройка"
 }
-
 
 //клик в меню по выбор упражнений
 const windHiderv = function() {
@@ -266,7 +274,10 @@ const windHiderv = function() {
         
     n.kolUprash = (n.kolUprash === 0) ? 3 : n.kolUprash
     //если активная вкладка больше количества упражнений вкладка = 0
-    if (uprag.vkladka > n.kolUprash) {uprag.vkladka = 0}
+    
+    console.log(uprag.vkladka)
+    console.log(n.kolUprash)
+    if (uprag.vkladka + 1 > n.kolUprash) {uprag.vkladka = 0}
     // создание и отрисовка окна выбора упражнений
     windHider()
 }
@@ -358,6 +369,7 @@ createSettings()
 
 // выбрать пол
 pol.onchange = function() {
+    
     n.pol = pol.value
     n.ves = 0
     n.vozrast = 0
@@ -372,6 +384,19 @@ pol.onchange = function() {
     navigation.innerHTML=''
     createPol()
 }
+/*
+pol.onclick = function() {
+    const intProv = pol.querySelectorAll('OPTION')
+    console.dir(intProv)
+    if ( intProv.length > 2 ) {
+        intProv[0].remove()
+    }
+}*/
+
+
+
+
+
 // наполнение выбора вес и возрастная группа
 function createPol () {
     if (n.pol==='0' || n.pol===0) {
@@ -597,7 +622,7 @@ const createVkladiHeader = function(vkladka) {
     const r3 = calcFontSize()
             
     vkladi[vkladka].innerHTML=`
-        <div date= ${vkladka}>${r1} </div>
+        <div class="vkladi_vidfp"date= ${vkladka}>${r1} </div>
         <div class="vkladi_vidupr" ${r3}   date= ${vkladka}>${r2} </div>
     `
 }
@@ -770,11 +795,11 @@ const setBlockBalli = function() {
     // добавляю обработчик по нажатию мыши 
     const blockBballi = document.querySelectorAll('.block_balli_col_blok')
     blockBballi.forEach(element => {
-       // element.addEventListener("mousedown", blockBballiDown);
+        element.addEventListener("mousedown", blockBballiDown);
         element.addEventListener("touchstart", blockBballiDowntouch, false);
-     //   element.addEventListener("mouseup", blockBballiUp);
+        element.addEventListener("mouseup", blockBballiUp);
         element.addEventListener("touchend", blockBballiUptouch);
-     //   element.addEventListener("mousemove", blockBballiMove);
+        element.addEventListener("mousemove", blockBballiMove);
         element.addEventListener("touchmove", blockBballiMovetouch, false);
     })
     
@@ -789,17 +814,27 @@ function createBlockHistogram() {
     //отрисовка шкалы
     const histogramSignature = document.querySelector('.block_histogram_signature')
     histogramSignature.innerHTML=''
-    let blockw = `<div class="block_histogram_signature_block"
-        style="width:30%; text-align:left">0</div>`
-    histogramSignature.insertAdjacentHTML("beforeend", blockw);
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
+    let blokWidth = estimation[0] / n.kolUprash
+    console.log(blokWidth)
+    let blockw = `<div class="block_histogram_signature_block"
+        style="left: 0; text-align:left">0</div>`
+    histogramSignature.insertAdjacentHTML("beforeend", blockw);
     
+    let prizn = false
     for (i = 0; i < estimation.length; i++) {
-        blockw = `<div class="block_histogram_signature_block">${estimation[i]}</div>`
+        let blokWidth = estimation[i] / n.kolUprash
+        let ttop = prizn ? '10px' : 0
+        console.log(blokWidth)
+        blockw = `<div class="block_histogram_signature_block" 
+            style="left: ${blokWidth}%; top:${prizn ? '-67px' : 0}; margin-left: -10px; "
+            >${estimation[i]}</div>`
+        prizn = !prizn
         histogramSignature.insertAdjacentHTML("beforeend", blockw);
     }
+   
     blockw = `<div class="block_histogram_signature_block"
-        style="width:30%; text-align:right"
+        style="right:0 ; text-align:right"
         >${n.kolUprash*100}</div>`
     histogramSignature.insertAdjacentHTML("beforeend", blockw);
     //отрисовка гистограммы
@@ -829,7 +864,7 @@ function blockBballiUp() {
 }
 function blockBballiMove(e) {
     console.log('движение мышью')
-   // if (n.downRpizn) {
+    if (n.downRpizn) {
         console.log(n.xdown - e.offsetY)
         if (Math.abs(n.xdown - e.offsetY)  > 1 ) {    
             if ((n.xdown - e.offsetY)>0 ) {
@@ -837,8 +872,9 @@ function blockBballiMove(e) {
             } else { setSchetBall(-1)}
             n.xdown = e.offsetY
         }
-   // }
+    }
 }
+
 let textY = 0
 let textY0 = 0
 //коснулся пальцем
@@ -846,15 +882,17 @@ function blockBballiDowntouch(e) {
     e.preventDefault();
   //  console.log('коснулся пальцем')
     n.downRpizn = true
-    n.ydown=e.targetTouches[0].clientY
+    n.ydown = e.targetTouches[0].clientY
     textY = 0
     textY0 = 0
    // console.log(n.ydown)
 }
 // отпустил палец
-function blockBballiUptouch() {
-   // console.log('отпустил палец')
-    n.downRpizn = false
+function blockBballiUptouch(e) {
+    console.log('отпустил палец')
+  
+   console.log(n.ydown - n.yUp)
+   n.downRpizn = false
     if (Math.abs(textY - textY0) < 30) {
        
         if ((textY - textY0) > 0 ) {
@@ -875,23 +913,25 @@ function blockBballiMovetouch(e) {
     console.log('движение пальцем')
     e.preventDefault();
     const y = e.targetTouches[0].clientY
+    n.yUp = e.targetTouches[0].clientY
     /*
-    //логика изменения значений результатов и баллов
     if (n.downRpizn) {
-        console.log(n.xdown - y)
-        if (Math.abs(n.xdown - y) >1  )  {    
-            if ((n.xdown - y)>0 ) {
-                setSchetBall(1)
+        if (Math.abs(n.ydown - y) > 31) {    
+            if ((n.ydown - y) > 0) {
+                textY -= Math.abs(n.ydown - y)
             } else { 
-                setSchetBall(-1)
+                textY += Math.abs(n.ydown - y)
             }
-            n.xdown = y
+            setCoordinatesBall(textY)
+            n.ydown = y
         }
-    }
-    */
+        
+
+    }*/
+    
     if (n.downRpizn) {
        // console.log(n.ydown - y)
-        if (Math.abs(n.ydown - y) > 1) {    
+        if (Math.abs(n.ydown - y) > 0) {    
             if ((n.ydown - y) > 0) {
                 textY -= Math.abs(n.ydown - y)
             } else { 
@@ -921,7 +961,7 @@ const setAnimateBall = function (xx, yy) {
     setTimeout(() => {
         setSchetBall(yy)
         setCoordinatesBall(0)
-    }, 500)
+    }, 1000)
 }
 
 // анимация прокрутки блока баллов

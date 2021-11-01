@@ -37,9 +37,17 @@
                             <p class="header_link_web" onclick="windHiderv()">Упражнения</p>
                             <div class="header_link_web_underline"></div>
                         </li>
+                        <li>
+                            <p class="header_link_web" onclick="infoWindow('В разработке.')">Результаты</p>
+                            <div class="header_link_web_underline"></div>
+                        </li>
+                        <li>
+                            <p class="header_link_web" onclick="infoWindow('В разработке.')">О приложениии</p>
+                            <div class="header_link_web_underline"></div>
+                        </li>
                     </ul>
                 </nav>
-                <div>
+                <div class="header_menu_burger">
                     <nav class="header_menu">
                         <ul class="header_list">
                             <li>
@@ -50,6 +58,12 @@
                             </li>
                             <li>
                                 <p class="header_link" onclick="windHiderv(event)">Упражнения</p>
+                            </li>
+                            <li>
+                                <p class="header_link" onclick="infoWindow('В разработке.')">Результаты</p>
+                            </li>
+                            <li>
+                                <p class="header_link" onclick="infoWindow('В разработке.')">О приложениии</p>
                             </li>
                         </ul>
                     </nav>
@@ -123,7 +137,9 @@
                         </FORM>
                         <div class="ramka4">   </div> 
                         <FORM class="ramka ramka5"  >
-                            <div class="ramka5_title" >  <div>Упражнение: </div> <div class="ramka5_title_help vizible">? </div>
+                            <div class="ramka5_title" >  
+                                <div>Упражнение: </div> 
+                                <div class="ramka5_title_help vizible">? </div>
 
                             </div>
                             <SELECT name="uprashViborSelect" id="uprashViborSelect" >
