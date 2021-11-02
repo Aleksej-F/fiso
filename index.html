@@ -38,7 +38,7 @@
                             <div class="header_link_web_underline"></div>
                         </li>
                         <li>
-                            <p class="header_link_web" onclick="infoWindow('В разработке.')">Результаты</p>
+                            <p class="header_link_web" onclick="createFormResults()">Результаты</p>
                             <div class="header_link_web_underline"></div>
                         </li>
                         <li>
@@ -60,7 +60,7 @@
                                 <p class="header_link" onclick="windHiderv(event)">Упражнения</p>
                             </li>
                             <li>
-                                <p class="header_link" onclick="infoWindow('В разработке.')">Результаты</p>
+                                <p class="header_link" onclick="createFormResults()">Результаты</p>
                             </li>
                             <li>
                                 <p class="header_link" onclick="infoWindow('В разработке.')">О приложениии</p>
@@ -72,7 +72,8 @@
             </div> 
             
             <div class=blok>
-                <div class="window ">   
+                <div class="window_results" id="window_results"></div>
+                <div class="window">   
                     <div class="ramka3">   </div> 
                     <FORM class="ramka" id="pol" >
                         Пол:

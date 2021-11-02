@@ -8,7 +8,9 @@ const n = (nSave === true) ? {
     kolUprash: 0,
     kolUprashValue: 0,
     ydown: 0,
-    downRpizn: false
+    downRpizn: false,
+    rezultatEstimation: '',
+    rezultatSumm: 0
 } : nSave
 
 console.log(n)
@@ -188,6 +190,8 @@ const mBurger = document.querySelector('.header_menu')
 let burgActive = false
 //окна основных форм
 const windowi =  document.querySelectorAll('.window');
+// окно результатов
+const windowResults =  document.getElementById('window_results');
 
 //окно настроек
     const pol = document.getElementById("polSelect");
@@ -225,6 +229,7 @@ const burgCloze =  function() {
     hBurger.classList.remove('active')
     mBurger.classList.remove('active')
     burgActive = false
+    
 }
 
 //клик по экрану мимо меню бургера
@@ -235,6 +240,7 @@ const clicSection =  function(event) {
 //клик в меню по настройка
 const windHidervNastr = function() {
     burgCloze()
+    if (!(document.querySelector('.window_results_blok')===null)) {clozeFormResults()}
     windowi[0].classList.remove('hiden')
     windowi[1].classList.add('hiden')
     headerHTitle.innerHTML="Настройка"
@@ -243,6 +249,8 @@ const windHidervNastr = function() {
 //клик в меню по выбор упражнений
 const windHiderv = function() {
     burgCloze()
+    console.log(document.querySelector('.window_results_blok')===null)
+    if (!(document.querySelector('.window_results_blok')===null)) {clozeFormResults()}   
    
     console.log(windowi[1].classList.contains('hiden'))
     if (!windowi[1].classList.contains('hiden')) return
@@ -993,29 +1001,23 @@ const setCoordinatesBall = function (textY) {
 
 // вычисление массива для отрисовки блока выбора результата
 const calsBalli = function(a) {
-    console.log(a)
+    
     const r = []
-    
-    let schetR = ((a-2)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length + (a-2) : a-2
-   
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
-             upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
-    
-    schetR = ((a-1)<0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : a-1
-    
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
-             upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])
-    
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][a][0],
-                upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][a][1]])
-
-    schetR = ((a+1)>upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 0 :  a+1  
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
-        upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
-    
-    schetR = ((a+2)>upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 1 :  a+2  
-    r.push([upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][0],
-            upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray][schetR][1]])     
+    const masBalli = upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray]
+    // -2    
+    let schetR = (( a - 2 ) < 0) ? masBalli.length + (a - 2) : a - 2
+    r.push( [masBalli[schetR][0], masBalli[schetR][1]] )
+    // -1
+    schetR = (( a-1 ) < 0) ? masBalli.length-1 : a - 1
+    r.push( [masBalli[schetR][0], masBalli[schetR][1]] )
+    // 0
+    r.push( [masBalli[a][0], masBalli[a][1]] )
+    // 1
+    schetR = (( a + 1 ) > masBalli.length - 1) ? 0 : a + 1  
+    r.push( [masBalli[schetR][0], masBalli[schetR][1]] )     
+    // 2
+    schetR = (( a + 2 ) > (masBalli.length - 1)) ? (a + 2) - masBalli.length : a + 2  
+    r.push( [masBalli[schetR][0], masBalli[schetR][1]] )     
     
     uprag.vibor[uprag.vkladka].rezult = +r[2][1]
     
@@ -1082,13 +1084,15 @@ const setRezultatSumm = function () {
     //navigationHistogram.innerHTML = ''
     navigationRezult.innerHTML = (rezultatSumm === 0) ? '' : rezultatSumm
     navigationEstimation.innerHTML = (rezultatSumm === 0) ? '' : rezultatEstimation
-    
+    n.rezultatEstimation = rezultatEstimation
+    n.rezultatSumm = rezultatSumm
+
 }
 
 //сохраняем состояние настроек и вкладок
 const saveCondition = function () {
     // сериализуем  объект
-    const serialObj = JSON.stringify({
+    let serialObj = JSON.stringify({
             n, // настройки
             activVkladka: uprag.vkladka,
             conditionTabs: uprag.vibor
@@ -1102,15 +1106,37 @@ const saveCondition = function () {
             infoWindow('Превышен лимит памяти!')
             
         }
-    }/*
+    }
+    let results = JSON.parse(localStorage.getItem('results')); 
+    if (results === null) { results = {resul:[]} }  
+    
+    const saveResult = {
+        date: new Date(),
+        rezultatEstimation: n.rezultatEstimation,
+        rezultatSumm: n.rezultatSumm,
+        uprag: []
+    }
+    for (let i = 0; i < n.kolUprash; i++) {
+        saveResult.uprag.push({
+            kategor: uprag.vibor[i].kategor,
+            vid: uprag.vibor[i].vid,
+            uprag: uprag.vibor[i].uprag,
+            rezult: uprag.vibor[i].rezult,
+            ball: uprag.vibor[i].ball,
+        })
+    }
+    
+    results.resul.push(saveResult)
+    console.log()
+     serialObj = JSON.stringify(results)
     try {	
         // запишем его в хранилище по ключу "results"
-        localStorage.setItem(results, serialObj); 
+        localStorage.setItem('results', serialObj); 
     }catch (e) {
         if (e == QUOTA_EXCEEDED_ERR) {
             infoWindow('Превышен лимит памяти!')
         }
-    }*/
+    }
 }
 //получить состояние настроек и вкладок
 function getConditions(param) {
@@ -1135,4 +1161,57 @@ function getConditions(param) {
         default:
             break;
      }
+}
+
+//создание окна отображения результатов
+function createFormResults() {
+    
+    const blockw = `<div class="window_results_blok"></div>`
+    windowResults.insertAdjacentHTML("beforeend", blockw);
+    
+    const windowResultsBlok =  document.querySelector('.window_results_blok');
+    //получить массив результатов
+    const masResult = getResults()
+    
+    for (let i = 0; i < masResult.length - 1; i++) {
+        const blok = `<div class="window_results_blok_element">
+        <div> ${masResult[i].date.slice(0, 9)}</div>
+        <div> ${masResult[i].rezultatEstimation}</div>
+        <div> ${masResult[i].rezultatSumm}</div>
+        <div>v </div>
+        <div onclick="deleteResultElement(event)" > X </div>
+        </div>
+        
+        `
+        windowResultsBlok.insertAdjacentHTML("beforeend", blok);
+    }
+    console.log(masResult)
+    setTimeout(() => {
+        windowResultsBlok.classList.add('active')
+        headerHTitle.innerHTML="Результаты"
+    }, 200)
+}
+
+// удаление окна отображения результатов
+const clozeFormResults = function() {
+    document.querySelector('.window_results_blok').remove()
+}
+
+//получить состояние настроек и вкладок
+function getResults() {
+    //спарсим в объект значение по ключу 'results' 
+    const results = JSON.parse(localStorage.getItem('results')); 
+    
+    if (results === null) {
+        return []
+    } 
+    return results.resul
+}
+//удалить записть из списка результатов
+function deleteResultElement(e) {
+    e.stopPropagation
+    console.log(e)
+    //console.dir(e.target.attributes['date-value'].value)
+    console.dir(e.target.offsetParent)
+    e.target.offsetParent.remove()
 }
