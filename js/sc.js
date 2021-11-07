@@ -250,8 +250,10 @@ const windHidervNastr = function() {
 const windHiderv = function() {
     burgCloze()
     console.log(document.querySelector('.window_results_blok')===null)
-    if (!(document.querySelector('.window_results_blok')===null)) {clozeFormResults()}   
-   
+    if (!(document.querySelector('.window_results_blok')===null)) {
+        headerHTitle.innerHTML="Расчет баллов"
+        clozeFormResults()}   
+    
     console.log(windowi[1].classList.contains('hiden'))
     if (!windowi[1].classList.contains('hiden')) return
   
@@ -278,8 +280,8 @@ const windHiderv = function() {
     
     windowi[0].classList.add('hiden')
     windowi[1].classList.remove('hiden')
-    headerHTitle.innerHTML="Расчет баллов"
-        
+    
+    headerHTitle.innerHTML="Расчет баллов"   
     n.kolUprash = (n.kolUprash === 0) ? 3 : n.kolUprash
     //если активная вкладка больше количества упражнений вкладка = 0
     
@@ -1019,8 +1021,8 @@ const calsBalli = function(a) {
     schetR = (( a + 2 ) > (masBalli.length - 1)) ? (a + 2) - masBalli.length : a + 2  
     r.push( [masBalli[schetR][0], masBalli[schetR][1]] )     
     
-    uprag.vibor[uprag.vkladka].rezult = +r[2][1]
-    
+    uprag.vibor[uprag.vkladka].rezult = r[2][0]
+    uprag.vibor[uprag.vkladka].ball = +r[2][1]
     return r
 }
 
@@ -1057,15 +1059,15 @@ const setRezultatSumm = function () {
     let thresholdLevel = false
     //цикл на колличество упражнений
     for (let i = 0; i < n.kolUprash  ; i++) {
-        histogramBlocksBlock[i].style.width = `${w * uprag.vibor[i].rezult / 100 }%`
+        histogramBlocksBlock[i].style.width = `${w * uprag.vibor[i].ball / 100 }%`
         
-        if ((uprag.vibor[i].rezult < kategores[n.pol][n.vozrast].porog)&(uprag.vibor[i].rezult>0)) {
+        if ((uprag.vibor[i].ball < kategores[n.pol][n.vozrast].porog)&(uprag.vibor[i].ball>0)) {
             thresholdLevel = true
             vkladi[i].classList.add("vkladiPorog") 
         } else {
             if (vkladi[i].classList.contains('vkladiPorog')) {vkladi[i].classList.remove('vkladiPorog')} 
         } 
-        rezultatSumm = rezultatSumm + uprag.vibor[i].rezult
+        rezultatSumm = rezultatSumm + uprag.vibor[i].ball
     }
     //
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
@@ -1107,6 +1109,7 @@ const saveCondition = function () {
             
         }
     }
+
     let results = JSON.parse(localStorage.getItem('results')); 
     if (results === null) { results = {resul:[]} }  
     
@@ -1120,15 +1123,20 @@ const saveCondition = function () {
         saveResult.uprag.push({
             kategor: uprag.vibor[i].kategor,
             vid: uprag.vibor[i].vid,
-            uprag: uprag.vibor[i].uprag,
+            upragM: uprag.vibor[i].upragM,
             rezult: uprag.vibor[i].rezult,
             ball: uprag.vibor[i].ball,
         })
     }
     
     results.resul.push(saveResult)
-    console.log()
-     serialObj = JSON.stringify(results)
+    saveResultLoc(results)
+    
+}
+
+//запись списка результатов в local storage
+function saveResultLoc(s) {
+    serialObj = JSON.stringify(s)
     try {	
         // запишем его в хранилище по ключу "results"
         localStorage.setItem('results', serialObj); 
@@ -1167,24 +1175,60 @@ function getConditions(param) {
 function createFormResults() {
     
     const blockw = `<div class="window_results_blok"></div>`
+    
     windowResults.insertAdjacentHTML("beforeend", blockw);
     
     const windowResultsBlok =  document.querySelector('.window_results_blok');
+    windowResultsBlok.innerHTML=""
     //получить массив результатов
     const masResult = getResults()
-    
-    for (let i = 0; i < masResult.length - 1; i++) {
-        const blok = `<div class="window_results_blok_element">
-        <div> ${masResult[i].date.slice(0, 9)}</div>
-        <div> ${masResult[i].rezultatEstimation}</div>
-        <div> ${masResult[i].rezultatSumm}</div>
-        <div>v </div>
-        <div onclick="deleteResultElement(event)" > X </div>
-        </div>
+    if (masResult.length !== 0) { 
+    for (let i = 0; i < masResult.length ; i++) {
+        const mm = masResult[i].uprag
+        let detailBlok = ``
         
+        for (let u = 0; u < mm.length ; u++) {
+            detailBlok = detailBlok + `
+            <div class="window_results_blok_element_detailed_blok">
+                <div> ${mm[u].kategor===1?'ОФП':'СФК'}</div>
+                <div>
+                    <div> <b>${uprag.vid[mm[u].kategor][mm[u].vid]}</b></div>
+                    <div> ${uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]}</div>
+                </div>
+                <div> ${mm[u].rezult}<BR/> результат</div>
+                <div> ${mm[u].ball}<BR/> баллы</div>
+                
+            </div>
+            `
+        }
+        //uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]
+        
+        
+        const blok = `
+        <div class="window_results_blok_element">
+            <div class="window_results_blok_element_zap" date-value=${masResult[i].date}>
+                <div> ${masResult[i].date.slice(0, 10)}</div>
+                <div> ${masResult[i].rezultatEstimation}</div>
+                <div> ${masResult[i].rezultatSumm}</div>
+                <div onclick="createDetailedResult(event)">v </div>
+                <div onclick="deleteResultElement(event)" > X </div>
+            </div>
+            <div class="window_results_blok_element_detailed">${detailBlok} </div>
+        </div>
         `
         windowResultsBlok.insertAdjacentHTML("beforeend", blok);
+        
+        console.log(masResult[i].uprag)
+        
     }
+    } else {
+        const blok = `<div class="window_results_blok_element" style="justify-content: center ">
+        <p>--- Вы еще не сохраняли результаты ---</p>
+        </div>
+        `
+    windowResultsBlok.insertAdjacentHTML("beforeend", blok);
+    }
+
     console.log(masResult)
     setTimeout(() => {
         windowResultsBlok.classList.add('active')
@@ -1197,21 +1241,51 @@ const clozeFormResults = function() {
     document.querySelector('.window_results_blok').remove()
 }
 
-//получить состояние настроек и вкладок
+//получить сохраненные результаты
 function getResults() {
     //спарсим в объект значение по ключу 'results' 
     const results = JSON.parse(localStorage.getItem('results')); 
-    
     if (results === null) {
         return []
     } 
     return results.resul
 }
+
 //удалить записть из списка результатов
 function deleteResultElement(e) {
     e.stopPropagation
-    console.log(e)
+    console.log(e.target.offsetParent.offsetParent)
     //console.dir(e.target.attributes['date-value'].value)
-    console.dir(e.target.offsetParent)
-    e.target.offsetParent.remove()
+    const rr = e.target.offsetParent.attributes['date-value'].value
+    //console.dir(e.target.offsetParent)
+    console.log(rr)
+    e.target.offsetParent.classList.add('window_results_blok_element_delete')
+    //парсим сохраненные результаты. фильтруем удаленную запись и снова сохраняем.
+    let results = JSON.parse(localStorage.getItem('results')); 
+    if (!(results === null)) { results.resul = results.resul.filter(word => word.date !== rr)}  
+    //запись списка результатов в local storage
+    saveResultLoc(results)
+    
+    //удалить блок с pаписью результатов 
+    setTimeout(() => {
+        e.target.offsetParent.remove()
+    }, 700)
+}
+
+//создание блока детализированной информации по сохраненному результату
+function createDetailedResult(e) {
+    e.stopPropagation
+    //console.log(e)
+    //console.log(e.target.style.transform)
+    if (e.target.style.transform === '') {
+        e.target.style.transform='rotate(180deg)'
+    } else {
+        e.target.style.transform=''
+    }
+    
+    const rr = e.target.offsetParent.attributes['date-value'].value
+    console.log(e.target.offsetParent.parentElement)
+    console.dir(e.target.offsetParent.parentElement.children[1])
+    e.target.offsetParent.parentElement.children[1].classList.toggle('active')
+   
 }
