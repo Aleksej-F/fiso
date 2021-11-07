@@ -45,8 +45,9 @@ h1{
 .window_results{
     position: relative;
     width: 100%;
-   
+    
     &_blok{
+        overflow-y: scroll;
         transform-origin:  top;
         z-index: 10;
         position: absolute;
@@ -60,6 +61,7 @@ h1{
         }
         &_element{
             max-height: 100%;
+           
             &_zap{
                 flex: 1;
                 display: flex;
@@ -71,10 +73,10 @@ h1{
                 transform: scale(1) rotate(0);
                 transition: all  0.5s ease-out  0s;
                 text-align: center;
+                &.delete{
+                    animation: nev 1s linear 1 normal;
+                }
             
-            &_delete{
-                animation: nev 1s linear 1 normal;
-            }
             &>div:nth-child(1){
                 flex: 2.2;
             }

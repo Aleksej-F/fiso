@@ -58,6 +58,7 @@ h1 {
 }
 
 .window_results_blok {
+  overflow-y: scroll;
   -webkit-transform-origin: top;
           transform-origin: top;
   z-index: 10;
@@ -103,7 +104,7 @@ h1 {
   text-align: center;
 }
 
-.window_results_blok_element_zap_delete {
+.window_results_blok_element_zap.delete {
   -webkit-animation: nev 1s linear 1 normal;
           animation: nev 1s linear 1 normal;
 }

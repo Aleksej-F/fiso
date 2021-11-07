@@ -1265,10 +1265,12 @@ function deleteResultElement(e) {
     if (!(results === null)) { results.resul = results.resul.filter(word => word.date !== rr)}  
     //запись списка результатов в local storage
     saveResultLoc(results)
-    
+    console.dir(e.target.offsetParent.parentElement)
+    e.target.offsetParent.parentElement.children[1].classList.remove('active')
+    e.target.offsetParent.parentElement.children[0].classList.add('delete')
     //удалить блок с pаписью результатов 
     setTimeout(() => {
-        e.target.offsetParent.remove()
+        e.target.offsetParent.parentElement.remove()
     }, 700)
 }
 
