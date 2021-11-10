@@ -813,8 +813,6 @@ const setBlockBalli = function() {
         element.addEventListener("touchmove", blockBballiMovetouch, false);
     })
     
-
-    //addEventListener("click", handler);
     setRezultatSumm()
 }
 
@@ -831,13 +829,16 @@ function createBlockHistogram() {
         style="left: 0; text-align:left">0</div>`
     histogramSignature.insertAdjacentHTML("beforeend", blockw);
     
+    const blockHeight = -document.querySelector('.block_histogram').clientHeight - 17
+    
+    console.dir(blockHeight)
     let prizn = false
     for (i = 0; i < estimation.length; i++) {
         let blokWidth = estimation[i] / n.kolUprash
-        let ttop = prizn ? '10px' : 0
-        console.log(blokWidth)
+        
+        
         blockw = `<div class="block_histogram_signature_block" 
-            style="left: ${blokWidth}%; top:${prizn ? '-67px' : 0}; margin-left: -10px; "
+            style="left: ${blokWidth}%; top:${prizn ? blockHeight +'px' : 0}; margin-left: -10px; "
             >${estimation[i]}</div>`
         prizn = !prizn
         histogramSignature.insertAdjacentHTML("beforeend", blockw);
@@ -847,6 +848,7 @@ function createBlockHistogram() {
         style="right:0 ; text-align:right"
         >${n.kolUprash*100}</div>`
     histogramSignature.insertAdjacentHTML("beforeend", blockw);
+    
     //отрисовка гистограммы
     const histogramBlocks = document.querySelector('.block_histogram_blocks')
     const histogramMarkup = document.querySelector('.block_histogram_markup')
@@ -1182,47 +1184,51 @@ function createFormResults() {
     windowResultsBlok.innerHTML=""
     //получить массив результатов
     const masResult = getResults()
+    if (masResult.length > 18) {
+        windowResultsBlok.style = "overflow-y: scroll;"
+    }
     if (masResult.length !== 0) { 
-    for (let i = 0; i < masResult.length ; i++) {
-        const mm = masResult[i].uprag
-        let detailBlok = ``
-        
-        for (let u = 0; u < mm.length ; u++) {
-            detailBlok = detailBlok + `
-            <div class="window_results_blok_element_detailed_blok">
-                <div> ${mm[u].kategor===1?'ОФП':'СФК'}</div>
-                <div>
-                    <div> <b>${uprag.vid[mm[u].kategor][mm[u].vid]}</b></div>
-                    <div> ${uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]}</div>
+        for (let i = 0; i < masResult.length ; i++) {
+            const mm = masResult[i].uprag
+            let detailBlok = ``
+            
+            for (let u = 0; u < mm.length ; u++) {
+                detailBlok = detailBlok + `
+                <div class="window_results_blok_element_detailed_blok">
+                    <div> ${mm[u].kategor===1?'ОФП':'СФК'}</div>
+                    <div>
+                        <div> <b>${uprag.vid[mm[u].kategor][mm[u].vid]}</b></div>
+                        <div> ${uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]}</div>
+                    </div>
+                    <div> ${mm[u].rezult}<BR/> результат</div>
+                    <div> ${mm[u].ball}<BR/> баллы</div>
+                    
                 </div>
-                <div> ${mm[u].rezult}<BR/> результат</div>
-                <div> ${mm[u].ball}<BR/> баллы</div>
-                
+                `
+            }
+            //uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]
+            
+            
+            const blok = `
+            <div class="window_results_blok_element">
+                <div class="window_results_blok_element_zap" date-value=${masResult[i].date}>
+                    <div> ${masResult[i].date.slice(0, 10)}</div>
+                    <div> ${masResult[i].rezultatEstimation}</div>
+                    <div> ${masResult[i].rezultatSumm}</div>
+                    <div onclick="createDetailedResult(event)">v </div>
+                    <div onclick="deleteResultElement(event)" > X </div>
+                </div>
+                <div class="window_results_blok_element_detailed">${detailBlok} </div>
             </div>
             `
+            windowResultsBlok.insertAdjacentHTML("beforeend", blok);
+            
+            console.log(masResult[i].uprag)
+            
         }
-        //uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]
-        
-        
-        const blok = `
-        <div class="window_results_blok_element">
-            <div class="window_results_blok_element_zap" date-value=${masResult[i].date}>
-                <div> ${masResult[i].date.slice(0, 10)}</div>
-                <div> ${masResult[i].rezultatEstimation}</div>
-                <div> ${masResult[i].rezultatSumm}</div>
-                <div onclick="createDetailedResult(event)">v </div>
-                <div onclick="deleteResultElement(event)" > X </div>
-            </div>
-            <div class="window_results_blok_element_detailed">${detailBlok} </div>
-        </div>
-        `
-        windowResultsBlok.insertAdjacentHTML("beforeend", blok);
-        
-        console.log(masResult[i].uprag)
-        
-    }
     } else {
-        const blok = `<div class="window_results_blok_element" style="justify-content: center ">
+        const blok = `<div class="window_results_blok_element" 
+        style="justify-content: center; display: flex">
         <p>--- Вы еще не сохраняли результаты ---</p>
         </div>
         `

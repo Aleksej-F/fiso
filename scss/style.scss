@@ -47,7 +47,7 @@ h1{
     width: 100%;
     
     &_blok{
-        overflow-y: scroll;
+        //overflow-y: scroll;
         transform-origin:  top;
         z-index: 10;
         position: absolute;
@@ -61,7 +61,7 @@ h1{
         }
         &_element{
             max-height: 100%;
-           
+           // display: flex;
             &_zap{
                 flex: 1;
                 display: flex;

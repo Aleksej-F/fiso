@@ -58,7 +58,6 @@ h1 {
 }
 
 .window_results_blok {
-  overflow-y: scroll;
   -webkit-transform-origin: top;
           transform-origin: top;
   z-index: 10;
