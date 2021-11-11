@@ -240,6 +240,8 @@ const clicSection =  function(event) {
 //клик в меню по настройка
 const windHidervNastr = function() {
     burgCloze()
+    document.querySelector('.header_save').classList.remove('active')
+
     if (!(document.querySelector('.window_results_blok')===null)) {clozeFormResults()}
     windowi[0].classList.remove('hiden')
     windowi[1].classList.add('hiden')
@@ -249,6 +251,7 @@ const windHidervNastr = function() {
 //клик в меню по выбор упражнений
 const windHiderv = function() {
     burgCloze()
+    document.querySelector('.header_save').classList.add('active')
     console.log(document.querySelector('.window_results_blok')===null)
     if (!(document.querySelector('.window_results_blok')===null)) {
         headerHTitle.innerHTML="Расчет баллов"
@@ -1095,7 +1098,7 @@ const setRezultatSumm = function () {
 
 //сохраняем состояние настроек и вкладок
 const saveCondition = function () {
-    // сериализуем  объект
+    // сериализуем  объект настроек
     let serialObj = JSON.stringify({
             n, // настройки
             activVkladka: uprag.vkladka,
@@ -1108,19 +1111,23 @@ const saveCondition = function () {
     }catch (e) {
         if (e == QUOTA_EXCEEDED_ERR) {
             infoWindow('Превышен лимит памяти!')
-            
         }
     }
-
+    // сериализуем  объект результатов
     let results = JSON.parse(localStorage.getItem('results')); 
     if (results === null) { results = {resul:[]} }  
     
     const saveResult = {
+        // дата сохранения
         date: new Date(),
+        // оценка
         rezultatEstimation: n.rezultatEstimation,
+        // баллы
         rezultatSumm: n.rezultatSumm,
+        // данные по выполненым упражнениям
         uprag: []
     }
+    // данные по упражнениям
     for (let i = 0; i < n.kolUprash; i++) {
         saveResult.uprag.push({
             kategor: uprag.vibor[i].kategor,
@@ -1175,7 +1182,7 @@ function getConditions(param) {
 
 //создание окна отображения результатов
 function createFormResults() {
-    
+    document.querySelector('.header_save').classList.remove('active')
     const blockw = `<div class="window_results_blok"></div>`
     
     windowResults.insertAdjacentHTML("beforeend", blockw);
@@ -1274,7 +1281,7 @@ function deleteResultElement(e) {
     console.dir(e.target.offsetParent.parentElement)
     e.target.offsetParent.parentElement.children[1].classList.remove('active')
     e.target.offsetParent.parentElement.children[0].classList.add('delete')
-    //удалить блок с pаписью результатов 
+    //удалить блок с записью результатов 
     setTimeout(() => {
         e.target.offsetParent.parentElement.remove()
     }, 700)
@@ -1283,17 +1290,12 @@ function deleteResultElement(e) {
 //создание блока детализированной информации по сохраненному результату
 function createDetailedResult(e) {
     e.stopPropagation
-    //console.log(e)
-    //console.log(e.target.style.transform)
+   
     if (e.target.style.transform === '') {
         e.target.style.transform='rotate(180deg)'
     } else {
         e.target.style.transform=''
     }
-    
-    const rr = e.target.offsetParent.attributes['date-value'].value
-    console.log(e.target.offsetParent.parentElement)
-    console.dir(e.target.offsetParent.parentElement.children[1])
     e.target.offsetParent.parentElement.children[1].classList.toggle('active')
    
 }

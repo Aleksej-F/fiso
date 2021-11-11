@@ -21,7 +21,13 @@
                     <div class="headerH">	
                         <h1 id="headerHTitle">Настройка</h1>
                     </div>
-                    <div  class="header">  </div>
+                    <div  class="header">  
+                        <div class="header_save" onclick="saveCondition()">
+                            
+                            <img src="./surs/save.png" alt="">
+                            <div class="header_save_hov"></div>
+                        </div> 
+                    </div>
                 </div>
                 <nav class="header_menu_web">
                     <ul class="header_list_web">
@@ -29,10 +35,7 @@
                             <p  class="header_link_web" onclick="windHidervNastr()">Настройка</p>
                             <div class="header_link_web_underline"></div>
                         </li>
-                        <li>
-                            <p class="header_link_web" onclick="saveCondition()">Сохранить</p>
-                            <div class="header_link_web_underline"></div>
-                        </li>
+                       
                         <li>
                             <p class="header_link_web" onclick="windHiderv()">Упражнения</p>
                             <div class="header_link_web_underline"></div>
@@ -54,14 +57,12 @@
                                 <p  class="header_link" onclick="windHidervNastr(event)">Настройка</p>
                             </li>
                             <li>
-                                <p class="header_link" onclick="saveCondition()">Сохранить</p>
-                            </li>
-                            <li>
                                 <p class="header_link" onclick="windHiderv(event)">Упражнения</p>
                             </li>
                             <li>
                                 <p class="header_link" onclick="createFormResults()">Результаты</p>
                             </li>
+                           
                             <li>
                                 <p class="header_link" onclick="infoWindow('В разработке.')">О приложениии</p>
                             </li>

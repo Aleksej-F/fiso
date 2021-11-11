@@ -28,8 +28,47 @@ h1{
 }
 .header{
     position: relative;
+    height: 100%;
+    &_save{
+        display: none;
+        
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        height: 100%;
+        &.active {
+           display: flex; 
+        }
+        &_hov{
+            position: absolute;
+            // z-index: -1;
+            width: 27px;
+            height: 30px;
+            left: 24px;
+            top: 2px;
+            transition: all 0.3s ease 0s;
+            // background-color: rgba(182, 20, 20, 0.952); 
+        }
+        img{
+            width: 43%;
+         
+        }
+        &:hover {
+            cursor: pointer;
+            .header_save_hov{
+                background-color: rgba(57, 100, 240, 0.699); 
+                
+            }
+        }
+    
    
+    }
+
 }
+        
+
+
+
 .blok {
     /*display: flex;*/
     width: 100%;
@@ -478,6 +517,7 @@ h1{
     width: 100%;
     height: 100%;
     background-color: #58585aa1;
+    z-index: 20;
 }
 .info_window{
     margin: 0 auto 0 auto;
