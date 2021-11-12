@@ -37,13 +37,13 @@ h1 {
 
 .header_save {
   display: none;
+  padding-top: 4px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  position: relative;
   height: 100%;
 }
 
@@ -53,26 +53,31 @@ h1 {
   display: flex;
 }
 
+.header_save_blok {
+  position: relative;
+  width: 28%;
+}
+
+.header_save_blok:hover {
+  cursor: pointer;
+}
+
+.header_save_blok:hover .header_save_hov {
+  background-color: rgba(93, 93, 95, 0.699);
+}
+
 .header_save_hov {
   position: absolute;
-  width: 27px;
-  height: 30px;
-  left: 24px;
+  width: 75%;
+  height: 70%;
+  left: 3px;
   top: 2px;
   -webkit-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
 }
 
 .header_save img {
-  width: 43%;
-}
-
-.header_save:hover {
-  cursor: pointer;
-}
-
-.header_save:hover .header_save_hov {
-  background-color: rgba(57, 100, 240, 0.699);
+  width: 100%;
 }
 
 .blok {

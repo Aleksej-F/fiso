@@ -31,35 +31,41 @@ h1{
     height: 100%;
     &_save{
         display: none;
-        
+        padding-top: 4px;
         justify-content: center;
         align-items: center;
-        position: relative;
+       
         height: 100%;
         &.active {
            display: flex; 
         }
+        &_blok{
+            position: relative;
+            width: 28%;
+            &:hover {
+                cursor: pointer;
+                .header_save_hov{
+                    background-color: rgba(93, 93, 95, 0.699); 
+                    
+                }
+            }
+        }
         &_hov{
             position: absolute;
             // z-index: -1;
-            width: 27px;
-            height: 30px;
-            left: 24px;
+            width: 75%;
+            height: 70%;
+            left: 3px;
             top: 2px;
             transition: all 0.3s ease 0s;
-            // background-color: rgba(182, 20, 20, 0.952); 
+           //background-color: rgba(182, 20, 20, 0.952);
+
         }
         img{
-            width: 43%;
+            width: 100%;
          
         }
-        &:hover {
-            cursor: pointer;
-            .header_save_hov{
-                background-color: rgba(57, 100, 240, 0.699); 
-                
-            }
-        }
+        
     
    
     }
