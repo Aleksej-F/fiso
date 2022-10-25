@@ -13,8 +13,6 @@ const n = (nSave === true) ? {
     rezultatSumm: 0
 } : nSave
 
-console.log(n)
-
 const danVkladka = function() { 
     return {
         kategor: -1, // вид физической подготовки
@@ -223,42 +221,36 @@ const burg =  function(event) {
     mBurger.classList.add('active')
     burgActive = !burgActive
 }
-
 //закрытие бургера
 const burgCloze =  function() {
     hBurger.classList.remove('active')
     mBurger.classList.remove('active')
     burgActive = false
 }
-
 //клик по экрану мимо меню бургера
 const clicSection =  function(event) {
     if (burgActive) { burgCloze() }
 }
-
 //клик в меню по настройка
 const windHidervNastr = function() {
     burgCloze()
     document.querySelector('.header_save').classList.remove('active')
-
-    if (!(document.querySelector('.window_results_blok')===null)) {clozeFormResults()}
+    if (!(document.querySelector('.window_results_blok') === null)) {clozeFormResults()}
     windowi[0].classList.remove('hiden')
     windowi[1].classList.add('hiden')
     headerHTitle.innerHTML="Настройка"
 }
-
 //клик в меню по выбор упражнений
 const windHiderv = function() {
     burgCloze()
     document.querySelector('.header_save').classList.add('active')
-    console.log(document.querySelector('.window_results_blok') === null)
+    //проверка если клик при активной вкладке результатов
     if (!(document.querySelector('.window_results_blok') === null)) {
         headerHTitle.innerHTML = "Расчет баллов"
         clozeFormResults()}   
-    
-    console.log(windowi[1].classList.contains('hiden'))
+    //проверка на активность окна выбора упражнений    
     if (!windowi[1].classList.contains('hiden')) return
-  
+    //проверка заполнения настроек
     if ( n.pol === '0' ) {
         infoWindow('Выберите пол!')
         return
@@ -286,9 +278,6 @@ const windHiderv = function() {
     headerHTitle.innerHTML="Расчет баллов"   
     n.kolUprash = (n.kolUprash === 0) ? 3 : n.kolUprash
     //если активная вкладка больше количества упражнений вкладка = 0
-    
-    console.log(uprag.vkladka)
-    console.log(n.kolUprash)
     if (uprag.vkladka + 1 > n.kolUprash) {uprag.vkladka = 0}
     // создание и отрисовка окна выбора упражнений
     windHider()
@@ -315,9 +304,9 @@ const windHider = function() {
     }
 
     blokVkladok.addEventListener("click", creatClickVkladki)
-     // создание гистограммы
+    // создание гистограммы
     createBlockHistogram()   
-    
+    // отрисовка вкладки
     setClickVkladki()
    
 }
@@ -811,7 +800,6 @@ const setBlockBalli = function() {
     
     setRezultatSumm()
 }
-
 //создание блока гистограммы
 function createBlockHistogram() {
     console.log('гистограмма')
@@ -820,19 +808,16 @@ function createBlockHistogram() {
     histogramSignature.innerHTML=''
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
     let blokWidth = estimation[0] / n.kolUprash
-    console.log(blokWidth)
+    
     let blockw = `<div class="block_histogram_signature_block"
         style="left: 0; text-align:left">0</div>`
     histogramSignature.insertAdjacentHTML("beforeend", blockw);
     
     const blockHeight = -document.querySelector('.block_histogram').clientHeight - 17
     
-    console.dir(blockHeight)
     let prizn = false
     for (i = 0; i < estimation.length; i++) {
         let blokWidth = estimation[i] / n.kolUprash
-        
-        
         blockw = `<div class="block_histogram_signature_block" 
             style="left: ${blokWidth}%; top:${prizn ? blockHeight +'px' : 0}; margin-left: -10px; "
             >${estimation[i]}</div>`
@@ -859,21 +844,18 @@ function createBlockHistogram() {
     }
 
 }
-
+//нажатие кнопки мыши
 function blockBballiDown(e) {
-    console.log('нажал кнопку мыши')
     n.downRpizn = true
     n.xdown=e.offsetY
-    console.log(n.xdown)
 }
+//отпустил кнопку мыши
 function blockBballiUp() {
-    console.log('отпустил кнопку мыши')
     n.downRpizn = false
 }
+//движение мыши
 function blockBballiMove(e) {
-    console.log('движение мышью')
     if (n.downRpizn) {
-        console.log(n.xdown - e.offsetY)
         if (Math.abs(n.xdown - e.offsetY)  > 1 ) {    
             if ((n.xdown - e.offsetY)>0 ) {
                 setSchetBall(1)
@@ -882,27 +864,21 @@ function blockBballiMove(e) {
         }
     }
 }
-
+//координаты касания
 let textY = 0
 let textY0 = 0
 //коснулся пальцем
 function blockBballiDowntouch(e) {
     e.preventDefault();
-  //  console.log('коснулся пальцем')
     n.downRpizn = true
     n.ydown = e.targetTouches[0].clientY
     textY = 0
     textY0 = 0
-   // console.log(n.ydown)
 }
 // отпустил палец
 function blockBballiUptouch(e) {
-    console.log('отпустил палец')
-  
-   console.log(n.ydown - n.yUp)
-   n.downRpizn = false
+    n.downRpizn = false
     if (Math.abs(textY - textY0) < 30) {
-       
         if ((textY - textY0) > 0 ) {
             setAnimateBall(31, -1)
         } else if ((textY - textY0)< 0 ){ 
@@ -910,35 +886,13 @@ function blockBballiUptouch(e) {
         }
         
     }
-    /*
-    textY = 0 
-    textY0 = 0*/
 }
-
-
 // движение пальцем
 function blockBballiMovetouch(e) {
-    console.log('движение пальцем')
     e.preventDefault();
     const y = e.targetTouches[0].clientY
     n.yUp = e.targetTouches[0].clientY
-    /*
     if (n.downRpizn) {
-        if (Math.abs(n.ydown - y) > 31) {    
-            if ((n.ydown - y) > 0) {
-                textY -= Math.abs(n.ydown - y)
-            } else { 
-                textY += Math.abs(n.ydown - y)
-            }
-            setCoordinatesBall(textY)
-            n.ydown = y
-        }
-        
-
-    }*/
-    
-    if (n.downRpizn) {
-       // console.log(n.ydown - y)
         if (Math.abs(n.ydown - y) > 0) {    
             if ((n.ydown - y) > 0) {
                 textY -= Math.abs(n.ydown - y)
@@ -948,7 +902,6 @@ function blockBballiMovetouch(e) {
             setCoordinatesBall(textY)
             n.ydown = y
         }
-        //console.log(textY - textY0)
         if (Math.abs(textY - textY0) > 30) {
             if ((textY - textY0) > 0) {
                 setSchetBall(-1)
@@ -960,9 +913,7 @@ function blockBballiMovetouch(e) {
             setCoordinatesBall(textY)
         }
     }
-
 }
-
 //установака и отмена анимации блока баллов
 const setAnimateBall = function (xx, yy) {
     setCoordinatesBallScroll(xx)
@@ -971,7 +922,6 @@ const setAnimateBall = function (xx, yy) {
         setCoordinatesBall(0)
     }, 1000)
 }
-
 // анимация прокрутки блока баллов
 const setCoordinatesBallScroll = function (textY) {
     const ballText = document.querySelectorAll('.block_balli_col_text')       
@@ -1001,7 +951,6 @@ const setCoordinatesBall = function (textY) {
 
 // вычисление массива для отрисовки блока выбора результата
 const calsBalli = function(a) {
-    
     const r = []
     const masBalli = upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray]
     // -2    
@@ -1026,17 +975,13 @@ const calsBalli = function(a) {
 
 // пересчет счетчика значения баллов для вкладки при прокрутке или клике по кнопкам вверх или вниз
 const setSchetBall = function(a) {
-   
-    console.log(uprag.vibor[uprag.vkladka].schetchik)
     // изменяем состояние счетчика вкладки
     uprag.vibor[uprag.vkladka].schetchik = 
         (uprag.vibor[uprag.vkladka].schetchik + a > upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1) ? 0 :
-         ( (uprag.vibor[uprag.vkladka].schetchik + a < 0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : 
-         (uprag.vibor[uprag.vkladka].schetchik + a))
-    
+        ( (uprag.vibor[uprag.vkladka].schetchik + a < 0) ? upragBalli[uprag.vibor[uprag.vkladka].uprag][uprag.vibor[uprag.vkladka].upragNumArray].length-1 : 
+        (uprag.vibor[uprag.vkladka].schetchik + a))
     // пересчитываем массив для отрисовки и обновляем блок выбора результатов
     let balli = calsBalli(uprag.vibor[uprag.vkladka].schetchik) 
-    console.log(balli)
     const ballText = document.querySelectorAll('.block_balli_col_text')
     for (let i = 0; i < 5; i++) {
         ballText[i].innerHTML = balli[i][0]
@@ -1058,7 +1003,6 @@ const setRezultatSumm = function () {
     //цикл на колличество упражнений
     for (let i = 0; i < n.kolUprash  ; i++) {
         histogramBlocksBlock[i].style.width = `${w * uprag.vibor[i].ball / 100 }%`
-        
         if ((uprag.vibor[i].ball < kategores[n.pol][n.vozrast].porog)&(uprag.vibor[i].ball>0)) {
             thresholdLevel = true
             vkladi[i].classList.add("vkladiPorog") 
@@ -1069,7 +1013,6 @@ const setRezultatSumm = function () {
     }
     //
     const estimation = kategores[n.pol][n.vozrast].estimation[n.kategor][(n.kolUprash-2)]
-    //console.log(estimation[5])
     let rezultatEstimation = (rezultatSumm < estimation[0]) ? 'неудовлетворительно' :
         (rezultatSumm < estimation[1]) ? 'удовлетворительно' :
         (rezultatSumm < estimation[2]) ? 'хорошо' :
@@ -1080,13 +1023,11 @@ const setRezultatSumm = function () {
         rezultatEstimation = 'отлично'
     }
     if (thresholdLevel) {rezultatEstimation = 'неудовлетворительно <br> (пороговый минимум)'}
-    
     //navigationHistogram.innerHTML = ''
     navigationRezult.innerHTML = (rezultatSumm === 0) ? '' : rezultatSumm
     navigationEstimation.innerHTML = (rezultatSumm === 0) ? '' : rezultatEstimation
     n.rezultatEstimation = rezultatEstimation
     n.rezultatSumm = rezultatSumm
-
 }
 
 //сохраняем состояние настроек и вкладок
@@ -1109,7 +1050,6 @@ const saveCondition = function () {
     // сериализуем  объект результатов
     let results = JSON.parse(localStorage.getItem('results')); 
     if (results === null) { results = {resul:[]} }  
-    
     const saveResult = {
         // дата сохранения
         date: new Date(),
@@ -1152,7 +1092,6 @@ function saveResultLoc(s) {
 function getConditions(param) {
     //спарсим в объект значение по ключу 'condition' 
     const conditions = JSON.parse(localStorage.getItem('condition')); 
-    console.log(conditions)
     if (conditions === null) {
         return true
     } else console.log('conditions')
@@ -1191,40 +1130,34 @@ function createFormResults() {
         for (let i = 0; i < masResult.length ; i++) {
             const mm = masResult[i].uprag
             let detailBlok = ``
-            
+            //формирование подробной информации о сохраненном результате
             for (let u = 0; u < mm.length ; u++) {
                 detailBlok = detailBlok + `
-                <div class="window_results_blok_element_detailed_blok">
-                    <div> ${mm[u].kategor===1?'ОФП':'СФК'}</div>
-                    <div>
-                        <div> <b>${uprag.vid[mm[u].kategor][mm[u].vid]}</b></div>
-                        <div> ${uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]}</div>
+                    <div class="window_results_blok_element_detailed_blok">
+                        <div> ${mm[u].kategor===1?'ОФП':'СФК'}</div>
+                        <div>
+                            <div> <b>${uprag.vid[mm[u].kategor][mm[u].vid]}</b></div>
+                            <div> ${uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]}</div>
+                        </div>
+                        <div> ${mm[u].rezult}<BR/> результат</div>
+                        <div> ${mm[u].ball}<BR/> баллы</div>
                     </div>
-                    <div> ${mm[u].rezult}<BR/> результат</div>
-                    <div> ${mm[u].ball}<BR/> баллы</div>
-                    
-                </div>
                 `
             }
-            //uprag.uprag[mm[u].kategor][mm[u].vid][+mm[u].upragM]
-            
-            
+            //формирование блока для каждого сохраненного результата
             const blok = `
-            <div class="window_results_blok_element">
-                <div class="window_results_blok_element_zap" date-value=${masResult[i].date}>
-                    <div> ${masResult[i].date.slice(0, 10)}</div>
-                    <div> ${masResult[i].rezultatEstimation}</div>
-                    <div> ${masResult[i].rezultatSumm}</div>
-                    <div onclick="createDetailedResult(event)">v </div>
-                    <div onclick="deleteResultElement(event)" > X </div>
+                <div class="window_results_blok_element">
+                    <div class="window_results_blok_element_zap" date-value=${masResult[i].date}>
+                        <div> ${masResult[i].date.slice(0, 10)}</div>
+                        <div> ${masResult[i].rezultatEstimation}</div>
+                        <div> ${masResult[i].rezultatSumm}</div>
+                        <div onclick="createDetailedResult(event)">v </div>
+                        <div onclick="deleteResultElement(event)" > X </div>
+                    </div>
+                    <div class="window_results_blok_element_detailed">${detailBlok} </div>
                 </div>
-                <div class="window_results_blok_element_detailed">${detailBlok} </div>
-            </div>
             `
             windowResultsBlok.insertAdjacentHTML("beforeend", blok);
-            
-            console.log(masResult[i].uprag)
-            
         }
     } else {
         const blok = `<div class="window_results_blok_element" 
@@ -1232,9 +1165,9 @@ function createFormResults() {
         <p>--- Вы еще не сохраняли результаты ---</p>
         </div>
         `
-    windowResultsBlok.insertAdjacentHTML("beforeend", blok);
+        windowResultsBlok.insertAdjacentHTML("beforeend", blok);
     }
-
+    
     console.log(masResult)
     setTimeout(() => {
         windowResultsBlok.classList.add('active')
@@ -1260,18 +1193,14 @@ function getResults() {
 //удалить записть из списка результатов
 function deleteResultElement(e) {
     e.stopPropagation
-    console.log(e.target.offsetParent.offsetParent)
-    //console.dir(e.target.attributes['date-value'].value)
     const rr = e.target.offsetParent.attributes['date-value'].value
-    //console.dir(e.target.offsetParent)
-    console.log(rr)
+    
     e.target.offsetParent.classList.add('window_results_blok_element_delete')
-    //парсим сохраненные результаты. фильтруем удаленную запись и снова сохраняем.
+    //парсим сохраненные результаты. фильтруем удаляемую запись и снова сохраняем.
     let results = JSON.parse(localStorage.getItem('results')); 
     if (!(results === null)) { results.resul = results.resul.filter(word => word.date !== rr)}  
     //запись списка результатов в local storage
     saveResultLoc(results)
-    console.dir(e.target.offsetParent.parentElement)
     e.target.offsetParent.parentElement.children[1].classList.remove('active')
     e.target.offsetParent.parentElement.children[0].classList.add('delete')
     //удалить блок с записью результатов 
