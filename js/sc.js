@@ -1,4 +1,4 @@
-const nSave = getConditions('n')
+const nSave = getConditions('n') // запрос сохраненного состояния в localStorage
 
 const n = (nSave === true) ? {
     pol: '0',
@@ -205,8 +205,8 @@ const windowResults =  document.getElementById('window_results');
 //окно расчета баллов
 const blokVkladok =  document.querySelector('.blok_vkladok')
 const navigationUprag = document.getElementById('navigation_uprag')
-    const kategorUprashSelect = document.getElementById("kategorUprashSelect");
-    const blokBal = document.querySelector('.block_bal')
+const kategorUprashSelect = document.getElementById("kategorUprashSelect");
+const blokBal = document.querySelector('.block_bal')
 
 const navigationHistogram = document.getElementById('navigation_histogram')
 const navigationRezult = document.getElementById('navigation_rezult')
@@ -229,7 +229,6 @@ const burgCloze =  function() {
     hBurger.classList.remove('active')
     mBurger.classList.remove('active')
     burgActive = false
-    
 }
 
 //клик по экрану мимо меню бургера
@@ -252,9 +251,9 @@ const windHidervNastr = function() {
 const windHiderv = function() {
     burgCloze()
     document.querySelector('.header_save').classList.add('active')
-    console.log(document.querySelector('.window_results_blok')===null)
-    if (!(document.querySelector('.window_results_blok')===null)) {
-        headerHTitle.innerHTML="Расчет баллов"
+    console.log(document.querySelector('.window_results_blok') === null)
+    if (!(document.querySelector('.window_results_blok') === null)) {
+        headerHTitle.innerHTML = "Расчет баллов"
         clozeFormResults()}   
     
     console.log(windowi[1].classList.contains('hiden'))
@@ -348,8 +347,7 @@ const createSettings = function () {
     } else if (n.pol === 'woman') {
         polSelect.selectedIndex = 2
     }
-    
-    
+        
     //формируем инпут: вес и возрастная группа
     createPol()
     vesSelect.selectedIndex = n.ves
@@ -406,20 +404,16 @@ pol.onclick = function() {
     }
 }*/
 
-
-
-
-
 // наполнение выбора вес и возрастная группа
 function createPol () {
-    if (n.pol==='0' || n.pol===0) {
+    if (n.pol === '0' || n.pol===0) {
         //n.pol = 0
         return }
     // формируем импут выбора весовой категории
-    if (n.pol==="men") {
-            ves.innerHTML = '<OPTION VALUE="0"></OPTION><OPTION VALUE="1">до 70кг</OPTION><OPTION VALUE="2"> до 80кг </OPTION><OPTION VALUE="3">свыше 80кг  </OPTION>'
+    if (n.pol === "men") {
+        ves.innerHTML = '<OPTION VALUE="0"></OPTION><OPTION VALUE="1">до 70кг</OPTION><OPTION VALUE="2"> до 80кг </OPTION><OPTION VALUE="3">свыше 80кг  </OPTION>'
     } else {
-            ves.innerHTML = '<OPTION VALUE="0"><OPTION VALUE="1">до 60кг  </OPTION><OPTION VALUE="2">до 70кг</OPTION><OPTION VALUE="3">свыше 70кг  </OPTION>'
+        ves.innerHTML = '<OPTION VALUE="0"><OPTION VALUE="1">до 60кг  </OPTION><OPTION VALUE="2">до 70кг</OPTION><OPTION VALUE="3">свыше 70кг  </OPTION>'
     }
     // формируем импут выбора возрастной группы
     for ( i = 0; i < kategores[n.pol].length; i++) {
@@ -438,14 +432,14 @@ ves.onchange = function() {
 }
 //клик по выберите вес
 ves.onclick = function() {
-    if (n.pol === 0) {
+    if (n.pol === 0 || (n.pol === '0')) {
         infoWindow('Выберите пол!')
     } 
 }
 
 //клик по возрастной группе
 vozrast.onclick = function() {
-    if (n.pol === 0) {
+    if (n.pol === 0 || (n.pol === '0')) {
         infoWindow('Выберите пол!')
     } 
 }
@@ -486,12 +480,12 @@ uprash.onclick = function() {
         infoWindow('Выберите категорию!')
     } 
 }
-// выбрать количество упражнений
+// выбрать количества упражнений
 uprash.onchange = function() {
     n.kolUprashValue = uprash.value
     n.kolUprash = +kategores[n.pol][n.vozrast].kolUpr[n.kategor][uprash.value];
     if (n.kolUprash === 0) {
-        navigation.innerHTML=''
+        navigation.innerHTML = ''
         return
     }
     // добавление кнопки
@@ -556,7 +550,6 @@ function setClickVkladki() {
 //функция для наполнения  input
 function createSelect(elem, obiect) {
     elem.innerHTML=''
-
     for (let i = 0; i < obiect.length; i++) {
         let opti = `
             <OPTION VALUE="${i}">
